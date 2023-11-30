@@ -1,0 +1,166 @@
+﻿@using System.Globalization;
+@using Global.Config
+@using GeneralCommon.Interfaces
+@using GeneralCommon.Models.Nav
+@using BlazorShared.Data.Base
+@using Extensions
+@using Layout
+@using BlazorComponent.I18n;
+@inherits CultureLayoutComponentBase
+ @inject Global.Config.GlobalConfig GlobalConfig
+ @using Core;
+@using  Microsoft.AspNetCore.Components;
+@layout BaseLayout
+
+
+<MudThemeProvider />
+<MudSnackbarProvider/>
+    <Masa.Blazor.Presets.PPageTabsProvider>
+    <CascadingValue Value="@LanguageService.Culture">
+        <MNavigationDrawer Color="barcolor" @bind-Value="_drawerOpen" DisableResizeWatcher DisableRouteWatcher
+                          
+                           Width=250
+                           MiniVariantWidth=80
+                          
+                                  App>
+             @if (IsMobile)
+                {
+                    <MSystemBar Color="barcolor" Height="@(UserConfig.Themes.LayoutPrpo.PageTabsHeight)">
+                        <MButton Icon OnClick=@(()=> _drawerOpen = !_drawerOpen)>
+                        <MIcon>
+                            mdi:mdi-close-thick
+                        </MIcon>
+                        </MButton>
+                        <MSpacer />
+                    <BlazorShared.Layout.AppBarButtons LanguageChange=@LanguageChange>
+                    </BlazorShared.Layout.AppBarButtons>
+                        </MSystemBar>
+                }
+
+            <Logo HeightInt=@(IsMobile?UserConfig.Themes.LayoutPrpo.AppBarHeight:UserConfig.Themes.LayoutPrpo.AppBarHeight+UserConfig.Themes.LayoutPrpo.PageTabsHeight) />
+
+
+            <BlazorShared.Controls.DefaultList ClassString="overflow-y-auto"
+                                               StyleString=@($"height: calc(100vh - {UserConfig.Themes.LayoutPrpo.AppBarHeight+UserConfig.Themes.LayoutPrpo.PageTabsHeight}px);")
+                                              Items="Navs" />
+        </MNavigationDrawer>
+
+
+         <MAppBar Style=@($"{(!(IsMobile||_drawerOpen==false)? "left:250px;":"")}") Elevation="1" App Flat ClippedRight Dense ElevateOnScroll Color="barcolor"
+                     MaxHeight="@(UserConfig.Themes.LayoutPrpo.AppBarHeight)" Height="@(UserConfig.Themes.LayoutPrpo.AppBarHeight)">
+                <MButton Class="mr-0" Icon Small=IsMobile OnClick=@(() => _drawerOpen = !_drawerOpen)>
+                    <MIcon>mdi:mdi-menu</MIcon>
+                </MButton>
+            <BlazorShared.Components.AppBarItems LanguageChange=@LanguageChange></BlazorShared.Components.AppBarItems>
+
+                </MAppBar>
+
+           
+
+           
+
+             <MMain Style=@($"{(!(IsMobile||_drawerOpen==false)? "padding-left:250px;":"")}")>
+                <div class="full-width">
+                    <PageTabs @ref="_pageTabs" />
+                </div>
+                    <MDivider Center></MDivider>
+                    <MCard Flat Class="overflow-y-auto overflow-x-auto ma-auto pa-0 rounded-0 moveparent" Style=@($"height: calc(100vh - {UserConfig.Themes.LayoutPrpo.AppBarHeight+UserConfig.Themes.LayoutPrpo.PageTabsHeight+UserConfig.Themes.LayoutPrpo.FooterBarHeight}px);")>
+                <PPageContainer PageTabs="@_pageTabs?.PPageTabs">
+                        @Body
+                    </PPageContainer>
+                </MCard>
+                    <MSheet Class="d-flex justify-center align-center rounded-0" Style=@($"height: {UserConfig.Themes.LayoutPrpo.FooterBarHeight}px;")>
+                    <HiBlazor.Web.Rcl.Core.Foter></HiBlazor.Web.Rcl.Core.Foter>
+                    </MSheet>
+                    </MMain>
+            <Settings @bind-PageModel="_pageTab" @bind-Show=_showSetting />
+        </CascadingValue>
+    </Masa.Blazor.Presets.PPageTabsProvider>
+
+
+@code {
+    [Inject]
+    private IUserConfig UserConfig { get; set; }
+
+    [Inject]
+    IJSRuntime jSRuntime { get; set; }
+
+    [Inject]
+    public I18n I18n { get; set; }
+
+    private List<NavItem> Navs { get; set; } = new();
+    private IJSObjectReference module;
+
+    private static readonly string[] s_selfPatterns =
+    {
+        "/system/role"
+    };
+
+    [CascadingParameter(Name = "IsMobile")]
+    public bool IsMobile { get; set; }
+
+    private bool? _drawerOpen = true;
+
+    private bool? _showSetting;
+
+    private string _pageTab=PageModes.PageTab;
+
+    private PageTabs? _pageTabs;
+  
+
+
+    [Inject]
+    NavigationManager Nav{ get; set; }
+    [Inject]
+    SecurityServiceClient SecurityServiceClient { get; set; }
+    private void ToUser()
+    {
+        Nav.NavigateTo("/system/userCenter");
+    }
+
+    private void LanguageChange(string name)
+    {
+        I18n.SetCulture(new CultureInfo(name));
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await SecurityServiceClient.PrepareBearerToken();
+        await UserConfig.InitAllAsync();
+
+        if (GlobalVariables.IsSingleApp)
+        {
+            Navs = UserConfig.Navs;
+        }
+        else
+        {
+
+
+
+            var items = UserConfig.Menus.Parse(new List<NavItem>());
+            Navs = items.Where(x => (x.Children != null && x.Children.Count > 0) || x.Href=="/").ToList();
+        }
+
+        await base.OnInitializedAsync();
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+
+        if (firstRender)
+        {
+            await GlobalConfig.Initialization();
+            module = await jSRuntime.InvokeAsync<IJSObjectReference>("import",
+           "./js/movescroll.js");
+           
+        }
+        if(module!=null)
+        await module.InvokeVoidAsync("addScrollMove");
+
+
+      
+    }
+
+
+
+}

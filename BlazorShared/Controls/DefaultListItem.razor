@@ -1,0 +1,22 @@
+﻿@namespace GeneralCommon.Models.Nav
+@using BlazorShared.Controls
+@typeparam TItem where TItem : IDefaultItem<TItem>
+
+<MListItem ActiveClass="primary"  Href="@Item?.Href" Link Target="@Item?.Target"
+           >
+    @if (Item?.Icon is not null)
+    {
+        <MListItemIcon>
+            <MIcon>@Item.Icon</MIcon>
+        </MListItemIcon>
+    }
+
+    <NavItemContent Item="Item" />
+
+</MListItem>
+
+@code {
+
+    [Parameter, EditorRequired]
+    public TItem Item { get; set; }
+}

@@ -1,0 +1,74 @@
+﻿
+@using BlazorShared.Core
+@using Layout
+@using GeneralCommon.Interfaces
+@using BlazorShared.Data.Base
+@inject IUserConfig UserConfig
+ @inject NavigationManager _navigationManager
+
+
+
+@inherits CultureComponentBase
+<MMenu OffsetX Left OffsetY>
+    <ActivatorContent Context="menuContext">
+       
+        <MButton Icon Large @attributes="menuContext.Attrs"><MIcon>mdi:mdi-account-circle-outline</MIcon></MButton>
+    </ActivatorContent>
+    <ChildContent>
+        <MList Dense>
+            <MLabel Class=" ma-2 my-3 text-subtitle-1" Color="primary">@UserConfig.LoginUser?.Account</MLabel>
+            <MDivider></MDivider>
+
+            @if (!GlobalVariables.IsSingleApp)
+            {
+                <MListItem  
+
+            Link Href="/system/userCenter">
+                     <MListItemIcon>
+                         <MIcon>fa fa-id-badge</MIcon>
+                     </MListItemIcon>
+                     <MListItemContent>
+                         <MListItemTitle>
+                             个人中心
+                         </MListItemTitle>
+                     </MListItemContent>
+                 </MListItem>
+
+
+                <MListItem OnClick="Exist">
+                    <MListItemIcon>
+                    <MIcon>mdi:mdi-logout-variant</MIcon>
+                </MListItemIcon>
+                <MListItemContent>
+                    <MListItemTitle>
+                        退出
+                    </MListItemTitle>
+                </MListItemContent>
+            </MListItem>
+            }
+
+            </MList>
+        </ChildContent>
+        </MMenu>
+
+
+        @code {
+
+
+    [Inject]
+    public IPopupService? PopupService { get; set; }
+    [Inject]
+    public SecurityServiceClient Provider { get; set; }
+
+
+    async Task Exist()
+    {
+        var result = await PopupService.ConfirmAsync("提示", "是否退出系统？");
+        if (result)
+        {
+            await Provider.Logout();
+            _navigationManager.NavigateTo("/login");
+
+        }
+    }
+}

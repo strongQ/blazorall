@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\User\**" />
+    <EmbeddedResource Remove="Models\User\**" />
+    <None Remove="Models\User\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GeneralCommon" Version="1.0.8" />
+  </ItemGroup>
+
+</Project>

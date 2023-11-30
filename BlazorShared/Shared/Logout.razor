@@ -1,0 +1,40 @@
+﻿
+@using GeneralCommon.Interfaces
+@using Layout
+
+
+@inherits CultureComponentBase
+
+<MTooltip Bottom>
+    <ActivatorContent>
+        <MButton @attributes="@context.Attrs"
+            OnClick="Exist" Icon Color="indigo">
+            <MIcon>mdi:mdi-logout-variant</MIcon>
+        </MButton>
+    </ActivatorContent>
+        
+    <ChildContent>
+        @T("$Exist")
+    </ChildContent>
+</MTooltip>
+
+
+@code {
+    //[Parameter]
+    //public EventCallback<CultureInfo> OnLanguageChanged { get; set; }
+
+    [Inject]
+    public IPopupService? PopupService { get; set; }
+
+    [Inject]
+    public IUserConfig Provider { get; set; }
+
+    async Task Exist()
+    {
+        var result=await PopupService.ConfirmAsync("提示", "是否退出系统？");
+        if (result)
+        {
+            Provider.Exit();
+        }
+    }
+}

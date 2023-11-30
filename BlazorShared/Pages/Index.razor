@@ -1,0 +1,156 @@
+﻿@page "/"
+@using Layout
+@layout MainLayout
+@inherits CultureComponentBase
+@using GeneralCommon.Interfaces
+@using BlazorShared.Data.Base
+@using GeneralCommon.Attributes
+@using GeneralCommon.Extensions
+@using Client.API.Managers.SysManager
+@using GeneralCommon.Dtos.Admin.SysServer
+@using BlazorShared.Helper
+@attribute [Page("/","首页","mdi:mdi-home",true)]
+@attribute [Authorize]
+
+<MRow Class="ma-5">
+    <MCol Md=6 Cols="12">
+        <MCard Class="mx-auto"
+             
+               Tile>
+            <MList Disabled>
+                <MSubheader>系统信息</MSubheader>
+                <MListItemGroup 
+                                Color="primary">
+                 @foreach(var prop in EnvProps)
+                    {
+                        <MListItem>
+                            <MListItemIcon>
+                                @typeof(ServerEnvInfo).GetDescription(prop.Name)
+                            </MListItemIcon>
+                            <MListItemContent>
+                                <MListItemTitle>@prop.GetValue(ServerEnv)</MListItemTitle>
+                            </MListItemContent>
+                        </MListItem>
+                    }
+                 
+                    
+                </MListItemGroup>
+            </MList>
+        </MCard>
+    </MCol>
+    <MCol Md=6 Cols="12">
+        <MCard Class="mx-auto"
+               Tile>
+            <MList Disabled>
+                <MSubheader>使用信息</MSubheader>
+                <MListItemGroup Color="primary">
+                    @foreach (var prop in UseProps)
+                    {
+                        <MListItem>
+                            <MListItemIcon>
+                                @typeof(ServerUsed).GetDescription(prop.Name)
+                            </MListItemIcon>
+                            <MListItemContent>
+                                <MListItemTitle>@prop.GetValue(ServerUse)</MListItemTitle>
+                            </MListItemContent>
+                        </MListItem>
+                    }
+
+
+                </MListItemGroup>
+            </MList>
+        </MCard>
+    </MCol>
+
+    <MCol Cols="12">
+
+        <MCard Class="mx-auto"
+               Tile>
+            <MList Disabled>
+                <MSubheader>磁盘信息</MSubheader>
+                <MListItemGroup Color="primary">
+
+                    <div class="text-center">
+                        @{
+                            int i = new Random().Next(0,3);
+                            foreach (var disk in Disks)
+                            {
+                                <MProgressCircular Class="ma-5" Value="(int)disk.AvailablePercent" Size="200" Width="10" Rotate="90" Color="@Colors[i]">
+                                    <div>
+                                        <span>@disk.AvailablePercent %<br /></span>
+                                        已用:@disk.Used GB<br />
+                                        剩余:@disk.AvailableFreeSpace GB<br />
+                                        @disk.DiskName
+                                    </div>
+                                </MProgressCircular>
+                              
+                            }
+                        }
+
+
+                    </div>
+
+                </MListItemGroup>
+            </MList>
+        </MCard>
+      
+    </MCol>
+  
+</MRow>
+
+
+
+
+@code {
+    [Inject]
+    ISysManager SysManager{ get; set; }
+
+    [Inject]
+    IJSRuntime JSRuntime{ get; set; }
+
+    [Inject]
+    IUserConfig UserConfig{ get; set; }
+
+
+    private ServerEnvInfo ServerEnv = new ServerEnvInfo();
+    private ServerUsed ServerUse = new ServerUsed();
+    private List<DiskInfo> Disks = new List<DiskInfo>();
+
+    private List<string> Colors = new List<string>
+    {
+        "primary",
+        "red",
+        "purple",
+        "green"
+    };
+    private IEnumerable<System.Reflection.PropertyInfo> EnvProps = new List<System.Reflection.PropertyInfo>();
+    private IEnumerable<System.Reflection.PropertyInfo> UseProps = new List<System.Reflection.PropertyInfo>();
+
+    protected override async Task OnInitializedAsync()
+    {
+
+
+
+        UserConfig.ChangeThemeEvent -= ChangeTheme;
+        UserConfig.ChangeThemeEvent += ChangeTheme;
+
+        ServerEnv = (await SysManager.GetServerBase(GlobalVariables.IsSingleApp)).GetResult();
+        EnvProps= typeof(ServerEnvInfo).GetProperties();
+
+        ServerUse= (await SysManager.GetServerUsed(GlobalVariables.IsSingleApp)).GetResult();
+        UseProps = typeof(ServerUsed).GetProperties();
+        Disks= (await SysManager.GetServerDisk(GlobalVariables.IsSingleApp)).GetResult();
+
+        if (UserConfig.Themes != null)
+        {
+            await JSRuntime.InvokeVoidAsync("sendMarkMessage", "Theme-" + UserConfig.Themes.IsDark, "");
+        }
+        
+
+    }
+
+    private async void ChangeTheme(object a,bool e)
+    {
+        await JSRuntime.InvokeVoidAsync("sendMarkMessage", "Theme-" + e, "");
+    }
+}

@@ -1,0 +1,71 @@
+﻿@page "/platform/menu"
+
+@using BlazorShared.Layout
+@using BlazorShared.Components.DataTable
+@using GeneralCommon.Dtos.Admin.Menu
+@using GeneralCommon.Extensions
+@using GeneralCommon.Attributes
+@attribute [Page("/platform/menu","菜单管理","")]
+@attribute [Authorize]
+
+@inherits CultureComponentBase
+@layout MainLayout
+@inject MasaBlazor MasaBlazor
+
+
+                <AppDataTable @ref="_table" TItem="AddMenuInput" SearchItem="MenuInput"
+              AddItem="AddMenuInput" EditItem="AddMenuInput" SearchModel="@SearchInput"
+                              AddCall="AddCall" EditCall="EditCall" DeleteCall="DeleteCall"
+                              QueryListCall="QueryListCall"
+                              IsShowClearSearch
+                              SearchItemFilter="SearchFilter"
+             
+                              ShowSelect=false
+                              ShowQueryButton
+                              ShowDetailButton
+                              ShowAddButton=@UserConfig.IsHasButtonWithRole("sysMenu:add")
+                              ShowDeleteButton=@UserConfig.IsHasButtonWithRole("sysMenu:delete")
+                              ShowEditButton=@UserConfig.IsHasButtonWithRole("sysMenu:update")
+                                    IsShowSearchKey>
+
+
+
+    <SearchTemplate>
+        <MSelect Style="max-width:200px;" @bind-Value="context.Type"
+                 Items="GeneralCommon.Enums.MenuTypeEnum.Menu.ToItemDescriptionList()"
+                 ItemText="u => u.desc"
+                 ItemValue="u => u.key"
+                 Label="类型"
+                  Clearable>
+        </MSelect>
+    </SearchTemplate>
+
+    <ItemColTemplate>
+        @{
+            context.Item.IsRender = true;
+            @switch (context.Header.Value)
+            {
+                
+                case nameof(context.Item.Title):
+                    <MIcon Size="15" Class="mr-2">@context.Item.Icon</MIcon>
+                    @context.Item.Title
+                    break;
+                default:
+                    context.Item.IsRender = false;
+                    break;
+            }
+        }
+
+    </ItemColTemplate>
+
+    <AddTemplate>
+        <MenuEdit Menus="Menus" SelectData="context"></MenuEdit>
+    </AddTemplate>
+
+    <EditTemplate>
+        <MenuEdit Menus="Menus" SelectData="context"></MenuEdit>
+    </EditTemplate>
+
+
+
+</AppDataTable>

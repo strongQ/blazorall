@@ -1,0 +1,169 @@
+﻿@using GeneralCommon.Extensions;
+@using Client.API.Managers.RoleManager
+@using GeneralCommon.Dtos.Admin.Role
+
+            <MContainer>
+                <MRow>
+                    <MCol Cols="12"
+                          Sm="6"
+                          
+                          Md="6">
+                        <MTextField Dense @bind-Value="SelectRole.Name"
+                        Label="@(SelectRole.Description(x=>x.Name))"></MTextField>
+                    </MCol>
+                    <MCol Cols="12"
+                          Sm="6"
+                          Md="6">
+                        <MTextField Dense @bind-Value="SelectRole.Code"
+                        Label="@(SelectRole.Description(x=>x.Code))"></MTextField>
+                    </MCol>
+                    <MCol Cols="12"
+                          Sm="6"
+                          Md="6">
+                        <MTextField Dense  Type="number" @bind-Value="SelectRole.OrderNo"
+                        Label="@(SelectRole.Description(x=>x.OrderNo))"></MTextField>
+                    </MCol>
+                    <MCol Cols="12"
+                          Sm="6"
+                          Md="6">
+                        <MSwitch  @bind-Value="SelectRole.Status"
+                                 TrueValue=GeneralCommon.Enums.StatusEnum.Enable
+                                 FalseValue=GeneralCommon.Enums.StatusEnum.Disable
+                                 Label="@(SelectRole.Status.ToDescription())">
+                        </MSwitch>
+                    </MCol>
+                    <MCol Cols="12"
+                          Sm="12"
+                          Md="12">
+                       
+                        <MTextField Dense Clearable
+                                   ClearIcon="mdi-close-circle"
+                        Label="@(SelectRole.Description(x=>x.Remark))"
+                        @bind-Value="SelectRole.Remark">
+                        </MTextField>
+                    </MCol>
+
+                   
+
+                     <MCol Cols="12"
+                          Sm="12"
+                          Md="12">
+                        <MCard Elevation="2" Class="mx-auto"
+                              >
+                            <MSheet Class="pa-4  lighten-2">
+                                <MTextField @bind-Value="_search"
+                                            Label="菜单名称"
+                                            HideDetails=@("auto")
+                                            Clearable
+                                            ClearIcon="mdi-close-circle-outline"></MTextField>
+                            </MSheet>
+                            <MCardText>
+                                <MTreeview Style="@($"overflow-y:auto;height:100%")"  Selectable Items="Menus"
+                                           Search="@_search"
+                                           Filter="Filter"
+                                           ItemKey="r=>r.Id"
+                                           ItemText="r=>r.Title"
+                                           TItem="GeneralCommon.Dtos.Admin.Menu.AddMenuInput"
+                                           TKey="long"
+                                           Value="SelectMenus"
+                                           ValueChanged="SelectChanged"
+                                           ItemChildren="r=>r.Children">
+                                    <PrependContent>
+                                        @if (context.Item.Type != GeneralCommon.Enums.MenuTypeEnum.Dir)
+                                        {
+                                            <MIcon>
+                                                @($"mdi:mdi-{(context.Item.Type == GeneralCommon.Enums.MenuTypeEnum.Menu ? "menu" : context.Item.Type == GeneralCommon.Enums.MenuTypeEnum.Dir ? "dots-horizontal" : "gesture-tap-button")}")
+                                            </MIcon>
+                                        }
+                                    </PrependContent>
+                                </MTreeview>
+                            </MCardText>
+                        </MCard>
+                      </MCol>
+                </MRow>
+
+            </MContainer>
+        
+@code {
+    [Parameter]
+    public SysRole SelectRole { get; set; }
+    [Parameter]
+    public Action<List<long>> MenuChanged{ get; set; }
+    /// <summary>
+    /// 组织
+    /// </summary>
+    [Parameter]
+    public List<GeneralCommon.Dtos.Admin.Menu.AddMenuInput> Menus { get; set; }
+
+    private string _search = string.Empty;
+
+    /// <summary>
+    /// 角色服务
+    /// </summary>
+    [Inject]
+    public IRoleManager RoleManager { get; set; }
+
+    /// <summary>
+    /// 选中的部门
+    /// </summary>
+    public List<long> SelectMenus { get; set; } = new List<long>();
+
+
+
+    /// <summary>
+    /// 部门选中
+    /// </summary>
+    /// <param name="ids"></param>
+    private void SelectChanged(List<long> ids)
+    {
+        MenuChanged?.Invoke(ids);
+    }
+
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if (SelectRole != null)
+            await InitData(SelectRole.Id);
+    }
+
+    public async Task InitData(long RoleID)
+    {
+
+
+        if (RoleID > 0)
+        {
+
+            var selects = await RoleManager.GetMenuIdList(new GeneralCommon.Dtos.Admin.Role.RoleInput
+                {
+                    Id = RoleID
+                });
+
+            if (selects.Code == 200)
+            {
+
+                SelectMenus = selects.Result;
+            }
+        }
+        else
+        {
+            SelectMenus = new List<long>();
+        }
+
+        return;
+    }
+
+
+
+    public Func<GeneralCommon.Dtos.Admin.Menu.AddMenuInput, string, Func<GeneralCommon.Dtos.Admin.Menu.AddMenuInput, string>, bool> Filter
+    {
+        get
+        {
+
+            return (item, search, textKey) => textKey(item).IndexOf(search) > -1;
+
+
+            return null;
+        }
+    }
+
+}

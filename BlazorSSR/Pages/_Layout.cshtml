@@ -1,0 +1,100 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+@namespace BlazorShared.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>平台</title>
+    <base href="~/" />
+    <!-- masa blazor css style -->
+    <link href="_content/Masa.Blazor/css/masa-blazor.min.css" rel="stylesheet" />
+
+   
+
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+
+    <!--icon file,import need to use-->
+    <link href="css/materialdesignicons.min.css" rel="stylesheet">
+   
+
+
+    <link href="css/materialicons.css" rel="stylesheet">
+    <link href="css/fontawesome.css" rel="stylesheet">
+
+    
+
+
+
+    <link href="css/masa-blazor-pro.css" rel="stylesheet" />
+    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+</head>
+<body>
+    @RenderBody()
+
+ 
+
+    <script src="_framework/blazor.server.js" autostart="false" asp-append-version="true" ></script>
+    <script src="js//boot.js"></script>
+    <!--js(should lay the end of file)-->
+    <script src="_content/BlazorComponent/js/blazor-component.js"></script>
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+    <script src="js/echarts.min.js"></script>
+
+    <script>
+        window.triggerFileDownload = (fileName, url) => {
+            const anchorElement = document.createElement('a');
+            anchorElement.href = url;
+            anchorElement.download = fileName ?? '';
+            anchorElement.click();
+            anchorElement.remove();
+        }
+
+        window.sendMarkMessage = (msg, dotNetHelper) => {
+
+        }
+
+        window.switchTheme = function (dotNetHelper, dark, x, y) {
+            document.documentElement.style.setProperty('--x', x + 'px')
+            document.documentElement.style.setProperty('--y', y + 'px')
+            document.startViewTransition(() => {
+                dotNetHelper.invokeMethodAsync('ToggleTheme', dark);
+            });
+        }
+
+        function dataURLtoBlob(dataurl) {
+            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new Blob([u8arr], { type: mime });
+        }
+
+        function downloadFile(url, name = 'What\'s the fuvk') {
+            var a = document.createElement("a")
+            a.setAttribute("href", url)
+            a.setAttribute("download", name)
+            a.setAttribute("target", "_blank")
+            let clickEvent = document.createEvent("MouseEvents");
+            clickEvent.initEvent("click", true, true);
+            a.dispatchEvent(clickEvent);
+        }
+
+        function downloadFileByBase64(base64, name) {
+            var myBlob = dataURLtoBlob(base64)
+            var myUrl = URL.createObjectURL(myBlob)
+            downloadFile(myUrl, name)
+        }
+
+
+       
+             
+    </script>
+
+</body>
+</html>
+

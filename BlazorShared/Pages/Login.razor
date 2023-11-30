@@ -1,0 +1,136 @@
+﻿@page "/login"
+@layout BaseLayout
+@inject MasaBlazor MasaBlazor
+@inherits CultureLayoutComponentBase
+@using Layout
+
+   @* <MMain >
+
+        <MRow Class="ma-0 fill-height" Style="color: #323D6F !important;caret-color: #323D6F !important;background-color: #E9EDF7;">
+      
+            <MCol Md=@(MasaBlazor.Breakpoint.Mobile?12:12) Sm=12 Class="d-flex align-center" Style="background: #A3C7D8 !important;">
+                    <LoginShared @ref="ShareLogin" HideLogo
+                                 User="User"
+                                 Elevation="0"
+                                 Width="500"
+                                 OnLogin="OnLogin"
+                                 OnSetting="OnSetting"
+                                 ShowCaptcha="_showCaptcha"
+                                 CreateAccountRoute="pages/authentication/register-v2"
+                                 ForgotPasswordRoute="pages/authentication/forgot-password-v2">
+                    </LoginShared>
+                    </MCol>
+        </MRow>    
+    </MMain>*@
+
+
+
+@if (IsMobile)
+{
+    <MCard Class="px-5 py-8" @onkeydown=Enter>
+        <LoginShared @ref="ShareLogin" HideLogo
+                 User="User"
+                 Loading="@IsLoading"
+                 Elevation="0"
+                 Width="500"
+                 OnLogin="OnLogin"
+                 OnSetting="OnSetting"
+                 ShowCaptcha="_showCaptcha"
+                 CreateAccountRoute="pages/authentication/register-v2"
+                 ForgotPasswordRoute="pages/authentication/forgot-password-v2">
+        </LoginShared>
+    </MCard>
+}
+else
+{
+    <MRow NoGutters Style="height:100%" Class="ma-0">
+    <MCol Md=7 Sm=12 Class="ma-0">
+        <MSheet Elevation=1 Style="width:100%; height:100%;" Class="d-flex align-start flex-column mb-6">
+            <div class="d-flex align-center ml-12 mt-12">
+                <MAvatar Size="40" Color="teal">
+                    <span class="white--text text-h6">HB</span>
+                </MAvatar>
+                <h1>Go</h1>
+            </div>
+            <div class="d-flex align-center ml-12 mt-12 mb-auto">
+                <h3>系统</h3>
+            </div>
+            <div class="d-flex align-center pa-2" style="width:100%;height:100%;">
+                <MImage Src="img/login-left.svg"></MImage>
+            </div>
+        </MSheet>
+
+    </MCol>
+
+    <MCol Md=5 Sm=12 Align="AlignTypes.Center">
+        <MRow Justify="JustifyTypes.Center" Align="AlignTypes.Center">
+           @* <MCard Class="px-16 py-12" @onkeydown=Enter>
+                @GetLoginCore()
+            </MCard>*@
+
+            <LoginShared @ref="ShareLogin" HideLogo
+                         User="User"
+                         Elevation="0"
+                              Loading="@IsLoading"
+                         Width="500"
+                         OnLogin="OnLogin"
+                         OnSetting="OnSetting"
+                         ShowCaptcha="_showCaptcha"
+                         CreateAccountRoute="pages/authentication/register-v2"
+                         ForgotPasswordRoute="pages/authentication/forgot-password-v2">
+                </LoginShared>
+        </MRow>
+    </MCol>
+
+    </MRow>
+
+}
+
+@code {
+    [CascadingParameter(Name = "IsMobile")]
+    public bool IsMobile
+    {
+        get;
+        set;
+    }
+   
+   
+    //RenderFragment GetLoginCore()
+    //{
+    //    RenderFragment ViewSubMenu = null;
+    //    ViewSubMenu +=
+    //@<div class="mt-2 px-2 py-1 mx-auto text-center">
+    //    <MAvatar Size=80>
+    //        <MImage Src="">
+    //        </MImage>
+    //    </MAvatar>
+    //    <h5 class="mt-2 mb-12">登录 👋</h5>
+    //    <MTextField TValue="string"
+    //            Label="账号"
+    //                        Outlined
+    //            HideDetails="@("auto")"
+    //                >
+    //    </MTextField>
+    //    <MTextField TValue="string"
+    //            Class="mt-10"
+    //            Label="密码"
+    //            Type="@(_showPassword ? "text" : "password")"
+    //            AppendIcon="@(_showPassword ? "mdi-eye" : "mdi-eye-off")"
+    //            OnAppendClick="()=>_showPassword = !_showPassword"
+    //                        Outlined
+    //            HideDetails="@("auto")"
+    //                >
+    //    </MTextField>
+     
+    //    <MButton Class="mt-11 rounded-4" Height=46 Width=@("100%") Color="primary">"登录"</MButton>
+    //</div>
+
+
+    //    ;
+    //    return ViewSubMenu;
+    //}
+}
+
+
+
+

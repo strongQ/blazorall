@@ -1,0 +1,60 @@
+﻿@using BlazorShared.Components;
+<MButton Text  Width="Width" OnClick="()=>isShow=true" Color="transparent"  Height="Height">
+     <MudImage Width="Width"
+             Height="Height"
+             Src="@Src"></MudImage>
+        </MButton>
+                     
+   <MDialog @bind-Value="isShow" 
+         MaxWidth="800">
+    <MCard>
+        <MCardTitle>
+            <span class="text-h5">查看</span>
+        </MCardTitle>
+
+        <MCardText>
+            <MContainer>
+
+                <MudImage 
+                           Fluid="true"
+                        Src="@Src"></MudImage>
+
+            </MContainer>
+        </MCardText>
+
+        <MCardActions>
+           
+            <MSpacer></MSpacer>
+
+             <MButton Color="blue darken-1"
+                     Text
+                      OnClick="Download">
+                 下载
+             </MButton>
+            <MButton Color="blue darken-1"
+                     Text
+                     OnClick="()=>isShow=false">
+                关闭
+            </MButton>
+          
+        </MCardActions>
+    </MCard>
+</MDialog>
+
+ @code {
+    [Inject]
+    private IJSRuntime JSRuntime { get; set; }
+    private bool isShow = false;
+    [Parameter]
+    public string Src { get; set; }
+    [Parameter]
+    public int Width { get; set; } = 50;
+    [Parameter]
+    public int Height { get; set; } = 50;
+
+    private async Task Download()
+    {
+        await JSRuntime.InvokeVoidAsync("downloadFile", Src);
+    }
+
+}

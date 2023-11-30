@@ -1,0 +1,18 @@
+﻿@page "/develop/api"
+
+@using BlazorShared.Layout
+@using BlazorShared.Data.Base
+@using GeneralCommon.Extensions
+
+@using GeneralCommon.Attributes
+@attribute [Page("/develop/api", "后台接口")]
+@attribute [Authorize]
+
+@inherits CultureComponentBase
+@layout MainLayout
+@inject MasaBlazor MasaBlazor
+
+<iframe width="560" height="315" src="@(GlobalVariables.RemoteApiUrl+"/kapi")" frameborder="0" allowfullscreen></iframe>
+@code {
+
+}

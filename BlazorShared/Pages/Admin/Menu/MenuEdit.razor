@@ -1,0 +1,261 @@
+﻿@using GeneralCommon.Extensions;
+@using Client.API.Managers.RoleManager
+@using GeneralCommon.Dtos.Admin.Menu
+@using GeneralCommon.Enums
+@using Mapster
+
+
+            <MContainer>
+                <MRow>
+                    <MCol Cols="12">
+            <MTextField @bind-Value="SelectData.Pid"
+                        Label="上级菜单"></MTextField>
+                        
+                        <MButton OnClick="SelectMenu">选择</MButton>
+                    </MCol>
+                    <MCol Cols="12">
+
+                        <MRadioGroup TValue="GeneralCommon.Enums.MenuTypeEnum"   Label="菜单类型" @bind-Value="SelectData.Type"
+                                      Row>
+                            <MRadio  Label="@GeneralCommon.Enums.MenuTypeEnum.Dir.ToDescription()"
+                                    Value="@GeneralCommon.Enums.MenuTypeEnum.Dir">
+                            </MRadio>
+                            <MRadio Label="@GeneralCommon.Enums.MenuTypeEnum.Menu.ToDescription()"
+                                    Value="@GeneralCommon.Enums.MenuTypeEnum.Menu">
+                            </MRadio>
+                            <MRadio Label="@GeneralCommon.Enums.MenuTypeEnum.Btn.ToDescription()"
+                                    Value="@GeneralCommon.Enums.MenuTypeEnum.Btn">
+                            </MRadio>
+                        </MRadioGroup>
+                    </MCol>
+
+                    <MCol Cols="12"
+                          Sm="6"
+                          Md="6">
+                        <MTextField  @bind-Value="SelectData.Title"
+                                    Label="菜单名称"></MTextField>
+                    </MCol>
+
+                    @if (SelectData.Type == GeneralCommon.Enums.MenuTypeEnum.Btn)
+                    {
+                         
+                        <MCol Cols="12"
+                          Sm="6"
+                          Md="6">
+                            <MTextField  @bind-Value="SelectData.Permission"
+                                    Label="权限标识"></MTextField>
+                        </MCol>
+                    }
+                    else
+                    {
+                      
+                        <MCol Cols="12"
+                          Sm="6"
+                          Md="6">
+                            <MTextField  @bind-Value="SelectData.Name"
+                                    Label="路由名称"></MTextField>
+                        </MCol>
+                        <MCol Cols="12"
+                          Sm="6"
+                          Md="6">
+                            <MTextField  @bind-Value="SelectData.Path"
+                                    Label="路由路径"></MTextField>
+                        </MCol>
+                        <MCol Cols="12"
+                          Sm="6"
+                          Md="6">
+                            <MTextField  @bind-Value="SelectData.Component"
+                                    Label="组件路径"></MTextField>
+                        </MCol>
+                        <MCol Cols="12"
+                          Sm="6"
+                          Md="6">
+                            <MTextField  @bind-Value="SelectData.Icon"
+                                    Label="菜单图标"></MTextField>
+                        </MCol>
+                        <MCol Cols="12"
+                          Sm="6"
+                          Md="6">
+                            <MTextField  @bind-Value="SelectData.Redirect"
+                                    Label="重定向"></MTextField>
+                        </MCol>
+                        <MCol Cols="12"
+                          Sm="6"
+                          Md="6">
+                            <MTextField  @bind-Value="SelectData.Component"
+                                    Label="组件路径"></MTextField>
+                        </MCol>
+
+                        <MCol Cols="12"
+                          Sm="6"
+                          Md="6">
+                            <MTextField  @bind-Value="SelectData.OutLink"
+                                    Label="链接地址"></MTextField>
+                        </MCol>
+                     
+
+                        <MCol Cols="12"
+                          Sm="6"
+                          Md="6">
+
+
+                            <MRadioGroup  Label="是否隐藏" @bind-Value="SelectData.IsHide"
+                                          Row>
+                            <MRadio Label="是"
+                                    Value="true">
+                            </MRadio>
+                            <MRadio Label="否"
+                                    Value="false">
+                            </MRadio>
+                        </MRadioGroup>
+                    </MCol>
+                        <MCol Cols="12"
+                          Sm="6"
+                          Md="6">
+
+
+                            <MRadioGroup  Label="是否缓存" @bind-Value="SelectData.IsKeepAlive"
+                                          Row>
+                            <MRadio Label="是"
+                                    Value="true">
+                            </MRadio>
+                            <MRadio Label="否"
+                                    Value="false">
+                            </MRadio>
+                        </MRadioGroup>
+                    </MCol>
+                        <MCol Cols="12"
+                          Sm="6"
+                          Md="6">
+
+
+                            <MRadioGroup  Label="是否固定" @bind-Value="SelectData.IsAffix"
+                                          Row>
+                            <MRadio Label="是"
+                                    Value="true">
+                            </MRadio>
+                            <MRadio Label="否"
+                                    Value="false">
+                            </MRadio>
+                        </MRadioGroup>
+                    </MCol>
+                        <MCol Cols="12"
+                          Sm="6"
+                          Md="6">
+
+
+                            <MRadioGroup  Label="是否内嵌" @bind-Value="SelectData.IsIframe"
+                                          Row>
+                            <MRadio Label="是"
+                                    Value="true">
+                            </MRadio>
+                            <MRadio Label="否"
+                                    Value="false">
+                            </MRadio>
+                        </MRadioGroup>
+                    </MCol>
+                    }
+
+
+
+                    <MCol Cols="12"
+                          Sm="6"
+                          Md="6">
+                        <MTextField  Type="number" @bind-Value="SelectData.OrderNo"
+                                    Label="菜单排序"></MTextField>
+                    </MCol>
+
+
+                     <MCol Cols="12"
+                          Sm="6"
+                          Md="6">
+
+
+                        <MRadioGroup  Label="是否启用" @bind-Value="SelectData.Status"
+                                      Row>
+                            <MRadio Label="是"
+                                    Value=StatusEnum.Enable>
+                            </MRadio>
+                            <MRadio Label="否"
+                                    Value=StatusEnum.Disable>
+                            </MRadio>
+                        </MRadioGroup>
+                    </MCol>
+                  
+                
+                    <MCol Cols="12"
+                         >
+
+                        <MTextField  Clearable
+                                    ClearIcon="mdi-close-circle"
+                                    Label="备注"
+                                    @bind-Value="SelectData.Remark">
+                        </MTextField>
+                        </MCol>
+
+
+
+                </MRow>
+
+            </MContainer>
+       
+            <SelectMenuDialog ShowDialog="ShowMenuDialog"  Menus="Menus" SelectMenu="SelectData.Pid" SelectMenuAction="SelectMenuAction"></SelectMenuDialog>
+
+            @code {
+    private bool ShowMenuDialog = false;
+    [Parameter]
+    public GeneralCommon.Dtos.Admin.Menu.AddMenuInput SelectData { get; set; }
+    [Parameter]
+    public List<GeneralCommon.Dtos.Admin.Menu.AddMenuInput> Menus { get; set; }
+
+
+
+    private void SelectMenuAction(long id)
+    {
+        SelectData.Pid = id;
+        this.StateHasChanged();
+        ShowMenuDialog = false;
+    }
+
+    private void SelectMenu()
+    {
+        ShowMenuDialog = true;
+    }
+    /// <summary>
+    /// Menus移除按钮
+    /// </summary>
+    /// <param name="list"></param>
+    private void RemoveBtnMenus(List<AddMenuInput> list,MenuTypeEnum type)
+    {
+        foreach (var menu in list)
+        {
+            if (menu.Type == MenuTypeEnum.Menu && type==MenuTypeEnum.Btn)
+            {
+                menu.Children = new List<AddMenuInput>();
+            }
+
+            else
+            {
+                if (menu.Children != null && menu.Children.Count > 0)
+                {
+                    if(type!=MenuTypeEnum.Btn && menu.Type != MenuTypeEnum.Btn)
+                    {
+                        if(menu.Children.FirstOrDefault().Type == MenuTypeEnum.Menu)
+                        {
+                            menu.Children = new List<AddMenuInput>();
+                        }
+                        else
+                        {
+                            RemoveBtnMenus(menu.Children,type);
+                        }
+                    }
+                    else
+                    RemoveBtnMenus(menu.Children,type);
+                }
+            }
+
+        }
+    }
+    
+
+}

@@ -1,0 +1,42 @@
+﻿@inherits MobileComponentBase
+@using BlazorShared.Layout
+@using GeneralCommon.Interfaces
+@inject IUserConfig UserResoures
+@*一个完整的AppBar栏，包含手机与电脑的显示切换*@
+
+@if (!IsMobile)
+{
+    <Breadcrumb />
+
+    <Favorite />
+    <MSpacer />
+   
+    <Search />
+   <AppBarButtons LanguageChange="@LanguageChange"></AppBarButtons>
+}
+else
+{
+    <MSpacer />
+    <Logo HeightInt=@(IsMobile?UserResoures.Themes.LayoutPrpo.AppBarHeight:UserResoures.Themes.LayoutPrpo.AppBarHeight+UserResoures.Themes.LayoutPrpo.PageTabsHeight)></Logo>
+
+    <MDialog  Class="pa-1">
+        <ActivatorContent>
+            <MButton Class="mr-0" Icon Small=IsMobile
+                 @attributes="@context.Attrs">
+                <MIcon>mdi:mdi-magnify</MIcon>
+            </MButton>
+        </ActivatorContent>
+        <ChildContent>
+            <MSheet  Class="d-flex  align-center justify-center" Height=@UserResoures.Themes.LayoutPrpo.AppBarHeight>
+            <Search />
+            </MSheet>
+        </ChildContent>
+    </MDialog>
+}
+
+
+
+@code {
+    [Parameter]
+    public EventCallback<string> LanguageChange { get; set; }
+}

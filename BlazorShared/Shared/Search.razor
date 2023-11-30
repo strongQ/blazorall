@@ -1,0 +1,47 @@
+﻿@namespace BlazorShared.Layout
+@using GeneralCommon.Models.Nav
+@using GeneralCommon.Extensions
+@using GeneralCommon.Interfaces
+@inherits CultureComponentBase
+<div class="d-flex justify-end">
+    <MAutocomplete @bind-Value="Value"
+                   Items="AvalidMenus"
+                   Class="mx-1 text-subtitle-2 rounded-0"
+                   Style="max-width: 350px;"
+                          Flat Dense Placeholder="搜索"
+                   ItemValue="r=>r.Href"
+                   ItemText="r=>r.Title"
+                   HideDetails="true"
+                   PrependInnerIcon="mdi-magnify">
+    </MAutocomplete>
+</div>
+
+@code {
+    private string _value;
+    private string Value
+    {
+        get => _value;
+        set
+        {
+            _value = value;
+            if (!string.IsNullOrEmpty(value))
+            {
+                NavigationManager.NavigateTo(value);
+            }
+        }
+    }
+
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
+
+    private List<NavItem> AvalidMenus;
+    [Inject]
+    private IUserConfig UserResoures { get; set; }
+
+    protected override void OnInitialized()
+    {
+        AvalidMenus = UserResoures.Navs.Where(it => it.Href.IsNotNullOrEmpty()).ToList();
+        base.OnInitialized();
+    }
+
+}

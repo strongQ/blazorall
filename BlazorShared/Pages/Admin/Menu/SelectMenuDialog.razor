@@ -1,0 +1,125 @@
+﻿<MDialog @bind-Value="ShowDialog"  Persistent
+         MaxWidth="800">
+    <MCard>
+        <MCardTitle>
+            <span class="text-h5">请选择菜单</span>
+        </MCardTitle>
+
+        <MCardText>
+            <MContainer>
+
+                <MCard Elevation="2" Class="mx-auto">
+                    <MSheet Class="pa-4  lighten-2">
+                        <MTextField @bind-Value="_search"
+                                    Label="菜单名称"
+                                    HideDetails=@("auto")
+                                    Clearable
+                                    ClearIcon="mdi-close-circle-outline"></MTextField>
+                        </MSheet>
+                        <MCardText>
+                        <MTreeview  Style="@($"overflow-y:auto;height:400px")"  Items="Menus"
+                                   Search="@_search"
+                                   Filter="Filter"
+                                   ItemKey="r=>r.Id"
+                                   ItemText="r=>r.Title"
+                                   TItem="GeneralCommon.Dtos.Admin.Menu.AddMenuInput"
+                                   TKey="long"
+                                 
+                                   Selectable
+                                   SelectionType="SelectionType.Independent"
+                                   Value="_selectMenus"
+                                   ValueChanged="SelectChanged"
+                                   ItemChildren="r=>r.Children">
+                            <PrependContent>
+                                @if (context.Item.Type != GeneralCommon.Enums.MenuTypeEnum.Dir)
+                                {
+                                    <MIcon>
+                                        @($"mdi:mdi-{(context.Item.Type == GeneralCommon.Enums.MenuTypeEnum.Menu ? "menu" : context.Item.Type == GeneralCommon.Enums.MenuTypeEnum.Dir ? "dots-horizontal" : "gesture-tap-button")}")
+                                    </MIcon>
+                                }
+                            </PrependContent>
+                        </MTreeview>
+                    </MCardText>
+                </MCard>
+
+            </MContainer>
+        </MCardText>
+
+        <MCardActions>
+            <MSpacer></MSpacer>
+            <MButton Color="blue darken-1"
+                     Text
+                     OnClick="DialogClose">
+                关闭
+            </MButton>
+            <MButton Color="blue darken-1"
+                     Text
+                     OnClick="DialogSave">
+                保存
+            </MButton>
+            </MCardActions>
+            </MCard>
+            </MDialog>
+
+            @code {
+    private string _search = string.Empty;
+
+
+
+    [Parameter]
+    public List<GeneralCommon.Dtos.Admin.Menu.AddMenuInput> Menus { get; set; }
+    [Parameter]
+    public long SelectMenu { get; set; }
+
+    [Parameter]
+    public Action<long> SelectMenuAction { get; set; }
+    [Parameter]
+    public bool ShowDialog { get; set; }
+
+    private List<long> _selectMenus = new List<long>();
+
+    public Func<GeneralCommon.Dtos.Admin.Menu.AddMenuInput, string, Func<GeneralCommon.Dtos.Admin.Menu.AddMenuInput, string>, bool> Filter
+    {
+        get
+        {
+
+            return (item, search, textKey) => textKey(item).IndexOf(search) > -1;
+
+
+            return null;
+        }
+    }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        if (SelectMenu > 0)
+        {
+            _selectMenus = new List<long>
+            {
+                SelectMenu
+            };
+        }
+    }
+    /// <summary>
+    /// 选择
+    /// </summary>
+    /// <param name="datas"></param>
+    private void SelectChanged(List<long> datas)
+    {
+        SelectMenu = datas.FirstOrDefault();
+    }
+
+
+    private void DialogClose()
+    {
+        SelectMenuAction?.Invoke(SelectMenu);
+        ShowDialog = false;
+    }
+
+    private void DialogSave()
+    {
+        SelectMenuAction?.Invoke(SelectMenu);
+        ShowDialog = false;
+    }
+
+}

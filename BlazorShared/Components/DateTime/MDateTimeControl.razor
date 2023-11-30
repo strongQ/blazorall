@@ -1,0 +1,79 @@
+﻿@using BlazorShared.Components;
+@using BlazorComponent;
+@using Microsoft.AspNetCore.Components.Forms;
+
+
+<MMenu 
+       CloseOnContentClick="false"
+       @bind-Value="_menu"
+       Transition="scale-transition"
+       OffsetY
+        MinWidth="@("auto")">
+     <ActivatorContent>
+         <MTextField Value="Time"
+             ValueChanged="ValueChange"
+             TValue="DateTime?"
+                     Label="@Label"
+                     PrependIcon="mdi-calendar"
+                        Readonly Clearable 
+         @attributes="context.Attrs"></MTextField>
+     </ActivatorContent>
+     <ChildContent>
+         <AppDateTimePicker @bind-Value="appTime"
+                          NoTitle
+                          >
+            <MSpacer></MSpacer>
+            <MButton Text
+                      Color="primary"
+                      OnClick="()=>_menu=false">
+                 取消
+             </MButton>
+             <MButton Text
+                      Color="primary"
+                      OnClick="ClickOk"
+                      >
+                 确定
+             </MButton>
+         </AppDateTimePicker>
+     </ChildContent>
+ </MMenu>
+
+ @code {
+    private DateTime? appTime = DateTime.Now;
+    private bool _menu;
+
+    [Parameter]
+    public string Label { get; set; }
+    [Parameter]
+    public DateTime? Time { get; set; }
+
+    [Parameter]
+    public EventCallback<DateTime?> TimeChanged{ get; set; }
+
+    private void ClickOk()
+    {
+        Time = appTime;
+
+        TimeChanged.InvokeAsync(appTime);
+        _menu = false;
+    }
+    protected override void OnParametersSet()
+    {
+        if (Time != null)
+        {
+            appTime = Time;
+        }
+
+    }
+
+    private void ValueChange(DateTime? value)
+    {
+        if (value == null)
+        {
+            Time = null;
+            TimeChanged.InvokeAsync(null);
+        }
+    }
+
+  
+}

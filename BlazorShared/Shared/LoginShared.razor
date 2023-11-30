@@ -1,0 +1,86 @@
+﻿<MCard Elevation=10 Width=@Width  Height=680 Class="mx-auto my-auto">
+    <div style="height:60px;"></div>
+    <div class="mx-auto text-center">
+        <MAvatar Size=80>
+            <MIcon Color="primary" XLarge>mdi:mdi-account-star-outline</MIcon>
+        </MAvatar>
+        <h5 class="mt-2 mb-12">欢迎 👋</h5>
+
+        <MTextField Class="ml-2 mr-2" TValue="string"
+                    Label="用户"
+                    Placeholder="User"
+                    Outlined
+                    @bind-Value="User.UserName"
+                    HideDetails="@("auto")">
+        </MTextField>
+        <MTextField TValue="string"
+                    Class="mt-10 ml-2 mr-2"
+                    Label="密码"
+                    Type="@(_show ? "text" : "password")"
+                    Placeholder="john@example.com"
+                    AppendIcon="@(_show ? "mdi:mdi-eye" : "mdi:mdi-eye-off")"
+                    OnAppendClick="()=>_show = !_show"
+                    Outlined
+                    @bind-Value="User.Password"
+                    HideDetails="@("auto")">
+        </MTextField>
+
+        @if (ShowCaptcha == true)
+        {
+            <MRow>
+                <MCol Md="6" Sm="6">
+                    <MTextField TValue="string"
+                                Class="mt-10 ml-2"
+                                Label="验证码"
+                                Placeholder="验证码"
+                                Outlined
+                    @bind-Value="User.Code"
+                                HideDetails="@("auto")"></MTextField>
+                </MCol>
+                <MCol Md="6" Sm="6">
+                    @*  <MImage @onclick="ClickImg" Src="_imgUrl" Width="100" Height="50" >
+                <PlaceholderContent>
+                <MRow Class="fill-height ma-0"
+                Align="@AlignTypes.Center"
+                Justify="@JustifyTypes.Center">
+                <MProgressCircular Indeterminate></MProgressCircular>
+                </MRow>
+                </PlaceholderContent>
+                </MImage>*@
+
+                    <img Class="mt-10 mr-2" @onclick="ClickImg" width="180px" height="50px" src="@_imgUrl" style="cursor: pointer" />
+                </MCol>
+            </MRow>
+        }
+      
+     
+        <MButton Class="mt-11 rounded-4 text-btn white--text " Loading="@Loading"   OnClick=OnLogin Height=46 Width=320 Color="primary">
+            <LoaderContent>
+                登陆中...
+            </LoaderContent>
+            <ChildContent>
+                登录
+            </ChildContent>
+        </MButton>
+
+        <BlazorShared.Dialogs.SettingDialog></BlazorShared.Dialogs.SettingDialog>
+
+        <div class="my-6">
+            <span class="text-btn">New on our platform? &nbsp;</span>
+            <span class="primary--text hover-pointer">Create an account</span>@*@onclick="@(()=>Navigation.NavigateTo(Navigation.BaseUri+CreateAccountRoute))"*@
+        </div>
+      @*  <div class="d-flex block-center">
+            <div style="height:0.5px;width:152px;" class="neutral-lighten-5"></div>
+            <span class="text-caption mx-4">or login with</span>
+            <div style="height:0.5px;width:152px;" class="neutral-lighten-5"></div>
+        </div>      
+        <div class="mt-4">
+            <MIcon Size=24 Color="neutral-lighten-2" OnClick="()=>{}">fab fa-codepen</MIcon>
+            <MIcon Size=24 Color="neutral-lighten-2" Class="ml-6" OnClick="()=>{}">fab fa-github</MIcon>
+            <MIcon Size=24 Color="neutral-lighten-2" Class="ml-6" OnClick="()=>{}">fab fa-twitter</MIcon>
+            <MIcon Size=24 Color="neutral-lighten-2" Class="ml-6" OnClick="()=>{}">fab fa-instagram</MIcon>
+        </div>*@
+    </div>
+</MCard>
+
+

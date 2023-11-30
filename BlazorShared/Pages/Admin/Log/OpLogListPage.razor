@@ -1,0 +1,40 @@
+﻿@page "/log/oplog"
+
+@using BlazorShared.Layout
+@using BlazorShared.Components.DataTable
+@using GeneralCommon.Dtos.Admin.Logging
+@using GeneralCommon.Extensions
+
+@using GeneralCommon.Attributes
+@attribute [Page("/log/oplog", "操作日志")]
+@attribute [Authorize]
+
+@inherits CultureComponentBase
+@layout MainLayout
+@inject MasaBlazor MasaBlazor
+
+
+            <AppDataTable @ref="_table" TItem="AddLogInput" SearchItem="PageLogInput"
+                          AddItem="AddLogInput" EditItem="AddLogInput" SearchModel="@SearchInput"
+                          QueryCall="QueryCall" 
+                                IsShowClearSearch
+                           SearchItemFilter="SearchFilter"
+                           ShowSelect="false"
+                                ShowQueryButton
+                                ShowDetailButton
+                          ShowExportButton
+                                IsShowSearchKey>
+
+
+
+
+
+
+                <SearchTemplate>
+        <BlazorShared.Components.DateTime.MDateTimeControl Label="开始时间" @bind-Time="context.StartTime"></BlazorShared.Components.DateTime.MDateTimeControl>
+        <BlazorShared.Components.DateTime.MDateTimeControl Label="结束时间" @bind-Time="context.EndTime"></BlazorShared.Components.DateTime.MDateTimeControl>
+                </SearchTemplate>
+
+
+            </AppDataTable>
+ 

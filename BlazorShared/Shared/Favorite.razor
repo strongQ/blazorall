@@ -1,0 +1,69 @@
+﻿@using Layout
+
+@inherits CultureComponentBase
+
+
+<div class="ml-10">
+    @foreach (var menu in GetFavoriteMenus())
+    {
+       
+        <MTooltip Color="primary" Bottom>
+        <ActivatorContent>
+            <span @attributes="@context.Attrs" class="hover-pointer mr-8" @onclick="()=>NavigateTo(menu.Href)">
+                <MIcon Size=24 >
+                    @menu.Icon
+                </MIcon>
+            </span>
+        </ActivatorContent>
+        <ChildContent>
+            <span>@menu.Title</span>
+        </ChildContent>
+    </MTooltip>
+    }
+    <MMenu OffsetY Bottom Right CloseOnContentClick="false" ValueChanged="OnOpen" Value="_open" MinWidth="@("auto")">
+        <ActivatorContent>
+            <MTooltip  Bottom>
+                <ActivatorContent Context="tooltipContext">
+                    @{
+                        var attrs = new Dictionary<string, object>();
+                        foreach (var (key, value) in context.Attrs)
+                        {
+                            attrs.Add(key, value);
+                        }
+                        foreach (var (key, value) in tooltipContext.Attrs)
+                        {
+                            if (attrs.ContainsKey(key) is false) attrs.Add(key, value);
+                        }
+                    }
+                    <MIcon @attributes="@attrs" Size=20 Color="dark-yellow">mdi:mdi-star-outline</MIcon>
+                </ActivatorContent>
+                <ChildContent>
+                    <span>收藏</span>
+                </ChildContent>
+            </MTooltip>
+        </ActivatorContent>
+        <ChildContent>
+            <MList Class="pb-1" Style="min-width:320px;">
+                <MListItem Class="mb-1">
+                    <MTextField @bind-Value="_search" Class="rounded-2" HideDetails="@("auto")" Flat Dense  Placeholder="Search"></MTextField>
+                    </MListItem>
+                    @foreach (var nav in GetNavs(_search))
+                {
+                    <MListItem Dense OnClick="()=> NavigateTo(nav.Href)" Class="px-4">
+                    <MListItemAction Class="mr-3">
+                        <MIcon Size=20 >@nav.Icon</MIcon>
+                    </MListItemAction>
+                    <MListItemContent>
+                        <span >@nav.Title</span>
+                    </MListItemContent>
+                    <MListItemIcon Class="my-1">
+                        <MButton Icon Text  StopPropagation OnClick="()=>AddOrRemoveFavoriteMenu(nav.ID)">
+                            <MIcon Size=20>@(FavoriteMenus.Contains(nav.ID) ? " mdi:mdi-star" : "mdi:mdi-star-outline")</MIcon>
+                                </MButton>
+                            </MListItemIcon>
+                        </MListItem>
+                }
+            </MList>
+        </ChildContent>
+    </MMenu>
+</div>

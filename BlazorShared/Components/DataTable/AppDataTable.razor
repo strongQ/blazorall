@@ -1,0 +1,654 @@
+﻿@using BlazorShared.Layout
+@using Microsoft.AspNetCore.Components.Rendering;
+@using GeneralCommon.Dtos.Admin.Util
+@using BlazorShared.Data.Base
+@using GeneralCommon.Extensions
+@typeparam TItem where TItem :BaseIdInput, new()
+@typeparam SearchItem where SearchItem : BasePageInput, new()
+@typeparam AddItem where AddItem : BaseRender, new()
+@typeparam EditItem where EditItem : BaseRender, new()
+@inherits CultureComponentBase
+@inject MasaBlazor MasaBlazor
+@using Masa.Blazor.Presets
+@namespace BlazorShared.Components.DataTable
+
+
+@*Add*@
+<PDrawer @bind-Value="AddShow"
+        
+         Persistent AutoScrollToTop
+         Width=@(MasaBlazor.Breakpoint.Mobile?"100%":"600")
+         Title=@T("添加") MaxWidth="600"
+         OnSave="AddOnSave"
+         OnCancel="AddOnCancel">
+    <MSheet Class="pa-4 ma-0">
+        @if (AddTemplate != null && AddShow)
+        {
+            @AddTemplate(AddModel)
+        }
+        else if (AddShow)
+        {
+            <MSimpleTable Dense FixedHeader>
+            <tbody>
+                @{
+                        foreach (var item in ShowProps.Keys)
+                        {
+
+                            if (item != GlobalVariables.TB_Actions && item != "Index")
+                            {
+
+
+                                var prop = Props.FirstOrDefault(x => x.Name == item);
+                                object value = prop.GetValue(AddModel);
+
+
+                                if (item == null)
+                                {
+                                    continue;
+                                }
+
+                                <tr @key="item">
+                                    <td class="text-start table-minwidth">
+                                        @ShowProps[item]
+                                    </td>
+                                    <td class="text-start">
+
+                                        @if (AddPropertyTemplate != null)
+                                        {
+                                            @AddPropertyTemplate((AddModel, item));
+                                        }
+
+                                        @if (!AddModel.IsRender)
+                                        {
+
+
+
+                                            if (value is String)
+                                            {
+                                                <MTextField Placeholder=""                 
+                                                    Solo
+
+                                                    Dense HideDetails=true Class="mx-2 my-1" Value="@value?.ToString()" TValue="string" ValueChanged="x=>prop.SetValue(AddModel,x)"
+
+                                                    Outlined
+                                                />
+
+                                            }
+                                            else if (value is Boolean)
+                                            {
+                                                <MSwitch TValue="bool" Value="(bool)value" ValueChanged="value => prop.SetValue(AddModel, value)" />
+                                            }
+                                            else if (value is Enum)
+                                            {
+                                                <MSelect Value="(Enum)value" ValueChanged="(Enum x) => prop.SetValue(AddModel, x)"
+                                 Items="@(((Enum)value).ToItemDescriptionList())"
+                                 ItemText="u => u.desc"
+                                 ItemValue="u => u.key">
+                                                </MSelect>
+                                            }
+                                            else if (value is DateTime)
+                                            {
+                                                <MTextField Placeholder=""              
+                                                    Solo
+
+                                                    Dense HideDetails=true Class="mx-2 my-1" Value="@((DateTime)value)" TValue="DateTime" ValueChanged="x=>prop.SetValue(AddModel,x)"
+
+                                                    Outlined
+                                                />
+                                            }
+                                            else if (value is Int32)
+                                            {
+
+                                                <MTextField Type="number" Placeholder=""               
+                                                    Solo
+
+                                                    Dense HideDetails=true Class="mx-2 my-1" Value="@((Int32)value)" TValue="Int32" ValueChanged="x=>prop.SetValue(AddModel,x)"
+
+                                                    Outlined
+                                                />
+                                            }
+                                            else if (value is Double)
+                                            {
+
+                                                <MTextField Type="number" Placeholder=""               
+                                                    Solo
+
+                                                    Dense HideDetails=true Class="mx-2 my-1" Value="@((Double)value)" TValue="Double" ValueChanged="x=>prop.SetValue(AddModel,x)"
+
+                                                    Outlined
+                                                />
+                                            }
+                                            else
+                                            {
+                                                @if (prop.PropertyType.FullName.Contains("System.DateTime"))
+                                                {
+                                                    <MTextField Placeholder=""             
+                                                        Solo
+
+                                                        Dense HideDetails=true Class="mx-2 my-1" Value="@((DateTime?)value)" TValue="DateTime?" ValueChanged="x=>prop.SetValue(AddModel,x)"
+
+                                                        Outlined
+                                                    />
+                                                }
+                                                else
+                                                {
+                                                    <MTextField Placeholder=""         
+                                                        Solo
+
+                                                        Dense HideDetails=true Class="mx-2 my-1" Value="@value?.ToString()" TValue="string" ValueChanged="x=>prop.SetValue(AddModel,x)"
+
+                                                        Outlined
+                                                    />
+                                                }
+
+                                            }
+                                        }
+                                        else
+                                        {
+                                            AddModel.IsRender = false;
+                                        }
+
+
+                                    </td>
+                                </tr>
+
+                            }
+
+
+                        }
+
+
+
+                    }
+
+
+                </tbody>
+            </MSimpleTable>
+        }
+    </MSheet>
+</PDrawer>
+
+@*Edit*@
+<PDrawer @bind-Value="EditShow"
+        
+         Persistent AutoScrollToTop
+         Width=@(MasaBlazor.Breakpoint.Mobile?"100%":"600")
+         Title=@T("修改") MaxWidth="600"
+         OnSave="EditOnSave"
+         OnCancel="EditOnCancel">
+    <MSheet Class="pa-4 ma-0">
+        @if (EditTemplate != null && EditShow)
+        {
+            @EditTemplate(EditModel)
+        }
+        else if(EditShow)
+        {
+            <MSimpleTable Dense FixedHeader>
+            <tbody>
+                @{
+                   
+                   
+                   foreach (var item in ShowProps.Keys)
+                        {
+                          
+                            if (item != GlobalVariables.TB_Actions && item != "Index")
+                            {
+                              
+
+                                var prop = Props.FirstOrDefault(x => x.Name == item);
+                                object value = prop.GetValue(EditModel);
+                             
+                               
+                                if (item == null)
+                                {
+                                    continue;
+                                }
+                                
+                                    <tr @key="item">
+                                        <td class="text-start table-minwidth">
+                                            @ShowProps[item]
+                                        </td>
+                                        <td class="text-start">
+                                        @if (EditPropertyTemplate != null)
+                                        {
+                                            @EditPropertyTemplate((EditModel, item));
+                                        }
+
+                                        @if (!EditModel.IsRender)
+                                        {
+
+
+
+                                            if (value is String)
+                                            {
+                                                <MTextField Placeholder=""       
+                                                    Solo
+
+                                                    Dense HideDetails=true Class="mx-2 my-1" Value="@value?.ToString()" TValue="string" ValueChanged="x=>prop.SetValue(EditModel,x)"
+
+                                                    Outlined
+                                                />
+
+                                            }
+                                            else if (value is Boolean)
+                                            {
+                                                <MSwitch TValue="bool" Value="(bool)value" ValueChanged="value => prop.SetValue(EditModel, value)" />
+                                            }
+                                            else if (value is Enum)
+                                            {
+                                                <MSelect Value="(Enum)value" ValueChanged="(Enum x) => prop.SetValue(EditModel, x)"
+                                 Items="@(((Enum)value).ToItemDescriptionList())"
+                                 ItemText="u => u.desc"
+                                 ItemValue="u => u.key">
+                                                </MSelect>
+                                            }
+                                            else if (value is DateTime)
+                                            {
+                                                <MTextField Placeholder=""        
+                                                    Solo
+
+                                                    Dense HideDetails=true Class="mx-2 my-1" Value="@((DateTime)value)" TValue="DateTime" ValueChanged="x=>prop.SetValue(EditModel,x)"
+
+                                                    Outlined
+                                                />
+                                            }
+                                            else if (value is Int32)
+                                            {
+
+                                                <MTextField Type="number" Placeholder=""           
+                                                    Solo
+
+                                                    Dense HideDetails=true Class="mx-2 my-1" Value="@((Int32)value)" TValue="Int32" ValueChanged="x=>prop.SetValue(EditModel,x)"
+
+                                                    Outlined
+                                                />
+                                            }
+                                            else if (value is Double)
+                                            {
+
+                                                <MTextField Type="number" Placeholder=""           
+                                                    Solo
+
+                                                    Dense HideDetails=true Class="mx-2 my-1" Value="@((Double)value)" TValue="Double" ValueChanged="x=>prop.SetValue(EditModel,x)"
+
+                                                    Outlined
+                                                />
+                                            }
+                                            else
+                                            {
+
+                                                @if (prop.PropertyType.FullName.Contains("System.DateTime"))
+                                                {
+                                                    <MTextField Placeholder=""                  
+                                                        Solo
+
+                                                        Dense HideDetails=true Class="mx-2 my-1" Value="@((DateTime?)value)" TValue="DateTime?" ValueChanged="x=>prop.SetValue(EditModel,x)"
+
+                                                        Outlined
+                                                    />
+                                                }
+                                                else
+                                                {
+                                                    <MTextField Placeholder=""             
+                                                        Solo
+
+                                                        Dense HideDetails=true Class="mx-2 my-1" Value="@value?.ToString()" TValue="string" ValueChanged="x=>prop.SetValue(EditModel,x)"
+
+                                                        Outlined
+                                                    />
+                                                }
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            EditModel.IsRender = false;
+                                        }
+
+                                           
+                                        </td>
+                                    </tr>
+
+                                }
+
+
+                            }
+                       
+
+                        
+                }
+                    
+
+                </tbody>
+            </MSimpleTable>
+        }
+    </MSheet>
+</PDrawer>
+
+@*Detail*@
+<PDrawer @bind-Value="DetailShow"
+         AutoScrollToTop
+         Title=@T("详情")
+         Width=@(MasaBlazor.Breakpoint.Mobile?"100%":"600")
+         MaxWidth="600">
+    <MContainer>
+        <MSimpleTable Dense FixedHeader>
+            <tbody>
+                @if (DetailShow)
+                {
+                    @foreach (var item in ShowProps.Keys)
+                    {
+                        if (item != GlobalVariables.TB_Actions && item!="Index")
+                        {
+                            string value = DetailModelPairs[item];
+
+                      
+                            {
+                                <tr @key="item">
+                                    <td class="text-start table-minwidth">
+                                        @ShowProps[item]
+                                    </td>
+                                    <td class="text-start ">
+                                        <div style="word-break:break-all; white-space:pre-wrap;">
+                                                @value
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+                }
+
+            </tbody>
+        </MSimpleTable>
+    </MContainer>
+</PDrawer>
+
+<MSheet Class=@(ClassString) Style="display:flex; flex-direction: column;" Height=@("100%")>
+    @if (IsShowToolbar)
+    {
+        <MSheet Class="ma-2">
+            <MExpansionPanels>
+            <MExpansionPanel>
+                <MExpansionPanelHeader>
+                    查询
+                </MExpansionPanelHeader>
+                <MExpansionPanelContent>
+                    <MForm Model="SearchModel" EnableValidation EnableI18n @ref="SearchForm">
+                        <MCard Outlined Elevation="0" @onkeydown=Enter>
+                        <MRow Class="py-2 px-2" NoGutters Align="AlignTypes.Start">
+                            @if (SearchTemplate is not null)
+                                {
+                                    @SearchTemplate(SearchModel)
+                                }
+                                @if (IsShowSearchKey)
+                                {
+                                    <MTextField Value="@SearchModel.SearchKey" Dense Style="max-width:200px;" HideDetails=@("auto") Class="mx-2 my-1" ValueChanged="SearchChanged" TValue="string"
+                                                Outlined Label=@SearchModel.Description(x => x.SearchKey) />
+                                }
+                                @if (ShowQueryButton)
+                                {
+                                    @if (IsShowClearSearch)
+                                    {
+                                        <MButton Color="info" Class="mx-2 my-1" OnClick=ClearClick>@T("清空搜索")</MButton>
+                                    }
+                                    <MButton Color="info" Class="mx-2 my-1" Loading="QueryLoading" OnClick=QueryClickAsync>@T("查询")</MButton>
+                                }
+                                @if (ShowAddButton)
+                                {
+                                    <MButton Color="info" Class="mx-2 my-1" OnClick=@(AddClick)>@T("添加")</MButton>
+                                }
+                                @if (ShowEditButton)
+                                {
+                                    <MButton Color="info" Class="mx-2 my-1" OnClick=@(()=>EditClick(selectedItem?.ToArray()))>@T("修改")</MButton>
+                                }
+                                @if (ShowDeleteButton)
+                                {
+                                    <MButton Color="error" Loading="DeleteLoading" Class="mx-2 my-1" OnClick=@(()=>DeleteClick(selectedItem?.ToArray()))>@T("删除")</MButton>
+                                }
+                                @if (ShowImportButton)
+                                {
+                                    <MFileInput Style="max-width:200px" Class="mt-n1" TValue="IBrowserFile" OnChange="UploadFile"
+                                                SmallChips
+                                                ShowSize
+                                        Accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                        Label="导入">
+
+                                    <PrependContent>
+                                        <MButton Class="mt-n1" Icon Color="primary" OnClick="DownloadTemplate">
+                                            <MIcon>mdi:mdi-download</MIcon>
+                                            </MButton>
+                                        </PrependContent>
+                                        </MFileInput>
+                                }
+                                @if (ShowExportButton)
+                                {
+                                    <MButton Color="info" Class="mx-2 my-1" OnClick=@(()=>ExportClick(selectedItem?.ToArray()))>导出</MButton>
+                                }
+                                @if (OtherToolbarTemplate != null)
+                                {
+                                    @OtherToolbarTemplate(selectedItem)
+                                }
+                                @if (ShowFilter)
+                                {
+                                    <div class="ml-auto mr-2 my-1">
+
+                                        <TableFilter FilterHeaderString="FilterHeaderString"
+                                             ValueChanged="FilterChanged">
+                                        </TableFilter>
+                                    </div>
+                                }
+                            </MRow>
+
+                        </MCard>
+                    </MForm>
+                </MExpansionPanelContent>
+            </MExpansionPanel>
+           </MExpansionPanels>
+
+        </MSheet>
+
+    }
+    <MSheet Class="ma-2 d-flex flex-column" Style="flex:auto;height:1%;">
+        <MDataTable HideDefaultFooter
+                    FixedRight=IsShowOperCol FixedHeader ShowSelect=ShowSelect
+                    Height=@("100%") Dense=@(Dense)
+                    @bind-Value="selectedItem"
+                    @ref="_table"
+                    OnOptionsUpdate="HandleOnOptionsUpdate"
+                  
+                    Page="SearchModel.Page"
+                    ItemsPerPage="SearchModel.PageSize"
+                    OnPageCount="PageChanged"
+                    Loading="QueryLoading"
+                    ItemKey="r=>r.Id.ToString()"
+                    Style="flex:auto; overflow-y:auto;" Class="elevation-1 "
+                    Items="Items"
+                    
+                    Headers="headers">
+
+            <HeaderColContent Context="header">
+                @if (HeaderTemplate != null)
+                {
+                    @HeaderTemplate(header)
+                }
+                else
+                {
+                    <MLabel Class="text-subtitle">@header.Text</MLabel>
+                }
+            </HeaderColContent>
+
+          
+            <ItemColContent>
+                @if (context.Header.Value == GlobalVariables.TB_Actions)
+                {
+                    @if (ShowEditButton)
+                    {
+                        <MTooltip Bottom Context="tip">
+                            <ActivatorContent>
+                                <MButton Color="info" Small @attributes="@tip.Attrs"
+                                 OnClick="()=>EditClick(context.Item)"
+                                 Text>
+                                    <MIcon>mdi:mdi-pencil</MIcon>
+                                </MButton>
+                            </ActivatorContent>
+                            <ChildContent>
+                                <span>@T("修改")</span>
+                            </ChildContent>
+                        </MTooltip>
+                    }
+                    @if (ShowDeleteButton)
+                    {
+                        <MTooltip Bottom Context="tip">
+                            <ActivatorContent>
+                                <MButton Color="error" Small @attributes="@tip.Attrs"
+                                 OnClick="()=>DeleteClick(context.Item)"
+                                 Text>
+                                    <MIcon>mdi:mdi-delete</MIcon>
+                                </MButton>
+                            </ActivatorContent>
+                            <ChildContent>
+                                <span>@T("删除")</span>
+                            </ChildContent>
+                        </MTooltip>
+                    }
+                    @if (ShowDetailButton)
+                    {
+                        <MTooltip Bottom Context="tip">
+                            <ActivatorContent>
+                                <MButton Color="info" Small @attributes="@tip.Attrs"
+                                 OnClick="()=>DetailClick(context.Item)"
+                                 Text>
+                                    <MIcon>mdi:mdi-information</MIcon>
+                                </MButton>
+                            </ActivatorContent>
+                            <ChildContent>
+                                <span>@T("详情")</span>
+                            </ChildContent>
+                        </MTooltip>
+                    }
+                    @if (ItemColOperTemplate != null)
+                    {
+                        if (IsMenuOperTemplate)
+                        {
+                            <MMenu OffsetY CloseOnClick=true Context="menu">
+                                <ActivatorContent>
+                                    <MButton Small @attributes="@menu.Attrs" Text>
+                                    <MIcon>mdi:mdi-dots-vertical</MIcon>
+                                    </MButton>
+                                </ActivatorContent>
+                                <ChildContent>
+                                    <MSheet>
+                                        <MContainer>
+                                            <MRow Dense>
+                                                @ItemColOperTemplate(context)
+                                            </MRow>
+                                        </MContainer>
+                                    </MSheet>
+
+                                </ChildContent>
+                            </MMenu>
+                        }
+                        else
+                        {
+                            context.Header.Width = "Auto";
+                            @ItemColOperTemplate(context)
+                        }
+                    }
+                }
+                else
+                {
+                    if (ItemColTemplate != null)
+                    {
+                        @ItemColTemplate(context)
+                        ;
+
+                        if (context.Item.IsRender)
+                        {
+                            context.Item.IsRender = false;
+                            return;
+                        }
+                    }
+                    if (context?.Value?.GetType() == typeof(DateTime))
+                    {
+                        <span>
+                            @(((DateTime)context.Value).ToString("yyyy-MM-dd HH:mm:ss"))
+                        </span>
+                    }
+                    else if (context.Header.Value == "Index")
+                    {
+                        <span>@(Items.IndexOf(context.Item)+1)</span>
+                    }
+                    else if (context?.Value is Enum)
+                    {
+                        <span>
+                            @(((Enum)context.Value).ToDescription())
+                        </span>
+                    }
+                   
+                    else
+                    {
+                        @if (context.Header.CellClass?.Contains("text-truncate") == true)
+                        {
+                            <span title=@context.Value>
+                                @context.Value
+                            </span>
+                        }
+                        else
+                        {
+                            @context.Value
+                        }
+
+                    }
+
+                  
+
+                }
+            </ItemColContent>
+        </MDataTable>
+
+        @if (IsPage)
+        {
+            <MCard Class="d-flex flex-row justify-start align-center  py-1 mt-2" Outlined Elevation="0">
+                <MRow NoGutters Align="AlignTypes.Center">
+
+                    <div class="px-1 py-1" style="white-space: nowrap;">
+                    @T("共 {0} 条",PageItems.Total.ToString())
+                    </div>
+                    <MSelect Class="px-1 py-1" Items=@(PageSizeItems)
+                         @bind-Value=@(SearchModel.PageSize)
+                         MenuProps="@(props => { props.Top = true; props.OffsetY = true; })"
+                         ItemText=@((u) =>{return T("{0} 条/页",u.Key);})
+                         ItemValue=@(u => u.Value)
+                         HideDetails="true" Height="30"
+                         Dense Style="max-width:150px"
+                         Outlined>
+                    </MSelect>
+
+                <MTextField Dense Style="max-width:150px" HideDetails=@("auto") Class="px-1 py-1" @bind-Value="SearchModel.Page"
+                         NumberProps=@(prop=> { prop.Min = 1;  prop.Step = 1; })    TValue=int Type="number" Outlined Label=@T("页面跳转") />
+
+@*                    <MSelect Class="px-1 py-1" Items=@(ObjectExtensions.GetOrderNum( PageItems.Pages))
+                         @bind-Value=@(SearchModel.Current)
+                         MenuProps="@(props => { props.Top = true; props.OffsetY = true; })"
+                         ItemText=@((u) =>{return T("第 {0} 页",u);})
+                         ItemValue=@(u => u)
+                         HideDetails="true" Height="30"
+                         Dense Style="max-width:150px"
+                         Outlined>
+                    </MSelect>*@
+
+
+                    <MPagination Class="ml-auto mr-1 py-1" Length="PageItems.TotalPages"
+                             @bind-Value="SearchModel.Page"
+                             TotalVisible="5" Color="primary" Circle></MPagination>
+
+                </MRow>
+            </MCard>
+
+        }
+
+    </MSheet>
+
+</MSheet>
+

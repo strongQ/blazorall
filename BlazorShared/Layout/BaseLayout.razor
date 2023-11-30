@@ -1,0 +1,45 @@
+﻿@inherits LayoutComponentBase
+@using BlazorShared.Core
+@using GeneralCommon.Interfaces
+@using Masa.Blazor;
+@implements IDisposable
+<CascadingValue Value="IsMobile" Name="IsMobile">
+    <MApp>
+        <MErrorHandler>
+            @Body
+        </MErrorHandler>
+    </MApp>
+</CascadingValue>
+@code {
+
+    [Inject]
+    IUserConfig UserResoures { get; set; }
+    [Inject]
+    public MasaBlazor MasaBlazor { get; set; }
+    [Inject]
+    IPopupService PopupService { get; set; }
+
+    public bool IsMobile { get; set; }
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        MasaBlazor.Breakpoint.MobileBreakpoint = 666;
+        MasaBlazor.BreakpointChanged += BreakpointOnOnUpdate;
+    }
+    private  void BreakpointOnOnUpdate(object? data,BreakpointChangedEventArgs arg)
+    {
+        IsMobile = MasaBlazor.Breakpoint.Mobile;
+        StateHasChanged();
+        
+    }
+ 
+    public void Dispose()
+    {
+        MasaBlazor.BreakpointChanged -= BreakpointOnOnUpdate;
+    }
+}

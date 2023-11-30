@@ -1,0 +1,61 @@
+﻿@page "/system/org"
+
+@using BlazorShared.Layout
+@using BlazorShared.Components.DataTable
+@using GeneralCommon.Dtos.Admin.Org
+@using GeneralCommon.Extensions
+
+@using GeneralCommon.Attributes
+@attribute [Page("/system/org","机构管理")]
+@attribute [Authorize]
+
+@inherits CultureComponentBase
+@layout MainLayout
+@inject MasaBlazor MasaBlazor
+
+
+<MRow>
+    <MCol Md="2" Cols="12">
+        <BlazorShared.Pages.Admin.Component.DeptTree Orgs="Orgs" SelectDeptEvent="CallSeletDept"></BlazorShared.Pages.Admin.Component.DeptTree>
+    </MCol>
+
+    <MCol Md="10" Cols="12">
+       <div style="height: calc(100vh - 150px)">
+                <AppDataTable @ref="_table" TItem="AddOrgInput" SearchItem="OrgInput"
+                              AddItem="AddOrgInput" EditItem="AddOrgInput" SearchModel="@SearchInput"
+                              QueryListCall="QueryListCall" AddCall="AddCall" EditCall="EditCall" DeleteCall="DeleteCall"
+                            
+                              IsShowClearSearch
+                              SearchItemFilter="SearchFilter"
+                              
+                              ShowSelect="false"
+                           
+                              ShowQueryButton
+                              ShowDetailButton
+                              ShowAddButton=@UserConfig.IsHasButtonWithRole("sysOrg:add")
+                              ShowDeleteButton=@UserConfig.IsHasButtonWithRole("sysOrg:delete")
+                              ShowEditButton=@UserConfig.IsHasButtonWithRole("sysOrg:update")
+                                    IsShowSearchKey>
+
+
+                   
+
+                   
+
+                                    <SearchTemplate>
+                    <MTextField Style="max-width:200px;" @bind-Value="context.Name"
+                            
+                             Label="机构名称"
+                                  Clearable>
+                               
+                    </MTextField>
+                    <MTextField Style="max-width:200px;" @bind-Value="context.Code" Label="机构编码"></MTextField>
+                                    </SearchTemplate>
+                  
+
+                </AppDataTable>
+      </div>
+     
+    </MCol>
+</MRow>
+

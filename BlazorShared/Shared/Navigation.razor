@@ -1,0 +1,87 @@
+﻿@using Layout
+@using GeneralCommon.Interfaces
+@using GeneralCommon.Models.Nav
+@using Extensions
+
+
+@inherits CultureComponentBase
+
+@inject NavHelper NavHelper
+@inject GlobalConfig GlobalConfig
+@layout BaseLayout
+
+
+<MNavigationDrawer  @bind-Value="Visible"
+                   Class="@($"navigation {ComputedNavigationClass}")"
+                   Width=300
+                  
+                   MiniVariantWidth=80
+                         
+                   ExpandOnHover="GlobalConfig.ExpandOnHover"
+                   MiniVariant="GlobalConfig.ExpandOnHover"
+                          App>
+
+    <div class="logo">
+        <MAvatar Size=80>
+            <MIcon Color="primary" XLarge>mdi:mdi-account-star-outline</MIcon>
+        </MAvatar>
+       
+    </div>
+    
+ 
+     <BlazorShared.Controls.DefaultList ClassString="overflow-y-auto"
+                             StyleString=@($"height: calc(100vh - {UserConfig.Themes.LayoutPrpo.AppBarHeight+UserConfig.Themes.LayoutPrpo.PageTabsHeight}px);")
+                             Items="Navs" />
+</MNavigationDrawer>
+
+@if (!(Masa.Breakpoint.Mobile && Visible==true))
+{
+    <MButton Small Fab Class="nav-toggle-btn" Color="primary" OnClick="Switch">
+    <MIcon Class="white--text">
+        @(Visible is false || GlobalConfig.ExpandOnHover ? "mdi:mdi-chevron-right" : "mdi:mdi-chevron-left")
+        </MIcon>
+    </MButton>
+}
+
+@code {
+    [Inject]
+    private IUserConfig UserConfig { get; set; }
+
+    private List<NavItem> Navs { get; set; } = new();
+    [Inject]
+    public MasaBlazor Masa { get; set; } = default!;
+
+    public bool? Visible { get; set; } = true;
+
+    public string ComputedNavigationClass => (GlobalConfig.NavigationStyle == NavigationStyles.Rounded ? "rounded-r-xl" : string.Empty);
+
+    public void Switch()
+    {
+        if (Visible==true)
+        {
+            GlobalConfig.ExpandOnHover = !GlobalConfig.ExpandOnHover;
+        }
+        else
+        {
+            GlobalConfig.ExpandOnHover = false;
+            Visible = true;
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await UserConfig.InitAllAsync();
+        Navs = UserConfig.Menus.Parse(new List<NavItem>());
+        await base.OnInitializedAsync();
+    }
+
+    //protected override Task OnInitializedAsync()
+    //{
+    //    NavHelper.NavigateTo(GlobalVariables.DefaultRoute);
+    //    return base.OnInitializedAsync();
+    //}
+
+}
+
+
+

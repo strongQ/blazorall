@@ -1,0 +1,124 @@
+﻿@using Client.API.Managers.RoleManager
+
+<MCard Elevation="2" Class="ma-2"
+      Style="height:100%">
+    
+        <MTextField  @bind-Value="_search"
+                    Label="机构名称"
+                Class="mx-2 my-1"
+                    HideDetails=@("auto")
+                    Clearable
+                    ClearIcon="mdi-close-circle-outline"></MTextField>     
+    
+        <MTreeview  Dense  Rounded Hoverable Activatable OpenAll Items="Orgs"
+                   Search="@_search"
+                   Filter="Filter"
+                   ItemKey="r=>r.Id"
+                   ItemText="r=>r.Name"
+                   @bind-Active="SelectOrgs"
+                   ItemChildren="r=>r.Children">   
+            @*<PrependContent>
+                @if (context.Item.Children != null && context.Item.Children.Count > 0)
+                {
+                    <MIcon>
+                        @($"mdi-{(context.Item.Code == "1" ? "home-variant" : "folder-network")}")
+                    </MIcon>
+                }
+            </PrependContent>*@
+        </MTreeview>
+    
+</MCard>
+
+        @code {
+    private string _search = string.Empty;
+
+
+    /// <summary>
+    /// 角色服务
+    /// </summary>
+    [Inject]
+
+    public IRoleManager RoleManager { get; set; }
+
+
+    [Parameter]
+    public EventCallback<(List<long>,List<GeneralCommon.Dtos.Admin.Org.AddOrgInput>)> SelectDeptEvent{ get; set; }
+
+
+
+
+
+
+    private List<long> _selectOrgs=new List<long>();
+
+    public List<long> SelectOrgs
+    {
+        get { return _selectOrgs; }
+        set { _selectOrgs = value;
+
+            SelectDeptEvent.InvokeAsync((value,Orgs)); }
+    }
+
+
+   
+
+    [Parameter]
+    public long RoleID { get; set; }
+    /// <summary>
+    /// 组织
+    /// </summary>
+    [Parameter]
+    public List<GeneralCommon.Dtos.Admin.Org.AddOrgInput> Orgs { get; set; } = new List<GeneralCommon.Dtos.Admin.Org.AddOrgInput>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+      
+        //var result = await RoleManager.GetOrgPage(new GeneralCommon.Dtos.Admin.Org.OrgInput
+        //    {
+        //        Id = 0
+        //    });
+        //if (result.Code == 200)
+        //{
+        //    Orgs = result.Result;
+        //}
+    }
+
+  
+
+    public async Task InitData()
+    {
+        
+
+        if (RoleID > 0)
+        {
+
+            var selects = await RoleManager.GetRoleOrgIdList(new GeneralCommon.Dtos.Admin.Role.RoleInput
+                {
+                    Id = RoleID
+                });
+
+            if (selects.Code == 200)
+            {
+
+                SelectOrgs = selects.Result;
+            }
+        }
+
+        return;
+    }
+
+
+
+    public Func<GeneralCommon.Dtos.Admin.Org.AddOrgInput, string, Func<GeneralCommon.Dtos.Admin.Org.AddOrgInput, string>, bool> Filter
+    {
+        get
+        {
+          
+           return (item, search, textKey) => textKey(item).IndexOf(search) > -1;
+            
+
+            return null;
+        }
+    }
+}

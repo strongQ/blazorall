@@ -1,0 +1,45 @@
+﻿@using System.Reflection;
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Routing
+@using GeneralCommon.Config
+@using Pages
+@using Components
+@using Layout;
+@using BlazorShared.Data.Base
+@inject NavigationManager NavigationManager
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(App).Assembly" AdditionalAssemblies="GetAssemblys()">
+        <Found Context="routeData">
+            <AuthorizeRouteView Resource="@routeData" RouteData="@routeData" DefaultLayout="typeof(BaseLayout)">
+                <NotAuthorized>
+                  
+                        
+                            <BlazorShared.Pages.Login></BlazorShared.Pages.Login>
+                        
+                    
+                </NotAuthorized>
+            </AuthorizeRouteView>
+        </Found>
+        <NotFound>
+            <LayoutView Layout="@typeof(BaseLayout)">
+                <BlazorShared.Components.NotFound404></BlazorShared.Components.NotFound404>
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>
+@code {
+
+    IEnumerable<Assembly> GetAssemblys()
+    {
+        List<Assembly> assemblies = new List<Assembly>();
+
+        foreach(var assembly in GlobalVariables.PageAssemblies)
+        {
+            var assemble = Assembly.Load(assembly);
+            assemblies.Add(assemble);
+        }
+
+        return assemblies;
+    }
+
+}

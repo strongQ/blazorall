@@ -1,0 +1,192 @@
+﻿@using Layout
+
+@inherits CultureComponentBase
+@inject Global.Config.GlobalConfig GlobalConfig
+@using Global.Config
+
+<MNavigationDrawer Value=Show ValueChanged=ShowChanged Fixed Right Temporary Width="300">
+    <PrependContent>
+        <MContainer>
+            <MToolbar Style="width: 100%;" Absolute Elevation=0 Class="pr-4 transparent">
+                <span class="primary--text text-h6">@T("Settings")</span>
+                <MSpacer></MSpacer>
+                <MButton Icon OnClick="()=>{ Show = false; }">
+                    <MIcon>mdi:mdi-close</MIcon>
+                </MButton>
+            </MToolbar>
+        </MContainer>
+    </PrependContent>
+    <ChildContent>
+       @* <MContainer Fluid>
+            <p class="mt-8 text-subtitle2">@T("Mode")</p>
+            <MRadioGroup TValue="string" Mandatory Value=GlobalConfig.PageMode ValueChanged="PageModeChanged" Row>
+                <MRadio Label="@T("Breadcrumb")" Value="PageModes.Breadcrumb"></MRadio>
+                <MRadio Label="@T("PageTab")" Value="PageModes.PageTab"></MRadio>
+            </MRadioGroup>
+        </MContainer>*@
+        <MContainer Fluid>
+            <p class="mt-8 text-subtitle2 primary--text">主题</p>
+            <MRow>
+                <MCol Cols="6">
+                    <MButton OnClick="()=>ChangeTheme(true)"
+                             XLarge
+                             Elevation="2"
+                             Style="background: white;">
+                             <ChildContent>
+                            <MIcon Color="#c9c9c9">mdi:mdi-white-balance-sunny</MIcon>
+                             </ChildContent>
+                    </MButton>
+                </MCol>
+                <MCol Cols="6">
+                    <MButton OnClick="()=>ChangeTheme(false)"
+                             XLarge
+                             Elevation="2"
+                             Style="background: #333333;">
+                          <ChildContent>
+                            <MIcon Style="color: #c9c9c9">
+                                mdi:mdi-theme-light-dark
+                             </MIcon>
+                    </ChildContent>
+                    </MButton>
+                </MCol>
+            </MRow>
+        </MContainer>
+        <MContainer Fluid>
+            <p class="mt-8 text-subtitle2 primary--text">色彩</p>
+            <MRow>
+                 @foreach (var color in _primaryColors)
+            {
+                <MCol Cols="4">
+                        <MButton OnClick="()=>ChangeColor(color)" Elevation="2" Class="@(color == _color? "color-button color-button-selected" : "color-button")">
+                        <ChildContent>
+                            <div class="@(color == "" ? "oval oval-selected" : "oval")"
+                                 style="@($"background: {color};")">
+                            </div>
+                        </ChildContent>
+                    </MButton>
+                </MCol>
+            }
+            </MRow>
+        </MContainer>
+        <MContainer Fluid>
+            <p class="mt-8 text-subtitle2 primary--text">@T("NavigationStyle")</p>
+            <MRadioGroup TValue="string" Mandatory Value=GlobalConfig.NavigationStyle ValueChanged="NavigationStyleChanged" Row>
+                <MRadio Label="@T("Flat")" Value="NavigationStyles.Flat"></MRadio>
+                <MRadio Label="@T("Rounded")" Value="NavigationStyles.Rounded"></MRadio>
+            </MRadioGroup>
+        </MContainer>
+    </ChildContent>
+</MNavigationDrawer>
+
+@code {
+    private readonly List<string> _primaryColors = new()
+    {
+        "#1976D2",
+        "green",
+        "blue",
+        "teal",
+        "purple",
+        "orange",
+        "red"
+    };
+    private string _color = "#1976D2";
+    [Parameter]
+    public bool? Show { get; set; }
+
+    [Parameter]
+    public EventCallback<bool?> ShowChanged { get; set; }
+
+    [Parameter]
+    public string PageModel { get; set; } = PageModes.PageTab;
+
+    [Parameter]
+    public string NavigationStyle { get; set; } = NavigationStyles.Flat;
+
+    [Parameter]
+    public EventCallback<string> PageModelChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<string> NavigationBarStyleChanged { get; set; }
+    [Inject]
+    public MasaBlazor MasaBlazor{ get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+        if (PageModelChanged.HasDelegate)
+            await PageModelChanged.InvokeAsync(GlobalConfig.PageMode);
+        if (NavigationBarStyleChanged.HasDelegate)
+            await NavigationBarStyleChanged.InvokeAsync(GlobalConfig.NavigationStyle);
+    }
+
+    async Task PageModeChanged(string value)
+    {
+        GlobalConfig.PageMode = value;
+        if (PageModelChanged.HasDelegate)
+            await PageModelChanged.InvokeAsync(value);
+        else PageModel = value;
+    }
+
+    async Task NavigationStyleChanged(string value)
+    {
+        GlobalConfig.NavigationStyle = value;
+        if (NavigationBarStyleChanged.HasDelegate)
+            await NavigationBarStyleChanged.InvokeAsync(value);
+        else NavigationStyle = value;
+    }
+
+    private void ChangeTheme(bool isLight)
+    {
+        MasaBlazor.Theme.Dark = isLight;
+        MasaBlazor.ToggleTheme();      
+    }
+
+    private void ChangeColor(string color)
+    {
+        _color = color;
+       
+
+        if (MasaBlazor.Theme.Dark)
+        {
+            MasaBlazor.Theme.Themes.Dark.Primary = color;
+            MasaBlazor.Theme.Dark = false;
+        }
+        else
+        {
+            MasaBlazor.Theme.Themes.Light.Primary = color;
+            MasaBlazor.Theme.Dark = true;
+        }
+      
+        MasaBlazor.ToggleTheme();
+    }
+}
+
+    <style>
+
+    .mode-button {
+        border: 1px solid;
+        height: 90px;
+        
+    }
+
+    .oval {
+        width: 25px;
+        height: 15px;
+        border-radius: 50%;
+        transform:rotate(120deg);
+    }
+    
+    .oval-selected{
+        transform: rotate(0deg);
+    }
+    
+    .color-button {
+        height: 50px;
+        border: 1px thick ;
+    }
+    
+    .color-button-selected {
+        border: 2px solid ;
+    }
+    
+</style>

@@ -1,0 +1,18 @@
+﻿@page "/platform/job"
+
+@using BlazorShared.Layout
+@using BlazorShared.Data.Base
+@using GeneralCommon.Extensions
+
+@using GeneralCommon.Attributes
+@attribute [Page("/platform/job", "任务调度")]
+@attribute [Authorize]
+
+@inherits CultureComponentBase
+@layout MainLayout
+@inject MasaBlazor MasaBlazor
+
+<iframe width="560" height="315" src="@(GlobalVariables.RemoteApiUrl+"/schedule")" frameborder="0" allowfullscreen></iframe>
+@code {
+
+}

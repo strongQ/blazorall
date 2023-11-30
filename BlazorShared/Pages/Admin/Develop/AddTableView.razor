@@ -1,0 +1,116 @@
+﻿
+@using GeneralCommon.Dtos.Admin.DataBase
+
+@using BlazorShared.Layout
+@using BlazorShared.Components.DataTable
+
+@using GeneralCommon.Extensions
+
+
+@inherits CultureComponentBase
+@layout MainLayout
+@inject MasaBlazor MasaBlazor
+
+<PDrawer @bind-Value="ShowAddTable"
+         Persistent AutoScrollToTop
+         Width=@(MasaBlazor.Breakpoint.Mobile?"100%":"80%")
+         Title=添加 
+         OnSave="Save"
+         OnCancel="Close">
+    <MSheet Class="pa-4 ma-0">
+      <MRow>
+          <MCol Cols="12">
+                <MTextField Solo
+                            Dense HideDetails=true Class="mx-2 my-1" TValue="string" @bind-Value="_selectTable.Name" Label="表名"
+                            Outlined />
+          </MCol>
+
+          <MCol Cols="12">
+                <MTextField Solo
+                            Dense HideDetails=true Class="mx-2 my-1" TValue="string" @bind-Value="_selectTable.Description" Label="描述"
+                            Outlined />
+          </MCol>
+
+          <MCol Cols="12">
+
+                <AppDataTable  TItem="DbColumnOutput" SearchItem="DbSearchInput"
+                              AddItem="DbColumnOutput" EditItem="DbColumnOutput" 
+                              DeleteCall="DeleteData"
+                              ShowDeleteButton
+                              Items="TableDatas"
+                              ShowSelect=false
+                               IsShowOperCol
+                               
+                               IsPage="false"
+                                >
+
+               <OtherToolbarTemplate>
+                        <MButton Color="info" Class="mx-2 my-1" OnClick="AddPrimary">新增主键字段</MButton>
+                        <MButton Color="info" Class="mx-2 my-1" OnClick="AddCommon">新增普通字段</MButton>
+                        <MButton Color="error" Class="mx-2 my-1" OnClick="AddTenant">新增租户字段</MButton>
+                        <MButton Color="error" Class="mx-2 my-1" OnClick="AddBaseCommon">新增基础字段</MButton>
+               </OtherToolbarTemplate>
+
+                    <ItemColTemplate>
+                        @{
+                            context.Item.IsRender = true;
+                            @switch (context.Header.Value)
+                            {
+                                case nameof(context.Item.DbColumnName):
+                                    <MTextField Solo
+                                                        Dense HideDetails=true Class="mx-2 my-1" TValue="string" @bind-Value="context.Item.DbColumnName" Label="字段名"
+                                                        Outlined />
+                                    break;
+                                case nameof(context.Item.ColumnDescription):
+                                    <MTextField Solo
+                                                        Dense HideDetails=true Class="mx-2 my-1" TValue="string" @bind-Value="context.Item.ColumnDescription" Label="描述"
+                                                        Outlined />
+                                    break;
+                                case nameof(context.Item.IsPrimarykey):
+                                    <MSwitch TValue="bool" @bind-Value="context.Item.IsPrimarykey"/>
+                                    break;
+                                      case nameof(context.Item.IsIdentity):
+                                    <MSwitch TValue="bool" @bind-Value="context.Item.IsIdentity"/>
+                                    break;
+                                case nameof(context.Item.IsNullable):
+                                    <MSwitch TValue="bool" @bind-Value="context.Item.IsNullable" />
+                                    break;
+                                    case nameof(context.Item.DataType):
+                                      <MSelect  TItem="string" TValue="string" TItemValue="string"
+                 Items="DbTypes"
+                 ItemText="u => u"
+                 ItemValue="u => u"
+                 @bind-Value="context.Item.DataType"
+                      Clearable></MSelect>
+                                    break;
+                                case nameof(context.Item.Length):
+                                    <MTextField Type="number" 
+                                                        Solo
+                                                        Dense HideDetails=true Class="mx-2 my-1" @bind-Value="context.Item.Length"
+                                                        Outlined />
+                                    break;
+                                case nameof(context.Item.Scale):
+                                    <MTextField Type="number"
+                                                        Solo
+                                                        Dense HideDetails=true Class="mx-2 my-1" @bind-Value="context.Item.Length"
+                                                        Outlined />
+                                    break;
+                                default:
+                                    context.Item.IsRender = false;
+                                    break;
+                            }
+                        }
+
+                    </ItemColTemplate>
+                   
+
+
+
+
+
+                </AppDataTable>
+
+          </MCol>
+      </MRow>
+    </MSheet>
+</PDrawer>

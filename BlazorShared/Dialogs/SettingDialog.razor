@@ -1,0 +1,107 @@
+﻿@using Blazored.LocalStorage
+@using Models;
+@using Config;
+﻿@using GeneralCommon.Interfaces;
+@using GeneralCommon.Extensions
+@using Newtonsoft.Json;
+
+<MRow Justify="JustifyTypes.Center">
+    <MDialog @bind-Value="ShowDialog"
+             Persistent
+             MaxWidth="600">
+        <ActivatorContent>
+            <MButton Height=46 Width=320 Class="mt-4 rounded-4 text-btn white--text ma-2" Color="primary"
+                      Dark
+                     @attributes="@context.Attrs">
+                设置
+            </MButton>
+        </ActivatorContent>
+        <ChildContent>
+            <MCard>
+                <MCardTitle>
+                    <span class="text-h5">设置</span>
+                </MCardTitle>
+                <MCardText>
+                    <MContainer>
+                        <MRow>
+                            <MCol Cols="12"
+                                  
+                                  >
+                                <MTextField Label="API地址" TValue="string" @bind-Value="SettingModel.Url"></MTextField>
+                            </MCol>
+                           
+                           
+                        </MRow>
+                    </MContainer>
+                    <small>*必填</small>
+                </MCardText>
+                <MCardActions>
+                    <MSpacer></MSpacer>
+                    <MButton Color="blue darken-1"
+                              Text
+                             OnClick="() => ShowDialog = false">
+                        关闭
+                    </MButton>
+                    <MButton Color="blue darken-1"
+                              Text
+                             OnClick="Submit">
+                        保存
+                    </MButton>
+                    </MCardActions>
+                    </MCard>
+                </ChildContent>
+                </MDialog>
+                </MRow>
+
+
+ @code{
+    [Parameter]
+    public bool ShowDialog{ get; set; } = false;
+
+    SettingModel SettingModel { get; set; } = new SettingModel();
+
+    [Inject]
+    ILocalStorageService localStorage { get; set; }
+
+    [Inject]
+    public IApiConfig ApiConfig { get; set; }
+
+
+    async Task Submit()
+    {
+
+        if (SettingModel.Url.IsNotNullOrEmpty())
+        {
+
+            ApiConfig.RemoteApiUrl = SettingModel.Url;
+            ApiConfig.OtherUrl = SettingModel.GrpcUrl;
+        }
+        await localStorage.SetItemAsync("HiSetting", ApiConfig);
+        ShowDialog = false;
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        var data = await localStorage.GetItemAsync<ApiConfig>("HiSetting");
+        if (data != null)
+        {
+            SettingModel.Url = data.RemoteApiUrl;
+            SettingModel.GrpcUrl = data.OtherUrl;
+           
+
+           
+
+
+        }
+        else
+        {
+            SettingModel = new SettingModel();
+            SettingModel.Url = ApiConfig.RemoteApiUrl;
+        }
+
+        if (BlazorShared.Data.Base.GlobalVariables.RemoteApiUrl.IsNotNullOrEmpty() && ApiConfig.RemoteApiUrl.IsNullOrEmpty())
+        {
+            SettingModel.Url = BlazorShared.Data.Base.GlobalVariables.RemoteApiUrl;
+        }
+        this.StateHasChanged();
+    }
+}

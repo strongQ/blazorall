@@ -1,0 +1,24 @@
+﻿@using Microsoft.AspNetCore.Components.Routing
+@using GeneralCommon.Interfaces
+@inject NavigationManager NavigationManager
+@inject IUserConfig UserResoures
+@namespace HiBlazor.Web.Rcl.Core
+<MSheet>
+    <MCard Flat Href=@SYS_COPYRIGHT_URL Target="_blank">
+        <MLabel Style="background-color:inherit;" Class="text-subtltie-2">@SYS_COPYRIGHT</MLabel>
+    </MCard>
+    </MSheet>
+
+    @code {
+    [Parameter]
+    public int HeightInt { get; set; }
+    private string SYS_COPYRIGHT_URL = "https://www.bing.com";
+    private string SYS_COPYRIGHT = "HB2023";
+    private string SYS_DEFAULT_TITLE = "";
+   
+    protected override async Task OnParametersSetAsync()
+    {
+       
+        await base.OnParametersSetAsync();
+    }
+}

@@ -1,0 +1,65 @@
+﻿@namespace BlazorShared.Layout
+@inherits CultureComponentBase
+@using GeneralCommon.Interfaces
+@using BlazorShared.Shared
+@implements IDisposable
+
+@inject MasaBlazor MasaBlazor
+@*这个子组件应该包含语言切换，主题深浅切换，用户头像菜单*@
+
+<Language OnLanguageChanged=@LanguageChange></Language>
+
+<MButton Text Icon="@MasaBlazor.Breakpoint.SmAndDown"
+         MaxHeight="@(UserResoures.Themes.LayoutPrpo.AppBarHeight-8)"
+          OnClick="@SwitchTheme">
+    <MIcon>
+        mdi:mdi-theme-light-dark
+    </MIcon>
+</MButton>
+
+<UserSetting></UserSetting>
+
+
+
+@code
+ {
+    private DotNetObjectReference<AppBarButtons>? _objRef;
+    [Parameter]
+    public EventCallback<string> LanguageChange { get; set; }
+
+    [Inject]
+    IUserConfig UserResoures { get; set; }
+    [Inject]
+    IJSRuntime JSRuntime{ get; set; }
+
+   
+
+    protected override void OnInitialized()
+    {
+        _objRef = DotNetObjectReference.Create(this);
+    }
+
+    public void SwitchTheme(MouseEventArgs e)
+    {
+        _ = JSRuntime.InvokeVoidAsync("switchTheme", _objRef, !MasaBlazor.Theme.Dark, e.ClientX, e.ClientY);
+    }
+
+    [JSInvokable]
+    public void ToggleTheme(bool dark)
+    {
+        if (dark == MasaBlazor.Theme.Dark)
+        {
+            return;
+        }
+
+         UserResoures.SetDarkOrLightTheme();
+
+       
+    }
+
+    public void Dispose()
+    {
+        _objRef?.Dispose();
+    }
+
+}
