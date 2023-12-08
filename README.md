@@ -22,7 +22,7 @@ builder.Services.AddEcsPageServices();
 
 # 1、系统模式
 
-系统分为独立平台和非独立平台（依赖AdminCore后台API服务）(https://github.com/strongQ/AdminCode)，通过各个平台配置文件(appsettings.json)中的SingleApp=true来切换。
+系统分为独立平台和非独立平台（[依赖AdminCore后台API服务](https://github.com/strongQ/AdminCode)），通过各个平台配置文件(appsettings.json)中的SingleApp=true来切换。
 
 ## 1.1、独立平台
 

@@ -8,7 +8,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>平台</title>
+    <title>ECS调度平台</title>
     <base href="~/" />
     <!-- masa blazor css style -->
     <link href="_content/Masa.Blazor/css/masa-blazor.min.css" rel="stylesheet" />
@@ -25,7 +25,6 @@
     <link href="css/materialicons.css" rel="stylesheet">
     <link href="css/fontawesome.css" rel="stylesheet">
 
-    
 
 
 
@@ -57,14 +56,6 @@
 
         }
 
-        window.switchTheme = function (dotNetHelper, dark, x, y) {
-            document.documentElement.style.setProperty('--x', x + 'px')
-            document.documentElement.style.setProperty('--y', y + 'px')
-            document.startViewTransition(() => {
-                dotNetHelper.invokeMethodAsync('ToggleTheme', dark);
-            });
-        }
-
         function dataURLtoBlob(dataurl) {
             var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
                 bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
@@ -88,6 +79,14 @@
             var myBlob = dataURLtoBlob(base64)
             var myUrl = URL.createObjectURL(myBlob)
             downloadFile(myUrl, name)
+        }
+
+        window.switchTheme = function (dotNetHelper, dark, x, y) {
+            document.documentElement.style.setProperty('--x', x + 'px')
+            document.documentElement.style.setProperty('--y', y + 'px')
+            document.startViewTransition(() => {
+                dotNetHelper.invokeMethodAsync('ToggleTheme', dark);
+            });
         }
 
 

@@ -35,19 +35,23 @@ var api = AppSettings.GetValue("RemoteApiUrl");
 var grpc = AppSettings.GetValue("GrpcUrl");
 var singleApp = AppSettings.GetValue<bool>("SingleApp");
 
-GlobalVariables.PageAssemblies = new List<string>
-{
-    "ECS.Pages"
-};
 
-GlobalVariables.RemoteApiUrl = api;
-GlobalVariables.IsSingleApp = singleApp;
-GlobalVariables.GrpcUrl = grpc;
 
 
 //builder.Services.AddServerService();
 
 var app = builder.Build();
+
+var global=app.Services.GetService<GlobalVariables>();
+global.IniPages(new List<string>
+{
+    "ECS.Pages"
+});
+
+global.RemoteApiUrl = api;
+global.IsSingleApp = singleApp;
+global.GrpcUrl = grpc;
+
 
 if (app.Environment.IsDevelopment())
 {

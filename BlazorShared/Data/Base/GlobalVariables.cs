@@ -12,18 +12,11 @@ using System.Threading.Tasks;
 
 namespace BlazorShared.Data.Base
 {
-    public static class GlobalVariables
+    public  class GlobalVariables
     {
-        static GlobalVariables()
-        {
-            // 获取所有路由数据
-            Pages=GetPages();
-        }
+      
         public const string DefaultRoute = "/";
-        /// <summary>
-        /// 是否登录
-        /// </summary>
-        public static bool IsLogin { get; set; }
+     
 
         /// <summary>
         /// 主题cookie
@@ -37,43 +30,41 @@ namespace BlazorShared.Data.Base
         /// <summary>
         /// 远程API地址
         /// </summary>
-        public static string RemoteApiUrl { get; set; }
+        public  string RemoteApiUrl { get; set; }
         /// <summary>
         /// 远程Grpc地址
         /// </summary>
-        public static string GrpcUrl { get; set; }
+        public  string GrpcUrl { get; set; }
         /// <summary>
         /// 是否单程序
         /// </summary>
-        public static bool IsSingleApp { get; set; }
+        public  bool IsSingleApp { get; set; }
        
         /// <summary>
         /// 所有界面
         /// </summary>
-        public static List<RazorPageModel> Pages { get; set; }
+        public  List<RazorPageModel> Pages { get; set; }
+
+        public List<Assembly> Assemblies { get; set; }
 
         /// <summary>
         /// 是否过期,默认过期
         /// </summary>
-        public static bool IsExpired { get; set; } = true;
+        public  bool IsExpired { get; set; } = true;
 
-        private static List<string> _pageAssemblies=new List<string>();
         /// <summary>
-        /// page所在的程序集
+        /// 初始化界面，界面所在的程序集
         /// </summary>
-        public static List<string> PageAssemblies
+        /// <param name="assemblies"></param>
+        public void IniPages(List<string> assemblies)
         {
-            get { return _pageAssemblies; }
-            set 
-            { 
-                _pageAssemblies = value;
-                if(value != null && value.Count>0) 
-                AddAssemblyPages(); 
-            }
+            Pages = GetPages();
+            if(assemblies!=null && assemblies.Any())
+            AddAssemblyPages(assemblies);
         }
 
 
-        private static List<RazorPageModel> GetPages()
+        private  List<RazorPageModel> GetPages()
         {
             List<RazorPageModel> datas = new List<RazorPageModel>();
             // Get all the components whose base class is ComponentBase
@@ -115,16 +106,19 @@ namespace BlazorShared.Data.Base
         /// <summary>
         /// 添加额外的页面
         /// </summary>
-        private static void AddAssemblyPages()
+        private  void AddAssemblyPages(List<string> assemblies)
         {
             List<RazorPageModel> datas = new List<RazorPageModel>();
             // Get all the components whose base class is ComponentBase
+
+
+            List<Assembly> others = new List<Assembly>();
+
            
-
-
-            foreach (var assembly in PageAssemblies)
+            foreach (var assembly in assemblies)
             {
                 var assemble = Assembly.Load(assembly);
+                others.Add(assemble);
                 var pages = assemble.ExportedTypes.Where(t =>
                                    t.IsSubclassOf(typeof(CultureComponentBase)));
                 foreach (var page in pages)
@@ -151,6 +145,8 @@ namespace BlazorShared.Data.Base
                     }
                 }
             }
+
+            Assemblies = others;
 
             Pages.AddRange(datas);
         }

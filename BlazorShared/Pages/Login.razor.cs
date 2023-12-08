@@ -135,9 +135,8 @@ namespace BlazorShared.Pages
         public ISignalRService  SignalRService { get; set; }
 
         public LoginShared ShareLogin { get; set; }
-
-        //[Inject]
-        //public IDemoService DemoService { get; set; }
+        [Inject]
+        BlazorShared.Data.Base.GlobalVariables Global { get; set; }
 
         private async Task Enter(KeyboardEventArgs e)
         {
@@ -158,7 +157,7 @@ namespace BlazorShared.Pages
             IsLoading = true;
             if (ApiConfig.RemoteApiUrl.IsNullOrEmpty())
             {
-                ApiConfig.RemoteApiUrl = GlobalVariables.RemoteApiUrl;
+                ApiConfig.RemoteApiUrl = Global.RemoteApiUrl;
             }
 
 
@@ -200,7 +199,7 @@ namespace BlazorShared.Pages
 
             if (ApiConfig.RemoteApiUrl.IsNullOrEmpty())
             {
-                ApiConfig.RemoteApiUrl = GlobalVariables.RemoteApiUrl;
+                ApiConfig.RemoteApiUrl = Global.RemoteApiUrl;
             }
 
             // 获取登录配置

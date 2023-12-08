@@ -33,6 +33,7 @@ using Masa.Blazor;
 using MudBlazor.Services;
 using MudBlazor;
 using Blazored.LocalStorage;
+using BlazorShared.Data.Base;
 
 namespace BlazorShared
 {
@@ -133,6 +134,8 @@ namespace BlazorShared
             //services.AddDemoServices();
 
             services.AddBlazoredLocalStorage();
+
+            services.AddSingleton<GlobalVariables>();
 
             services.AddScoped<SecurityServiceClient>();
             services.AddScoped<HostAuthenticationStateProvider>();

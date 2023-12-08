@@ -21,6 +21,19 @@ namespace BlazorWpf
             var host = Host.CreateDefaultBuilder()
                            .ConfigureServices(WireupServices)
                            .Build();
+            var api = AppSettings.GetValue("RemoteApiUrl");
+
+            var grpc = AppSettings.GetValue("GrpcUrl");
+            var singleApp = AppSettings.GetValue<bool>("SingleApp");
+            var global = host.Services.GetService<GlobalVariables>();
+            global.IniPages(new List<string>
+{
+    "ECS.Pages"
+});
+
+            global.RemoteApiUrl = api;
+            global.IsSingleApp = singleApp;
+            global.GrpcUrl = grpc;
             Services = host.Services;
         }
 
@@ -35,20 +48,9 @@ namespace BlazorWpf
 
         
 
-            var api = AppSettings.GetValue("RemoteApiUrl");
+          
 
-            var grpc = AppSettings.GetValue("GrpcUrl");
-            var singleApp = AppSettings.GetValue<bool>("SingleApp");
-
-            GlobalVariables.PageAssemblies = new List<string>
-{
-    "ECS.Pages"
-};
-
-            GlobalVariables.RemoteApiUrl = api;
-            GlobalVariables.IsSingleApp = singleApp;
-            GlobalVariables.GrpcUrl = grpc;
-            GlobalVariables.IsExpired= false; 
+           
             services.AddSharedExtensions();
 #if DEBUG
             services.AddBlazorWebViewDeveloperTools();

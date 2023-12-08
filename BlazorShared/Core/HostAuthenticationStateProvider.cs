@@ -33,16 +33,16 @@ namespace BlazorShared.Core
 
         private readonly ILocalStorageService _localStorageService;
 
-        
+        private GlobalVariables _global;
 
 
 
-        public HostAuthenticationStateProvider(ILoginManager loginService, IApiConfig apiConfig, ILocalStorageService localStorageService)
+        public HostAuthenticationStateProvider(ILoginManager loginService, IApiConfig apiConfig, ILocalStorageService localStorageService,GlobalVariables globalVariables)
         {
             _loginService = loginService;
             _apiConfig = apiConfig;
             _localStorageService = localStorageService;
-
+            _global=globalVariables;
 
         }
 
@@ -50,7 +50,7 @@ namespace BlazorShared.Core
 
         public async override Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            if (GlobalVariables.IsSingleApp)
+            if (_global.IsSingleApp)
             {
                 var claims = new[] { new Claim(ClaimTypes.Name, "Admin") };
                 var identity = new ClaimsIdentity(claims, nameof(HostAuthenticationStateProvider));

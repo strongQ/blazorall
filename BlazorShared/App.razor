@@ -8,7 +8,7 @@
 @using BlazorShared.Data.Base
 @inject NavigationManager NavigationManager
 <CascadingAuthenticationState>
-    <Router AppAssembly="@typeof(App).Assembly" AdditionalAssemblies="GetAssemblys()">
+    <Router AppAssembly="@typeof(App).Assembly" AdditionalAssemblies="Global.Assemblies">
         <Found Context="routeData">
             <AuthorizeRouteView Resource="@routeData" RouteData="@routeData" DefaultLayout="typeof(BaseLayout)">
                 <NotAuthorized>
@@ -28,18 +28,8 @@
     </Router>
 </CascadingAuthenticationState>
 @code {
-
-    IEnumerable<Assembly> GetAssemblys()
-    {
-        List<Assembly> assemblies = new List<Assembly>();
-
-        foreach(var assembly in GlobalVariables.PageAssemblies)
-        {
-            var assemble = Assembly.Load(assembly);
-            assemblies.Add(assemble);
-        }
-
-        return assemblies;
-    }
+    [Inject]
+    BlazorShared.Data.Base.GlobalVariables Global{ get; set; }
+    
 
 }

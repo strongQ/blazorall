@@ -110,6 +110,8 @@
 
     [Inject]
     IUserConfig UserConfig{ get; set; }
+    [Inject]
+    GlobalVariables Global{ get; set; }
 
 
     private ServerEnvInfo ServerEnv = new ServerEnvInfo();
@@ -134,12 +136,12 @@
         UserConfig.ChangeThemeEvent -= ChangeTheme;
         UserConfig.ChangeThemeEvent += ChangeTheme;
 
-        ServerEnv = (await SysManager.GetServerBase(GlobalVariables.IsSingleApp)).GetResult();
+        ServerEnv = (await SysManager.GetServerBase(Global.IsSingleApp)).GetResult();
         EnvProps= typeof(ServerEnvInfo).GetProperties();
 
-        ServerUse= (await SysManager.GetServerUsed(GlobalVariables.IsSingleApp)).GetResult();
+        ServerUse= (await SysManager.GetServerUsed(Global.IsSingleApp)).GetResult();
         UseProps = typeof(ServerUsed).GetProperties();
-        Disks= (await SysManager.GetServerDisk(GlobalVariables.IsSingleApp)).GetResult();
+        Disks= (await SysManager.GetServerDisk(Global.IsSingleApp)).GetResult();
 
         if (UserConfig.Themes != null)
         {

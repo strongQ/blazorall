@@ -19,7 +19,7 @@
             <MLabel Class=" ma-2 my-3 text-subtitle-1" Color="primary">@UserConfig.LoginUser?.Account</MLabel>
             <MDivider></MDivider>
 
-            @if (!GlobalVariables.IsSingleApp)
+            @if (!Global.IsSingleApp)
             {
                 <MListItem  
 
@@ -52,13 +52,15 @@
         </MMenu>
 
 
-        @code {
+@code {
 
 
     [Inject]
     public IPopupService? PopupService { get; set; }
     [Inject]
     public SecurityServiceClient Provider { get; set; }
+    [Inject]
+    public GlobalVariables Global{ get; set; }
 
 
     async Task Exist()

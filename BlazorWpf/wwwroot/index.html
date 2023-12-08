@@ -51,13 +51,6 @@
             window.chrome.webview.postMessage(msg);
             helper = dotNetHelper;
         }
-        window.switchTheme = function (dotNetHelper, dark, x, y) {
-            document.documentElement.style.setProperty('--x', x + 'px')
-            document.documentElement.style.setProperty('--y', y + 'px')
-            document.startViewTransition(() => {
-                dotNetHelper.invokeMethodAsync('ToggleTheme', dark);
-            });
-        }
 
         window.receiveFile = (fileData) => {
 
@@ -92,6 +85,14 @@
             var myBlob = dataURLtoBlob(base64)
             var myUrl = URL.createObjectURL(myBlob)
             downloadFile(myUrl, name)
+        }
+
+        window.switchTheme = function (dotNetHelper, dark, x, y) {
+            document.documentElement.style.setProperty('--x', x + 'px')
+            document.documentElement.style.setProperty('--y', y + 'px')
+            document.startViewTransition(() => {
+                dotNetHelper.invokeMethodAsync('ToggleTheme', dark);
+            });
         }
     </script>
 </body>

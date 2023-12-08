@@ -1,5 +1,7 @@
 ﻿using BlazorShared.Data.Base;
+using BlazorShared.Global.Config;
 using BlazorShared.Global.Nav;
+using GeneralCommon.Attributes;
 using GeneralCommon.Dtos.Admin.Menu;
 using GeneralCommon.Models.Nav;
 using System;
@@ -12,7 +14,7 @@ namespace BlazorShared.Extensions
 {
     public static class MenuExtensions
     {
-        public static List<NavItem> Parse(this List<MenuOutput> menus,List<NavItem> allNavs)
+        public static List<NavItem> Parse(this List<MenuOutput> menus,List<NavItem> allNavs,List<RazorPageModel> pages)
         {
             List<NavItem> items = new List<NavItem>();
             foreach (var menu in menus)
@@ -20,13 +22,13 @@ namespace BlazorShared.Extensions
                 var item = menu.Parse();
                 if (menu.Children!=null && menu.Children.Count > 0)
                 {
-                    item.Children = menu.Children.Parse(allNavs);
+                    item.Children = menu.Children.Parse(allNavs,pages);
                 }
                 if (menu.Type == GeneralCommon.Enums.MenuTypeEnum.Menu || menu.Type == GeneralCommon.Enums.MenuTypeEnum.Dir)
                 {
                     if (menu.Meta.Icon.Contains("fa-") || menu.Path == "/")
                     {
-                        var data = GlobalVariables.Pages.FirstOrDefault(x => x.Path == menu.Path);
+                        var data = pages.FirstOrDefault(x => x.Path == menu.Path);
 
                         if (menu.Meta.Icon.Contains("fa-"))
                         {

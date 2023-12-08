@@ -46,6 +46,8 @@
 @code {
     [Inject]
     private IUserConfig UserConfig { get; set; }
+    [Inject]
+    private BlazorShared.Data.Base.GlobalVariables Global{ get; set; }
 
     private List<NavItem> Navs { get; set; } = new();
     [Inject]
@@ -71,7 +73,7 @@
     protected override async Task OnInitializedAsync()
     {
         await UserConfig.InitAllAsync();
-        Navs = UserConfig.Menus.Parse(new List<NavItem>());
+        Navs = UserConfig.Menus.Parse(new List<NavItem>(),Global.Pages);
         await base.OnInitializedAsync();
     }
 

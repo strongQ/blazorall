@@ -30,16 +30,18 @@ namespace BlazorShared.Core
         private readonly IUserConfig _userConfig;
         private readonly IApiConfig _apiConfig;
         private readonly AuthenticationStateProvider _authenticationStateProvider;
+        private readonly GlobalVariables _global;
 
         public SecurityServiceClient(ILocalStorageService localStorageService, IUserConfig userConfig, IApiConfig apiConfig,
             ILoginManager loginService,
-            AuthenticationStateProvider authenticationStateProvider)
+            AuthenticationStateProvider authenticationStateProvider,GlobalVariables globalVariables)
         {
             _localStorageService = localStorageService;
             _http = loginService;
             _apiConfig = apiConfig;
             _userConfig = userConfig;
             _authenticationStateProvider = authenticationStateProvider;
+            _global = globalVariables;
         }
         /// <summary>
         /// 登录
@@ -48,7 +50,7 @@ namespace BlazorShared.Core
         /// <returns></returns>
         public async Task<AdminCodeResult<LoginOutput>> Login(LoginInput model)
         {
-            if (GlobalVariables.IsSingleApp)
+            if (_global.IsSingleApp)
             {
                 _userConfig.LoginUser = new LoginUserOutput
                 {

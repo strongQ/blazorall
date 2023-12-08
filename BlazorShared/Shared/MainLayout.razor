@@ -91,10 +91,7 @@
     private List<NavItem> Navs { get; set; } = new();
     private IJSObjectReference module;
 
-    private static readonly string[] s_selfPatterns =
-    {
-        "/system/role"
-    };
+  
 
     [CascadingParameter(Name = "IsMobile")]
     public bool IsMobile { get; set; }
@@ -106,11 +103,13 @@
     private string _pageTab=PageModes.PageTab;
 
     private PageTabs? _pageTabs;
-  
+
 
 
     [Inject]
     NavigationManager Nav{ get; set; }
+    [Inject]
+    GlobalVariables Global{ get; set; }
     [Inject]
     SecurityServiceClient SecurityServiceClient { get; set; }
     private void ToUser()
@@ -129,7 +128,7 @@
         await SecurityServiceClient.PrepareBearerToken();
         await UserConfig.InitAllAsync();
 
-        if (GlobalVariables.IsSingleApp)
+        if (Global.IsSingleApp)
         {
             Navs = UserConfig.Navs;
         }
@@ -138,7 +137,7 @@
 
 
 
-            var items = UserConfig.Menus.Parse(new List<NavItem>());
+            var items = UserConfig.Menus.Parse(new List<NavItem>(),Global.Pages);
             Navs = items.Where(x => (x.Children != null && x.Children.Count > 0) || x.Href=="/").ToList();
         }
 

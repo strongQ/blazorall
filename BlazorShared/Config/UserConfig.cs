@@ -43,15 +43,17 @@ namespace BlazorShared.Config
         #region 新增代码
        public event EventHandler<bool> ChangeThemeEvent;
 
-        public UserConfig(ILocalStorageService cookieStorage,IApiConfig apiConfig, MasaBlazor masaBlazor,ILoginManager loginManager)
+        public UserConfig(ILocalStorageService cookieStorage,IApiConfig apiConfig, MasaBlazor masaBlazor,ILoginManager loginManager,GlobalVariables globalVariables)
         {
             _masaBlazor = masaBlazor;
             _cookieStorage = cookieStorage;
             _apiConfig = apiConfig;
             _loginManager = loginManager;
+            _globalVariables = globalVariables;
            
         }
        private ILoginManager _loginManager;
+        private GlobalVariables _globalVariables;
         private MasaBlazor _masaBlazor { get; set; }
         private ILocalStorageService _cookieStorage;
         public List<NavItem> WorkbenchOutputs { get; set; }
@@ -66,7 +68,7 @@ namespace BlazorShared.Config
         private IApiConfig _apiConfig;
         public async Task InitAllAsync()
         {
-            if (GlobalVariables.IsSingleApp)
+            if (_globalVariables.IsSingleApp)
             {
                 LoginUser = new LoginUserOutput
                 {
@@ -101,10 +103,10 @@ namespace BlazorShared.Config
         /// <returns></returns>
         public async Task InitMenuAsync()
         {
-            if (GlobalVariables.IsSingleApp)
+            if (_globalVariables.IsSingleApp)
             {
                 List<NavItem> items = new List<NavItem>();
-                foreach(var page in GlobalVariables.Pages)
+                foreach(var page in _globalVariables.Pages)
                 {
                     if (page.Show)
                     {
@@ -135,7 +137,7 @@ namespace BlazorShared.Config
             Navs.Clear();
 
             
-           Menus.Parse(Navs);
+           Menus.Parse(Navs,_globalVariables.Pages);
 
         }
         /// <summary>
