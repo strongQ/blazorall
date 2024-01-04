@@ -1,8 +1,8 @@
-﻿using GeneralCommon.Dtos.Admin.Menu;
-using GeneralCommon.Dtos.Admin.User;
-using GeneralCommon.Extensions;
-using GeneralCommon.Interfaces;
-using GeneralCommon.Models.Server;
+﻿using XT.Common.Dtos.Admin.Menu;
+using XT.Common.Dtos.Admin.User;
+using XT.Common.Extensions;
+using XT.Common.Interfaces;
+using XT.Common.Models.Server;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

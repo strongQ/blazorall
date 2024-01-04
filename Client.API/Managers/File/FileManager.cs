@@ -1,15 +1,15 @@
-﻿using GeneralCommon.Dtos.Admin.File;
-using GeneralCommon.Dtos.Admin.Role;
-using GeneralCommon.Dtos.Admin;
-using GeneralCommon.Interfaces;
+﻿using XT.Common.Dtos.Admin.File;
+using XT.Common.Dtos.Admin.Role;
+using XT.Common.Dtos.Admin;
+using XT.Common.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using GeneralCommon.Dtos.Admin.Logging;
-using GeneralCommon.Extensions;
-using GeneralCommon.Models.Server;
+using XT.Common.Dtos.Admin.Logging;
+using XT.Common.Extensions;
+using XT.Common.Models.Server;
 
 namespace Client.API.Managers.File
 {

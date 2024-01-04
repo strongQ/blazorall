@@ -1,14 +1,14 @@
-﻿using GeneralCommon.Dtos.Admin.Dict;
-using GeneralCommon.Dtos.Admin;
-using GeneralCommon.Interfaces;
+﻿using XT.Common.Dtos.Admin.Dict;
+using XT.Common.Dtos.Admin;
+using XT.Common.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using GeneralCommon.Dtos.Admin.Logging;
-using GeneralCommon.Extensions;
-using GeneralCommon.Models.Server;
+using XT.Common.Dtos.Admin.Logging;
+using XT.Common.Extensions;
+using XT.Common.Models.Server;
 using System.ComponentModel;
 using System.Xml.Linq;
 

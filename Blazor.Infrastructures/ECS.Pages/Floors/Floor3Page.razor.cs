@@ -1,9 +1,6 @@
 ﻿
 using ECS.Pages.Services;
-using EVE.ECS_Model.Client.BCR;
-using EVE.ECS_Model.Client.HK;
-using EVE.ECS_Model.Server.Process;
-using GeneralCommon.Enums;
+
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.JSInterop;

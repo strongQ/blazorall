@@ -2,9 +2,9 @@
 
 @using BlazorShared.Layout
 @using BlazorShared.Components.DataTable
-@using GeneralCommon.Dtos.Admin.Menu
-@using GeneralCommon.Extensions
-@using GeneralCommon.Attributes
+@using XT.Common.Dtos.Admin.Menu
+@using XT.Common.Extensions
+@using XT.Common.Attributes
 @attribute [Page("/platform/menu","菜单管理","")]
 @attribute [Authorize]
 
@@ -32,7 +32,7 @@
 
     <SearchTemplate>
         <MSelect Style="max-width:200px;" @bind-Value="context.Type"
-                 Items="GeneralCommon.Enums.MenuTypeEnum.Menu.ToItemDescriptionList()"
+                 Items="XT.Common.Enums.MenuTypeEnum.Menu.ToItemDescriptionList()"
                  ItemText="u => u.desc"
                  ItemValue="u => u.key"
                  Label="类型"

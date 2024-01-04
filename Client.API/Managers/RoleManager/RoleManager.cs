@@ -1,17 +1,16 @@
-﻿using GeneralCommon.Dtos.Admin.Role;
-using GeneralCommon.Dtos.Admin;
-using GeneralCommon.Models.Server;
+﻿using XT.Common.Dtos.Admin.Role;
+using XT.Common.Dtos.Admin;
+using XT.Common.Models.Server;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using GeneralCommon.Dtos.Admin.Auth;
-using GeneralCommon.Interfaces;
+using XT.Common.Dtos.Admin.Auth;
+using XT.Common.Interfaces;
 using System.Net.Http;
-using GeneralCommon.Extensions;
-using Newtonsoft.Json;
-using GeneralCommon.Dtos.Admin.Org;
-using GeneralCommon.Dtos.Admin.Menu;
+using XT.Common.Extensions;
+using XT.Common.Dtos.Admin.Org;
+using XT.Common.Dtos.Admin.Menu;
 using System.ComponentModel;
 
 namespace Client.API.Managers.RoleManager

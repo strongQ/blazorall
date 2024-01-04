@@ -22,7 +22,7 @@
                                    Filter="Filter"
                                    ItemKey="r=>r.Id"
                                    ItemText="r=>r.Title"
-                                   TItem="GeneralCommon.Dtos.Admin.Menu.AddMenuInput"
+                                   TItem="XT.Common.Dtos.Admin.Menu.AddMenuInput"
                                    TKey="long"
                                  
                                    Selectable
@@ -31,10 +31,10 @@
                                    ValueChanged="SelectChanged"
                                    ItemChildren="r=>r.Children">
                             <PrependContent>
-                                @if (context.Item.Type != GeneralCommon.Enums.MenuTypeEnum.Dir)
+                                @if (context.Item.Type != XT.Common.Enums.MenuTypeEnum.Dir)
                                 {
                                     <MIcon>
-                                        @($"mdi:mdi-{(context.Item.Type == GeneralCommon.Enums.MenuTypeEnum.Menu ? "menu" : context.Item.Type == GeneralCommon.Enums.MenuTypeEnum.Dir ? "dots-horizontal" : "gesture-tap-button")}")
+                                        @($"mdi:mdi-{(context.Item.Type == XT.Common.Enums.MenuTypeEnum.Menu ? "menu" : context.Item.Type == XT.Common.Enums.MenuTypeEnum.Dir ? "dots-horizontal" : "gesture-tap-button")}")
                                     </MIcon>
                                 }
                             </PrependContent>
@@ -67,7 +67,7 @@
 
 
     [Parameter]
-    public List<GeneralCommon.Dtos.Admin.Menu.AddMenuInput> Menus { get; set; }
+    public List<XT.Common.Dtos.Admin.Menu.AddMenuInput> Menus { get; set; }
     [Parameter]
     public long SelectMenu { get; set; }
 
@@ -78,7 +78,7 @@
 
     private List<long> _selectMenus = new List<long>();
 
-    public Func<GeneralCommon.Dtos.Admin.Menu.AddMenuInput, string, Func<GeneralCommon.Dtos.Admin.Menu.AddMenuInput, string>, bool> Filter
+    public Func<XT.Common.Dtos.Admin.Menu.AddMenuInput, string, Func<XT.Common.Dtos.Admin.Menu.AddMenuInput, string>, bool> Filter
     {
         get
         {

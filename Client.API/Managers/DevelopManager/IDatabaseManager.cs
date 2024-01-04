@@ -1,6 +1,6 @@
-﻿using GeneralCommon.Dtos.Admin.DataBase;
-using GeneralCommon.Interfaces;
-using GeneralCommon.Models.Server;
+﻿using XT.Common.Dtos.Admin.DataBase;
+using XT.Common.Interfaces;
+using XT.Common.Models.Server;
 using System;
 using System.Collections.Generic;
 using System.Text;

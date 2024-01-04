@@ -1,9 +1,9 @@
 ﻿using BlazorShared.Data.Base;
 using BlazorShared.Global.Config;
 using BlazorShared.Global.Nav;
-using GeneralCommon.Attributes;
-using GeneralCommon.Dtos.Admin.Menu;
-using GeneralCommon.Models.Nav;
+using XT.Common.Attributes;
+using XT.Common.Dtos.Admin.Menu;
+using XT.Common.Models.Nav;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +24,7 @@ namespace BlazorShared.Extensions
                 {
                     item.Children = menu.Children.Parse(allNavs,pages);
                 }
-                if (menu.Type == GeneralCommon.Enums.MenuTypeEnum.Menu || menu.Type == GeneralCommon.Enums.MenuTypeEnum.Dir)
+                if (menu.Type == XT.Common.Enums.MenuTypeEnum.Menu || menu.Type == XT.Common.Enums.MenuTypeEnum.Dir)
                 {
                     if (menu.Meta.Icon.Contains("fa-") || menu.Path == "/")
                     {
@@ -34,7 +34,7 @@ namespace BlazorShared.Extensions
                         {
                             item.Icon = "fa:" + item.Icon;
                         }
-                        if (menu.Type == GeneralCommon.Enums.MenuTypeEnum.Menu)
+                        if (menu.Type == XT.Common.Enums.MenuTypeEnum.Menu)
                         {
 
                            
@@ -78,7 +78,7 @@ namespace BlazorShared.Extensions
             if (nav == null) return pageTabItems;
             foreach (var item in nav)
             {
-                if (item.Type == GeneralCommon.Enums.MenuTypeEnum.Menu)
+                if (item.Type == XT.Common.Enums.MenuTypeEnum.Menu)
                 {
                     if (item.Meta.Icon == null)
                         pageTabItems.Add(new PageTabItem(item.Meta.Title, item.Component, ""));

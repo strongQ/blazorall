@@ -1,9 +1,9 @@
 ﻿using BlazorShared.Components.DataTable;
 using Client.API.Managers.Dict;
-using GeneralCommon.Dtos.Admin.Dict;
-using GeneralCommon.Dtos.Admin;
-using GeneralCommon.Interfaces;
-using GeneralCommon.Extensions;
+using XT.Common.Dtos.Admin.Dict;
+using XT.Common.Dtos.Admin;
+using XT.Common.Interfaces;
+using XT.Common.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using System;
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BlazorShared.Helper;
 using Client.API.Managers.MenuManager;
-using GeneralCommon.Dtos.Admin.Menu;
+using XT.Common.Dtos.Admin.Menu;
 using Mapster;
 
 namespace BlazorShared.Pages.Admin.Dict

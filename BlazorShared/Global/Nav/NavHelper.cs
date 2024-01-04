@@ -1,8 +1,8 @@
 ﻿using BlazorComponent;
 using BlazorShared.Global.Nav.Model;
-using GeneralCommon.Dtos.Admin.Menu;
-using GeneralCommon.Extensions;
-using GeneralCommon.Interfaces;
+using XT.Common.Dtos.Admin.Menu;
+using XT.Common.Extensions;
+using XT.Common.Interfaces;
 using Masa.Blazor.Components.Editor;
 using Microsoft.AspNetCore.Components;
 using System;

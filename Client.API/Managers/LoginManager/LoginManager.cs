@@ -1,16 +1,16 @@
 ﻿
-using GeneralCommon.Dtos.Login;
-using GeneralCommon.Interfaces;
-using GeneralCommon.Models.Server;
+using XT.Common.Dtos.Login;
+using XT.Common.Interfaces;
+using XT.Common.Models.Server;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Http;
 using System.Net.Http;
-using GeneralCommon.Extensions;
-using GeneralCommon.Dtos.Admin.Auth;
-using GeneralCommon.Dtos.Admin.Menu;
+using XT.Common.Extensions;
+using XT.Common.Dtos.Admin.Auth;
+using XT.Common.Dtos.Admin.Menu;
 using Client.API.Models;
 
 namespace Client.API.Managers.LoginManager
@@ -48,23 +48,6 @@ namespace Client.API.Managers.LoginManager
                 };
             }
         }
-        /// <summary>
-        /// 刷新token
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        public async Task<AdminCodeResult<string>> TokenByRefresh(TokenInput input)
-        {
-
-            var client = CreateHttpClient();
-            var url = $"{resourceName}/tokenByRefresh";
-
-            var msg = await client.PostAdminData<string>(url, _userConfig, input);
-
-
-            return msg;
-        }
-
 
         /// <summary>
         /// 获取登录配置
@@ -101,6 +84,22 @@ namespace Client.API.Managers.LoginManager
             var url = $"{menuResource}/loginMenuTree";
             return await CreateHttpClient().GetAdminData<List<MenuOutput>>(url, _userConfig);
         }
+        /// <summary>
+        /// 刷新token
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<AdminCodeResult<string>> TokenByRefresh(TokenInput input)
+        {
+
+            var client = CreateHttpClient();
+            var url = $"{resourceName}/tokenByRefresh";
+
+            var msg = await client.PostAdminData<string>(url, _userConfig, input);
+
+
+            return msg;
+        }
 
         /// <summary>
         /// 登录
@@ -114,10 +113,10 @@ namespace Client.API.Managers.LoginManager
                 var client = CreateHttpClient();
                 var url=$"{resourceName}/login";
 
-               var msg= await client.PostAdminData<LoginOutput>(url, _userConfig, data);
+               return await client.PostAdminData<LoginOutput>(url, _userConfig, data);
 
-
-            return msg;
+           
+             
            
 
 

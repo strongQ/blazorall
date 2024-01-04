@@ -1,5 +1,5 @@
-﻿using GeneralCommon.Dtos.Admin.Menu;
-using GeneralCommon.Models.Server;
+﻿using XT.Common.Dtos.Admin.Menu;
+using XT.Common.Models.Server;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

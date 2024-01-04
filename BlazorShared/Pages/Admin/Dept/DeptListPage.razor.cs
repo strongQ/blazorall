@@ -3,9 +3,9 @@ using BlazorShared.Components.DataTable;
 using BlazorShared.Data.Base;
 using Client.API.Managers.RoleManager;
 using Client.API.Managers.UserManager;
-using GeneralCommon.Dtos.Admin.Org;
-using GeneralCommon.Dtos.Admin;
-using GeneralCommon.Interfaces;
+using XT.Common.Dtos.Admin.Org;
+using XT.Common.Dtos.Admin;
+using XT.Common.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using System;
@@ -14,10 +14,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using BlazorShared.Helper;
 using Client.API.Managers.MenuManager;
-using GeneralCommon.Dtos.Admin.Menu;
+using XT.Common.Dtos.Admin.Menu;
 using Client.API.Managers.Org;
 using Mapster;
-using GeneralCommon.Extensions;
+using XT.Common.Extensions;
 
 namespace BlazorShared.Pages.Admin.Dept
 {
@@ -132,7 +132,7 @@ namespace BlazorShared.Pages.Admin.Dept
         /// <summary>
         /// 供选择的部门
         /// </summary>
-        private List<GeneralCommon.Dtos.Admin.Org.AddOrgInput> Orgs { get; set; } = new List<GeneralCommon.Dtos.Admin.Org.AddOrgInput>();
+        private List<XT.Common.Dtos.Admin.Org.AddOrgInput> Orgs { get; set; } = new List<XT.Common.Dtos.Admin.Org.AddOrgInput>();
 
     
 
@@ -144,7 +144,7 @@ namespace BlazorShared.Pages.Admin.Dept
         /// </summary>
         /// <param name="datas"></param>
         /// <returns></returns>
-        public async Task CallSeletDept((List<long>, List<GeneralCommon.Dtos.Admin.Org.AddOrgInput>) datas)
+        public async Task CallSeletDept((List<long>, List<XT.Common.Dtos.Admin.Org.AddOrgInput>) datas)
         {
             if (datas.Item1.Count > 0)
             {
@@ -161,7 +161,7 @@ namespace BlazorShared.Pages.Admin.Dept
         {
            
 
-            var result = await OrgManager.GetOrgList(new GeneralCommon.Dtos.Admin.Org.OrgInput
+            var result = await OrgManager.GetOrgList(new XT.Common.Dtos.Admin.Org.OrgInput
             {
                 Id = -1
             });

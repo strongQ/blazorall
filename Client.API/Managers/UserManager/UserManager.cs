@@ -1,17 +1,17 @@
-﻿using GeneralCommon.Dtos.Admin.Role;
-using GeneralCommon.Dtos.Admin;
-using GeneralCommon.Dtos.Admin.User;
-using GeneralCommon.Extensions;
-using GeneralCommon.Interfaces;
-using GeneralCommon.Models.Server;
+﻿using XT.Common.Dtos.Admin.Role;
+using XT.Common.Dtos.Admin;
+using XT.Common.Dtos.Admin.User;
+using XT.Common.Extensions;
+using XT.Common.Interfaces;
+using XT.Common.Models.Server;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
-using GeneralCommon.Dtos.Admin.Pos;
-using GeneralCommon.Models.SignalR;
+using XT.Common.Dtos.Admin.Pos;
+using XT.Common.Models.SignalR;
 using Microsoft.Extensions.Options;
 
 namespace Client.API.Managers.UserManager

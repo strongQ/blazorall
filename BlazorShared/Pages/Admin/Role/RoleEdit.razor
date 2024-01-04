@@ -1,6 +1,6 @@
-﻿@using GeneralCommon.Extensions;
+﻿@using XT.Common.Extensions;
 @using Client.API.Managers.RoleManager
-@using GeneralCommon.Dtos.Admin.Role
+@using XT.Common.Dtos.Admin.Role
 
             <MContainer>
                 <MRow>
@@ -27,8 +27,8 @@
                           Sm="6"
                           Md="6">
                         <MSwitch  @bind-Value="SelectRole.Status"
-                                 TrueValue=GeneralCommon.Enums.StatusEnum.Enable
-                                 FalseValue=GeneralCommon.Enums.StatusEnum.Disable
+                                 TrueValue=XT.Common.Enums.StatusEnum.Enable
+                                 FalseValue=XT.Common.Enums.StatusEnum.Disable
                                  Label="@(SelectRole.Status.ToDescription())">
                         </MSwitch>
                     </MCol>
@@ -63,16 +63,16 @@
                                            Filter="Filter"
                                            ItemKey="r=>r.Id"
                                            ItemText="r=>r.Title"
-                                           TItem="GeneralCommon.Dtos.Admin.Menu.AddMenuInput"
+                                           TItem="XT.Common.Dtos.Admin.Menu.AddMenuInput"
                                            TKey="long"
                                            Value="SelectMenus"
                                            ValueChanged="SelectChanged"
                                            ItemChildren="r=>r.Children">
                                     <PrependContent>
-                                        @if (context.Item.Type != GeneralCommon.Enums.MenuTypeEnum.Dir)
+                                        @if (context.Item.Type != XT.Common.Enums.MenuTypeEnum.Dir)
                                         {
                                             <MIcon>
-                                                @($"mdi:mdi-{(context.Item.Type == GeneralCommon.Enums.MenuTypeEnum.Menu ? "menu" : context.Item.Type == GeneralCommon.Enums.MenuTypeEnum.Dir ? "dots-horizontal" : "gesture-tap-button")}")
+                                                @($"mdi:mdi-{(context.Item.Type == XT.Common.Enums.MenuTypeEnum.Menu ? "menu" : context.Item.Type == XT.Common.Enums.MenuTypeEnum.Dir ? "dots-horizontal" : "gesture-tap-button")}")
                                             </MIcon>
                                         }
                                     </PrependContent>
@@ -93,7 +93,7 @@
     /// 组织
     /// </summary>
     [Parameter]
-    public List<GeneralCommon.Dtos.Admin.Menu.AddMenuInput> Menus { get; set; }
+    public List<XT.Common.Dtos.Admin.Menu.AddMenuInput> Menus { get; set; }
 
     private string _search = string.Empty;
 
@@ -133,7 +133,7 @@
         if (RoleID > 0)
         {
 
-            var selects = await RoleManager.GetMenuIdList(new GeneralCommon.Dtos.Admin.Role.RoleInput
+            var selects = await RoleManager.GetMenuIdList(new XT.Common.Dtos.Admin.Role.RoleInput
                 {
                     Id = RoleID
                 });
@@ -154,7 +154,7 @@
 
 
 
-    public Func<GeneralCommon.Dtos.Admin.Menu.AddMenuInput, string, Func<GeneralCommon.Dtos.Admin.Menu.AddMenuInput, string>, bool> Filter
+    public Func<XT.Common.Dtos.Admin.Menu.AddMenuInput, string, Func<XT.Common.Dtos.Admin.Menu.AddMenuInput, string>, bool> Filter
     {
         get
         {

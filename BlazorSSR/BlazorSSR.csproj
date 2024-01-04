@@ -2,7 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
+	  <ServerGarbageCollection>false</ServerGarbageCollection>
+	  <!--- ServerGarbageCollection ： 服务器垃圾收集 ：不会让内存无限增长 -->
+	  <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+
+	  <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
@@ -34,6 +38,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Npgsql" Version="8.0.1" />
+    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.120" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="wwwroot\css\fontawesome.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -43,9 +52,14 @@
     <Content Update="wwwroot\css\materialicons.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\favicon.ico">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    <Content Update="wwwroot\fonts\fontawesome-webfont.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\fonts\fontawesome-webfont.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\fonts\fontawesome-webfont.woff2">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\fonts\materialdesignicons-webfont.woff2">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

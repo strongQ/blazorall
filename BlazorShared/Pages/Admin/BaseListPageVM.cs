@@ -1,8 +1,8 @@
 ﻿using BlazorComponent;
 using Client.API.Managers.RoleManager;
-using GeneralCommon.Dtos.Admin.Menu;
-using GeneralCommon.Dtos.Admin.Role;
-using GeneralCommon.Enums;
+using XT.Common.Dtos.Admin.Menu;
+using XT.Common.Dtos.Admin.Role;
+using XT.Common.Enums;
 using Masa.Blazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;

@@ -1,10 +1,10 @@
 ﻿using Client.API.Managers.RoleManager;
-using GeneralCommon.Dtos.Admin.Role;
-using GeneralCommon.Dtos.Admin.SysServer;
-using GeneralCommon.Extensions;
-using GeneralCommon.Interfaces;
-using GeneralCommon.Models.Server;
-using GeneralCommon.Utils;
+using XT.Common.Dtos.Admin.Role;
+using XT.Common.Dtos.Admin.SysServer;
+using XT.Common.Extensions;
+using XT.Common.Interfaces;
+using XT.Common.Models.Server;
+using XT.Common.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

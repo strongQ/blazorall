@@ -1,7 +1,7 @@
-﻿@using GeneralCommon.Extensions;
+﻿@using XT.Common.Extensions;
 @using Client.API.Managers.RoleManager
-@using GeneralCommon.Dtos.Admin.Menu
-@using GeneralCommon.Enums
+@using XT.Common.Dtos.Admin.Menu
+@using XT.Common.Enums
 @using Mapster
 
 
@@ -15,16 +15,16 @@
                     </MCol>
                     <MCol Cols="12">
 
-                        <MRadioGroup TValue="GeneralCommon.Enums.MenuTypeEnum"   Label="菜单类型" @bind-Value="SelectData.Type"
+                        <MRadioGroup TValue="XT.Common.Enums.MenuTypeEnum"   Label="菜单类型" @bind-Value="SelectData.Type"
                                       Row>
-                            <MRadio  Label="@GeneralCommon.Enums.MenuTypeEnum.Dir.ToDescription()"
-                                    Value="@GeneralCommon.Enums.MenuTypeEnum.Dir">
+                            <MRadio  Label="@XT.Common.Enums.MenuTypeEnum.Dir.ToDescription()"
+                                    Value="@XT.Common.Enums.MenuTypeEnum.Dir">
                             </MRadio>
-                            <MRadio Label="@GeneralCommon.Enums.MenuTypeEnum.Menu.ToDescription()"
-                                    Value="@GeneralCommon.Enums.MenuTypeEnum.Menu">
+                            <MRadio Label="@XT.Common.Enums.MenuTypeEnum.Menu.ToDescription()"
+                                    Value="@XT.Common.Enums.MenuTypeEnum.Menu">
                             </MRadio>
-                            <MRadio Label="@GeneralCommon.Enums.MenuTypeEnum.Btn.ToDescription()"
-                                    Value="@GeneralCommon.Enums.MenuTypeEnum.Btn">
+                            <MRadio Label="@XT.Common.Enums.MenuTypeEnum.Btn.ToDescription()"
+                                    Value="@XT.Common.Enums.MenuTypeEnum.Btn">
                             </MRadio>
                         </MRadioGroup>
                     </MCol>
@@ -36,7 +36,7 @@
                                     Label="菜单名称"></MTextField>
                     </MCol>
 
-                    @if (SelectData.Type == GeneralCommon.Enums.MenuTypeEnum.Btn)
+                    @if (SelectData.Type == XT.Common.Enums.MenuTypeEnum.Btn)
                     {
                          
                         <MCol Cols="12"
@@ -204,9 +204,9 @@
             @code {
     private bool ShowMenuDialog = false;
     [Parameter]
-    public GeneralCommon.Dtos.Admin.Menu.AddMenuInput SelectData { get; set; }
+    public XT.Common.Dtos.Admin.Menu.AddMenuInput SelectData { get; set; }
     [Parameter]
-    public List<GeneralCommon.Dtos.Admin.Menu.AddMenuInput> Menus { get; set; }
+    public List<XT.Common.Dtos.Admin.Menu.AddMenuInput> Menus { get; set; }
 
 
 

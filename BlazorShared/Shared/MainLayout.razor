@@ -1,7 +1,7 @@
 ﻿@using System.Globalization;
 @using Global.Config
-@using GeneralCommon.Interfaces
-@using GeneralCommon.Models.Nav
+@using XT.Common.Interfaces
+@using XT.Common.Models.Nav
 @using BlazorShared.Data.Base
 @using Extensions
 @using Layout
@@ -125,16 +125,17 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await SecurityServiceClient.PrepareBearerToken();
-        await UserConfig.InitAllAsync();
+        
 
         if (Global.IsSingleApp)
         {
+            await UserConfig.InitAllAsync();
             Navs = UserConfig.Navs;
         }
         else
         {
-
+            await SecurityServiceClient.PrepareBearerToken();
+            await UserConfig.InitAllAsync();
 
 
             var items = UserConfig.Menus.Parse(new List<NavItem>(),Global.Pages);

@@ -1,7 +1,7 @@
-﻿using GeneralCommon.Dtos.Admin.Org;
-using GeneralCommon.Extensions;
-using GeneralCommon.Interfaces;
-using GeneralCommon.Models.Server;
+﻿using XT.Common.Dtos.Admin.Org;
+using XT.Common.Extensions;
+using XT.Common.Interfaces;
+using XT.Common.Models.Server;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;

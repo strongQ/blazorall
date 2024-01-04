@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.ResponseCompression;
 using System.IO.Compression;
 using BlazorShared;
-using GeneralCommon.Config;
 using BlazorShared.Data.Base;
 using ECS.Pages.Services;
+using XT.Common.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddResponseCompression(options =>

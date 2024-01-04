@@ -1,10 +1,10 @@
 ﻿using BlazorComponent.I18n;
 using BlazorShared.Global.Nav.Model;
 using BlazorShared.Services;
-using GeneralCommon.Interfaces;
-using GeneralCommon.Models.Nav;
+using XT.Common.Interfaces;
+using XT.Common.Models.Nav;
 using Microsoft.AspNetCore.Components;
-using GeneralCommon.Extensions;
+using XT.Common.Extensions;
 using Microsoft.AspNetCore.Components.Rendering;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿using GeneralCommon.Interfaces;
+﻿using XT.Common.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +18,11 @@ namespace BlazorShared.Config
         public void AuthorizationFailedInvoke()
         {
             AuthorizationFailedEvent?.Invoke(null, null);
+        }
+
+        public HttpClient CreateHttpClient()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using GeneralCommon.Extensions;
-using GeneralCommon.Interfaces;
+﻿using XT.Common.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -18,7 +17,6 @@ namespace Client.API.Managers
         }
         public HttpClient CreateHttpClient()
         {
-           
            var client= _clientFactory.CreateClient();
             if(!string.IsNullOrEmpty(UserConfig.Token))
             client.DefaultRequestHeaders.Add("Authorization", "Bearer "+ UserConfig.Token);

@@ -42,7 +42,7 @@
 
 
     [Parameter]
-    public EventCallback<(List<long>,List<GeneralCommon.Dtos.Admin.Org.AddOrgInput>)> SelectDeptEvent{ get; set; }
+    public EventCallback<(List<long>,List<XT.Common.Dtos.Admin.Org.AddOrgInput>)> SelectDeptEvent{ get; set; }
 
 
 
@@ -68,13 +68,13 @@
     /// 组织
     /// </summary>
     [Parameter]
-    public List<GeneralCommon.Dtos.Admin.Org.AddOrgInput> Orgs { get; set; } = new List<GeneralCommon.Dtos.Admin.Org.AddOrgInput>();
+    public List<XT.Common.Dtos.Admin.Org.AddOrgInput> Orgs { get; set; } = new List<XT.Common.Dtos.Admin.Org.AddOrgInput>();
 
 
     protected override async Task OnInitializedAsync()
     {
       
-        //var result = await RoleManager.GetOrgPage(new GeneralCommon.Dtos.Admin.Org.OrgInput
+        //var result = await RoleManager.GetOrgPage(new XT.Common.Dtos.Admin.Org.OrgInput
         //    {
         //        Id = 0
         //    });
@@ -93,7 +93,7 @@
         if (RoleID > 0)
         {
 
-            var selects = await RoleManager.GetRoleOrgIdList(new GeneralCommon.Dtos.Admin.Role.RoleInput
+            var selects = await RoleManager.GetRoleOrgIdList(new XT.Common.Dtos.Admin.Role.RoleInput
                 {
                     Id = RoleID
                 });
@@ -110,7 +110,7 @@
 
 
 
-    public Func<GeneralCommon.Dtos.Admin.Org.AddOrgInput, string, Func<GeneralCommon.Dtos.Admin.Org.AddOrgInput, string>, bool> Filter
+    public Func<XT.Common.Dtos.Admin.Org.AddOrgInput, string, Func<XT.Common.Dtos.Admin.Org.AddOrgInput, string>, bool> Filter
     {
         get
         {

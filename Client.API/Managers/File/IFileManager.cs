@@ -1,6 +1,6 @@
-﻿using GeneralCommon.Dtos.Admin.File;
-using GeneralCommon.Dtos.Admin;
-using GeneralCommon.Models.Server;
+﻿using XT.Common.Dtos.Admin.File;
+using XT.Common.Dtos.Admin;
+using XT.Common.Models.Server;
 using System;
 using System.Collections.Generic;
 using System.Text;

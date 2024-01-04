@@ -2,10 +2,10 @@
 using Client.API.Managers.DevelopManager;
 using Client.API.Managers.MenuManager;
 using Client.API.Managers.RoleManager;
-using GeneralCommon.Dtos.Admin.DataBase;
-using GeneralCommon.Dtos.Admin.Menu;
-using GeneralCommon.Interfaces;
-using GeneralCommon.Extensions;
+using XT.Common.Dtos.Admin.DataBase;
+using XT.Common.Dtos.Admin.Menu;
+using XT.Common.Interfaces;
+using XT.Common.Extensions;
 using Masa.Blazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;

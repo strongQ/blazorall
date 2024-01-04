@@ -4,22 +4,22 @@ using BlazorShared.Global.Nav;
 using BlazorShared.Models;
 using Client.API.Managers.LoginManager;
 
-using GeneralCommon.Interfaces;
-using GeneralCommon.Models;
-using GeneralCommon.Models.SignalR;
-using GeneralCommon.Services;
+using XT.Common.Interfaces;
+using XT.Common.Models;
+using XT.Common.Models.SignalR;
+using XT.Common.Services;
 
 using Masa.Blazor;
 using Microsoft.AspNetCore.Components;
 
 using System.Diagnostics.CodeAnalysis;
 
-using GeneralCommon.Extensions;
+using XT.Common.Extensions;
 
 using Timer = System.Timers.Timer;
 using System.Timers;
 using Microsoft.Extensions.DependencyInjection;
-using GeneralCommon.Dtos.Admin.Menu;
+using XT.Common.Dtos.Admin.Menu;
 using BlazorShared.Data.Base;
 using BlazorShared.Shared;
 using Microsoft.AspNetCore.Components.Web;
@@ -54,27 +54,6 @@ namespace BlazorShared.Pages
 
      
 
-        /// <summary>
-        /// 连接SignalR
-        /// </summary>
-        /// <returns></returns>
-        public async Task<bool> ConnectSignalR()
-        {
-            var result = await SignalRService.ConnectServer(ApiConfig.RemoteApiUrl, new GeneralCommon.Models.SignalR.User
-            {
-                ID = Guid.NewGuid().ToString(),
-                Name = User.UserName,
-                Type = GeneralCommon.Enums.DeviceEnum.PDA
-            });
-
-            SignalRService.MessageEvent -= SignalRService_MessageEvent;
-            SignalRService.MessageEvent += SignalRService_MessageEvent;
-         
-
-            SignalRService.ListenMessage();
-
-            return result;
-        }
 
         private void SignalRService_MessageEvent(object? sender, InformModel e)
         {
@@ -131,8 +110,7 @@ namespace BlazorShared.Pages
         [Inject]
         public IApiConfig ApiConfig { get; set; }
         
-        [Inject]
-        public ISignalRService  SignalRService { get; set; }
+       
 
         public LoginShared ShareLogin { get; set; }
         [Inject]
@@ -161,7 +139,7 @@ namespace BlazorShared.Pages
             }
 
 
-            var result = await Provider.Login(new GeneralCommon.Dtos.Admin.Auth.LoginInput
+            var result = await Provider.Login(new XT.Common.Dtos.Admin.Auth.LoginInput
           {
               Account=User.UserName,
               Password=User.Password,

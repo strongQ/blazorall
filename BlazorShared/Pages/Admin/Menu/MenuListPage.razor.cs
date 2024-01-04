@@ -1,11 +1,11 @@
 ﻿using BlazorShared.Components.DataTable;
 using Client.API.Managers.RoleManager;
 using Client.API.Managers.UserManager;
-using GeneralCommon.Dtos.Admin.Menu;
-using GeneralCommon.Dtos.Admin.Org;
-using GeneralCommon.Dtos.Admin.Role;
-using GeneralCommon.Dtos.Admin;
-using GeneralCommon.Interfaces;
+using XT.Common.Dtos.Admin.Menu;
+using XT.Common.Dtos.Admin.Org;
+using XT.Common.Dtos.Admin.Role;
+using XT.Common.Dtos.Admin;
+using XT.Common.Interfaces;
 using Masa.Blazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -13,7 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GeneralCommon.Extensions;
+using XT.Common.Extensions;
 using Client.API.Managers.MenuManager;
 using BlazorShared.Helper;
 using Mapster;
@@ -122,7 +122,7 @@ namespace BlazorShared.Pages.Admin.Menu
 
         protected async override Task OnInitializedAsync()
         {
-            Menus = (await RoleManager.GetMenus(new GeneralCommon.Dtos.Admin.Menu.MenuInput())).GetResult();
+            Menus = (await RoleManager.GetMenus(new XT.Common.Dtos.Admin.Menu.MenuInput())).GetResult();
             await base.OnInitializedAsync();
         }
 

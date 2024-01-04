@@ -1,8 +1,8 @@
 ﻿using BlazorComponent;
 using BlazorShared.Models;
 using Client.API.Managers.LoginManager;
-using GeneralCommon.Interfaces;
-using GeneralCommon.Models.SignalR;
+using XT.Common.Interfaces;
+using XT.Common.Models.SignalR;
 using Masa.Blazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
-using GeneralCommon.Extensions;
+using XT.Common.Extensions;
 
 namespace BlazorShared.Shared
 {

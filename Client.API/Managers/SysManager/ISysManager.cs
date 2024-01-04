@@ -1,5 +1,5 @@
-﻿using GeneralCommon.Dtos.Admin.SysServer;
-using GeneralCommon.Models.Server;
+﻿using XT.Common.Dtos.Admin.SysServer;
+using XT.Common.Models.Server;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

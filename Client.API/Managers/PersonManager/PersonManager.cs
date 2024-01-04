@@ -1,8 +1,8 @@
 ﻿using Client.API.Models;
-using GeneralCommon.Extensions;
-using GeneralCommon.Interfaces;
-using GeneralCommon.Models.Server;
-using Newtonsoft.Json;
+using XT.Common.Extensions;
+using XT.Common.Interfaces;
+using XT.Common.Models.Server;
+
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -45,7 +45,7 @@ namespace Client.API.Managers.PersonManager
                 {
                     var result = await response.Content.ReadAsStringAsync();
                     result= result.Base64Decode();
-                    person = JsonConvert.DeserializeObject<ActionResultVm<OwnPersonDto>>(result);
+                    person = result.ToObject<ActionResultVm<OwnPersonDto>>();
                    
                 }
                  

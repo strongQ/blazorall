@@ -9,22 +9,21 @@ using BlazorShared.Helper;
 using BlazorShared.Models;
 using Client.API.Managers.LoginManager;
 using Client.API.Managers.UserManager;
-using GeneralCommon.Dtos;
-using GeneralCommon.Dtos.Admin.Auth;
-using GeneralCommon.Dtos.Admin.Menu;
-using GeneralCommon.Dtos.Login;
-using GeneralCommon.Extensions;
-using GeneralCommon.Interfaces;
-using GeneralCommon.Models.Auth;
-using GeneralCommon.Models.Nav;
-using GeneralCommon.Themes;
+
+using XT.Common.Dtos.Admin.Auth;
+using XT.Common.Dtos.Admin.Menu;
+
+using XT.Common.Extensions;
+using XT.Common.Interfaces;
+
+using XT.Common.Models.Nav;
+using XT.Common.Themes;
 using Masa.Blazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
-using Newtonsoft.Json;
 using System;
 using System.Buffers.Text;
 using System.Collections;
@@ -131,7 +130,7 @@ namespace BlazorShared.Config
                     Title="首页",                   
                 },             
                 Id = 0,
-                Type=GeneralCommon.Enums.MenuTypeEnum.Menu,
+                Type=XT.Common.Enums.MenuTypeEnum.Menu,
                 Path="/"
             });
             Navs.Clear();
@@ -169,7 +168,7 @@ namespace BlazorShared.Config
             if (_masaBlazor.Theme.Dark != Themes.IsDark)
                 _masaBlazor.ToggleTheme();
            
-            _cookieStorage?.SetItemAsync(GlobalVariables.ThemeCookieKey,JsonConvert.SerializeObject(Themes));
+            _cookieStorage?.SetItemAsync(GlobalVariables.ThemeCookieKey,Themes.ToJson());
         }
 
         public void Exit()

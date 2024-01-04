@@ -46,13 +46,6 @@
         window.sendMarkMessage = (msg, dotNetHelper) => {
 
         }
-        window.switchTheme = function (dotNetHelper, dark, x, y) {
-            document.documentElement.style.setProperty('--x', x + 'px')
-            document.documentElement.style.setProperty('--y', y + 'px')
-            document.startViewTransition(() => {
-                dotNetHelper.invokeMethodAsync('ToggleTheme', dark);
-            });
-        }
 
         function dataURLtoBlob(dataurl) {
             var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],

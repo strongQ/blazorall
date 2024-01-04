@@ -1,8 +1,8 @@
-﻿using GeneralCommon.Dtos.Admin;
-using GeneralCommon.Dtos.Admin.Menu;
-using GeneralCommon.Dtos.Admin.Org;
-using GeneralCommon.Dtos.Admin.Role;
-using GeneralCommon.Models.Server;
+﻿using XT.Common.Dtos.Admin;
+using XT.Common.Dtos.Admin.Menu;
+using XT.Common.Dtos.Admin.Org;
+using XT.Common.Dtos.Admin.Role;
+using XT.Common.Models.Server;
 using System;
 using System.Collections.Generic;
 using System.Text;

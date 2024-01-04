@@ -1,10 +1,10 @@
 ﻿@page "/system/userCenter"
-@using GeneralCommon.Extensions
+@using XT.Common.Extensions
 @using Layout
 @layout MainLayout
 @inherits CultureComponentBase
 @attribute [Authorize]
-@using GeneralCommon.Attributes
+@using XT.Common.Attributes
 @attribute [Page("/system/userCenter","用户信息")]
 <MRow Class="ma-5">
     <MCol Md="4" Sm="12">
@@ -123,11 +123,11 @@ PageVM.SelectUser.Birthday=_birthDate.ToDateTime(new TimeOnly(0,0,0));
 
                                         <MRadioGroup  Label="性别" @bind-Value="PageVM.SelectUser.Sex"
                                                   Row>
-                                        <MRadio Label="@GeneralCommon.Enums.GenderEnum.Male.ToDescription()"
-                                                Value="@GeneralCommon.Enums.GenderEnum.Male">
+                                        <MRadio Label="@XT.Common.Enums.GenderEnum.Male.ToDescription()"
+                                                Value="@XT.Common.Enums.GenderEnum.Male">
                                         </MRadio>
-                                        <MRadio Label="@GeneralCommon.Enums.GenderEnum.Female.ToDescription()"
-                                                Value="@GeneralCommon.Enums.GenderEnum.Female">
+                                        <MRadio Label="@XT.Common.Enums.GenderEnum.Female.ToDescription()"
+                                                Value="@XT.Common.Enums.GenderEnum.Female">
                                         </MRadio>
                                     </MRadioGroup>
                                 </MCol>

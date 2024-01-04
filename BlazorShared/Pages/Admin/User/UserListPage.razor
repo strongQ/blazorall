@@ -2,10 +2,10 @@
 
 @using BlazorShared.Layout
 @using BlazorShared.Components.DataTable
-@using GeneralCommon.Dtos.Admin.User
-@using GeneralCommon.Extensions
+@using XT.Common.Dtos.Admin.User
+@using XT.Common.Extensions
 
-@using GeneralCommon.Attributes
+@using XT.Common.Attributes
 @attribute [Page("/system/user","用户管理")]
 @attribute [Authorize]
 
@@ -71,7 +71,7 @@
                             }
                                 break;
                                 case nameof(context.Item.Status):
-                                <MSwitch TValue="GeneralCommon.Enums.StatusEnum" ValueChanged="x=>StatusChanged(x,context.Item)" Value="context.Item.Status" TrueValue="GeneralCommon.Enums.StatusEnum.Enable" FalseValue="GeneralCommon.Enums.StatusEnum.Disable"></MSwitch>
+                                <MSwitch TValue="XT.Common.Enums.StatusEnum" ValueChanged="x=>StatusChanged(x,context.Item)" Value="context.Item.Status" TrueValue="XT.Common.Enums.StatusEnum.Enable" FalseValue="XT.Common.Enums.StatusEnum.Disable"></MSwitch>
                                 break;
                             default:
                                context.Item.IsRender = false;

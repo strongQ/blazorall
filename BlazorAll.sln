@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECS.Pages", "Blazor.Infrast
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.API", "Client.API\Client.API.csproj", "{4FF324F2-8847-4E36-BA77-4AEF549F22B2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotinoBlazor", "PhotinoBlazor\PhotinoBlazor.csproj", "{C3BB77FF-84D0-470D-997C-A1CD5031E822}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{4FF324F2-8847-4E36-BA77-4AEF549F22B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FF324F2-8847-4E36-BA77-4AEF549F22B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FF324F2-8847-4E36-BA77-4AEF549F22B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3BB77FF-84D0-470D-997C-A1CD5031E822}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3BB77FF-84D0-470D-997C-A1CD5031E822}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3BB77FF-84D0-470D-997C-A1CD5031E822}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3BB77FF-84D0-470D-997C-A1CD5031E822}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

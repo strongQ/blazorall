@@ -1,7 +1,7 @@
 ﻿using BlazorComponent;
 using BlazorShared.Helper;
 using Client.API.Managers.DevelopManager;
-using GeneralCommon.Dtos.Admin.DataBase;
+using XT.Common.Dtos.Admin.DataBase;
 using Mapster;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;

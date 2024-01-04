@@ -1,10 +1,10 @@
 ﻿using BlazorShared.Components.DataTable;
 using BlazorShared.Helper;
 using Client.API.Managers.Pos;
-using GeneralCommon.Dtos.Admin.Org;
-using GeneralCommon.Dtos.Admin.Pos;
-using GeneralCommon.Interfaces;
-using GeneralCommon.Extensions;
+using XT.Common.Dtos.Admin.Org;
+using XT.Common.Dtos.Admin.Pos;
+using XT.Common.Interfaces;
+using XT.Common.Extensions;
 using Mapster;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;

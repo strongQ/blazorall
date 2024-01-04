@@ -1,10 +1,10 @@
 ﻿using BlazorShared.Components.DataTable;
 using Client.API.Managers.File;
-using GeneralCommon.Dtos.Admin.File;
-using GeneralCommon.Dtos.Admin;
-using GeneralCommon.Interfaces;
+using XT.Common.Dtos.Admin.File;
+using XT.Common.Dtos.Admin;
+using XT.Common.Interfaces;
 using Microsoft.AspNetCore.Components;
-using GeneralCommon.Extensions;
+using XT.Common.Extensions;
 using Microsoft.AspNetCore.Components.Rendering;
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using System.Reflection.Metadata;
 using System.Net.Http.Headers;
 using Client.API.Managers.MenuManager;
-using GeneralCommon.Dtos.Admin.Menu;
+using XT.Common.Dtos.Admin.Menu;
 
 namespace BlazorShared.Pages.Admin.File
 {

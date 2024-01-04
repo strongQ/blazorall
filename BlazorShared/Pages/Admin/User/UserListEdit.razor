@@ -1,5 +1,5 @@
-﻿@using GeneralCommon.Dtos.Admin.User
-@using GeneralCommon.Extensions
+﻿@using XT.Common.Dtos.Admin.User
+@using XT.Common.Extensions
 <MContainer>
 
     <MTabs @bind-Value="_tab">
@@ -69,11 +69,11 @@ SelectUser.Birthday=_birthDate.ToDateTime(new TimeOnly(0,0,0));
 
                         <MRadioGroup  Label="性别" @bind-Value="SelectUser.Sex"
                                   Row>
-                        <MRadio Label="@GeneralCommon.Enums.GenderEnum.Male.ToDescription()"
-                                Value="@GeneralCommon.Enums.GenderEnum.Male">
+                        <MRadio Label="@XT.Common.Enums.GenderEnum.Male.ToDescription()"
+                                Value="@XT.Common.Enums.GenderEnum.Male">
                         </MRadio>
-                        <MRadio Label="@GeneralCommon.Enums.GenderEnum.Female.ToDescription()"
-                                Value="@GeneralCommon.Enums.GenderEnum.Female">
+                        <MRadio Label="@XT.Common.Enums.GenderEnum.Female.ToDescription()"
+                                Value="@XT.Common.Enums.GenderEnum.Female">
                         </MRadio>
                     </MRadioGroup>
                 </MCol>
@@ -213,7 +213,7 @@ SelectUser.JoinDate=_joinDate.ToDateTime(new TimeOnly(0,0,0));
                       Sm="6"
                       Md="6">
                     <MSelect @bind-Value="SelectUser.CardType"
-                             Items="@GeneralCommon.Enums.CardTypeEnum.GatCard.ToItemDescriptionList()"
+                             Items="@XT.Common.Enums.CardTypeEnum.GatCard.ToItemDescriptionList()"
                              ItemText="u => u.desc"
                              ItemValue="u => u.key"
                              Label="证件类型"
@@ -254,7 +254,7 @@ SelectUser.JoinDate=_joinDate.ToDateTime(new TimeOnly(0,0,0));
                       Sm="6"
                       Md="6">
                     <MSelect @bind-Value="SelectUser.CultureLevel"
-                             Items="@GeneralCommon.Enums.CultureLevelEnum.Level1.ToItemDescriptionList()"
+                             Items="@XT.Common.Enums.CultureLevelEnum.Level1.ToItemDescriptionList()"
                              ItemText="u => u.desc"
                              ItemValue="u => u.key"
                              Label="文化程度"
@@ -312,15 +312,15 @@ SelectUser.JoinDate=_joinDate.ToDateTime(new TimeOnly(0,0,0));
     /// 角色集合
     /// </summary>
     [Parameter]
-    public List<GeneralCommon.Dtos.Admin.Role.RoleOutput> Roles { get; set; }
+    public List<XT.Common.Dtos.Admin.Role.RoleOutput> Roles { get; set; }
     [Parameter]
-    public List<GeneralCommon.Dtos.Admin.Org.AddOrgInput> Orgs { get; set; }
+    public List<XT.Common.Dtos.Admin.Org.AddOrgInput> Orgs { get; set; }
 
     /// <summary>
     /// 职位
     /// </summary>
     [Parameter]
-    public List<GeneralCommon.Dtos.Admin.Pos.AddPosInput> Poss { get; set; } 
+    public List<XT.Common.Dtos.Admin.Pos.AddPosInput> Poss { get; set; } 
 
     private DateOnly _joinDate = DateOnly.FromDateTime(DateTime.Now);
     private DateOnly _birthDate = DateOnly.FromDateTime(DateTime.Now);
@@ -346,10 +346,10 @@ SelectUser.JoinDate=_joinDate.ToDateTime(new TimeOnly(0,0,0));
     {
         var orgs = SelectUser.ExtOrgIdList;
 
-        orgs.Add(new GeneralCommon.Dtos.Admin.User.SysUserExtOrg());
+        orgs.Add(new XT.Common.Dtos.Admin.User.SysUserExtOrg());
     }
 
-    private void DeleteExOrg(GeneralCommon.Dtos.Admin.User.SysUserExtOrg org)
+    private void DeleteExOrg(XT.Common.Dtos.Admin.User.SysUserExtOrg org)
     {
         SelectUser.ExtOrgIdList.Remove(org);
     }

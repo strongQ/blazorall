@@ -1,7 +1,6 @@
-﻿using GeneralCommon.Models.Server;
-using GeneralCommon.Services;
+﻿using XT.Common.Models.Server;
+using XT.Common.Services;
 using Microsoft.JSInterop;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +8,7 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
+using XT.Common.Extensions;
 
 namespace BlazorShared.Services
 {
@@ -76,7 +76,7 @@ namespace BlazorShared.Services
                 {
                     //当这里解析失败，又找不到具体原因，试试使用Newtonsoft.json进行解析
                     var resultMsg = await responseMessage.Content.ReadAsStringAsync();
-                    result = JsonConvert.DeserializeObject<ReturnModel<T>>(resultMsg);
+                    result = resultMsg.ToObject<ReturnModel<T>>();
                 }
                 else
                 {

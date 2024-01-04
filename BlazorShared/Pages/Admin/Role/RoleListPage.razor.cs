@@ -3,9 +3,9 @@ using BlazorShared.Components.DataTable;
 using BlazorShared.Data.Base;
 using Client.API.Managers.RoleManager;
 using Client.API.Managers.UserManager;
-using GeneralCommon.Dtos.Admin.User;
-using GeneralCommon.Dtos.Admin;
-using GeneralCommon.Interfaces;
+using XT.Common.Dtos.Admin.User;
+using XT.Common.Dtos.Admin;
+using XT.Common.Interfaces;
 using Masa.Blazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -13,12 +13,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GeneralCommon.Dtos.Admin.Role;
-using GeneralCommon.Extensions;
+using XT.Common.Dtos.Admin.Role;
+using XT.Common.Extensions;
 using BlazorShared.Helper;
 
-using GeneralCommon.Dtos.Admin.Org;
-using GeneralCommon.Dtos.Admin.Menu;
+using XT.Common.Dtos.Admin.Org;
+using XT.Common.Dtos.Admin.Menu;
 using Mapster;
 
 namespace BlazorShared.Pages.Admin.Role
@@ -137,12 +137,12 @@ namespace BlazorShared.Pages.Admin.Role
         protected async override Task OnInitializedAsync()
         {
 
-           Orgs= (await RoleManager.GetOrgPage(new GeneralCommon.Dtos.Admin.Org.OrgInput
+           Orgs= (await RoleManager.GetOrgPage(new XT.Common.Dtos.Admin.Org.OrgInput
             {
                 Id = 0
             })).GetResult();
 
-           Menus= (await RoleManager.GetMenus(new GeneralCommon.Dtos.Admin.Menu.MenuInput())).GetResult();
+           Menus= (await RoleManager.GetMenus(new XT.Common.Dtos.Admin.Menu.MenuInput())).GetResult();
             await base.OnInitializedAsync();
         }
 

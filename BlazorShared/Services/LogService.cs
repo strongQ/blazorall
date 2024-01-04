@@ -1,5 +1,5 @@
-﻿using GeneralCommon.Models.SignalR;
-using GeneralCommon.Services;
+﻿using XT.Common.Models.SignalR;
+using XT.Common.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

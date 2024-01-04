@@ -2,12 +2,12 @@
 using BlazorShared.Components.DataTable;
 using Client.API.Managers.RoleManager;
 using Client.API.Managers.UserManager;
-using GeneralCommon.Dtos.Admin;
-using GeneralCommon.Dtos.Admin.User;
-using GeneralCommon.Interfaces;
+using XT.Common.Dtos.Admin;
+using XT.Common.Dtos.Admin.User;
+using XT.Common.Interfaces;
 using Mapster;
 using Microsoft.AspNetCore.Components;
-using GeneralCommon.Extensions;
+using XT.Common.Extensions;
 using Microsoft.AspNetCore.Components.Rendering;
 using System;
 using System.Collections.Generic;
@@ -191,26 +191,26 @@ namespace BlazorShared.Pages.Admin.User
         /// <summary>
         /// 供选择的部门
         /// </summary>
-        private List<GeneralCommon.Dtos.Admin.Org.AddOrgInput> Orgs { get; set; } = new List<GeneralCommon.Dtos.Admin.Org.AddOrgInput>();
+        private List<XT.Common.Dtos.Admin.Org.AddOrgInput> Orgs { get; set; } = new List<XT.Common.Dtos.Admin.Org.AddOrgInput>();
 
         /// <summary>
         /// 角色集合
         /// </summary>
 
-        private List<GeneralCommon.Dtos.Admin.Role.RoleOutput> Roles { get; set; } = new List<GeneralCommon.Dtos.Admin.Role.RoleOutput>();
+        private List<XT.Common.Dtos.Admin.Role.RoleOutput> Roles { get; set; } = new List<XT.Common.Dtos.Admin.Role.RoleOutput>();
         
        
         /// <summary>
         /// 职位
         /// </summary>
-        private List<GeneralCommon.Dtos.Admin.Pos.AddPosInput> Poss { get; set; } = new List<GeneralCommon.Dtos.Admin.Pos.AddPosInput>();
+        private List<XT.Common.Dtos.Admin.Pos.AddPosInput> Poss { get; set; } = new List<XT.Common.Dtos.Admin.Pos.AddPosInput>();
 
         /// <summary>
         /// 选中部门
         /// </summary>
         /// <param name="datas"></param>
         /// <returns></returns>
-        public async Task CallSeletDept((List<long>, List<GeneralCommon.Dtos.Admin.Org.AddOrgInput>) datas)
+        public async Task CallSeletDept((List<long>, List<XT.Common.Dtos.Admin.Org.AddOrgInput>) datas)
         {
             if (datas.Item1.Count > 0)
             {
@@ -231,7 +231,7 @@ namespace BlazorShared.Pages.Admin.User
                 Roles = role.Result;
             }
 
-            var result = await RoleManager.GetOrgPage(new GeneralCommon.Dtos.Admin.Org.OrgInput
+            var result = await RoleManager.GetOrgPage(new XT.Common.Dtos.Admin.Org.OrgInput
             {
                 Id = 0
             });
@@ -240,7 +240,7 @@ namespace BlazorShared.Pages.Admin.User
                 Orgs = result.Result;
             }
 
-            Poss = (await UserManager.GetPosList(new GeneralCommon.Dtos.Admin.Pos.PosInput())).GetResult();
+            Poss = (await UserManager.GetPosList(new XT.Common.Dtos.Admin.Pos.PosInput())).GetResult();
             await base.OnInitializedAsync();
         }
 
@@ -262,7 +262,7 @@ namespace BlazorShared.Pages.Admin.User
         /// <param name="status"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        private async Task StatusChanged(GeneralCommon.Enums.StatusEnum status,AddUserInput user)
+        private async Task StatusChanged(XT.Common.Enums.StatusEnum status,AddUserInput user)
         {
            var result= await UserManager.SetStatus(new UserInput
             {

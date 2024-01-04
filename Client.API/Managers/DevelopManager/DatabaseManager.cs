@@ -1,14 +1,14 @@
-﻿using GeneralCommon.Dtos.Admin.User;
-using GeneralCommon.Dtos.Admin;
-using GeneralCommon.Extensions;
-using GeneralCommon.Interfaces;
-using GeneralCommon.Models.Server;
+﻿using XT.Common.Dtos.Admin.User;
+using XT.Common.Dtos.Admin;
+using XT.Common.Extensions;
+using XT.Common.Interfaces;
+using XT.Common.Models.Server;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using GeneralCommon.Dtos.Admin.DataBase;
+using XT.Common.Dtos.Admin.DataBase;
 
 namespace Client.API.Managers.DevelopManager
 {

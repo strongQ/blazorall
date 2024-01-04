@@ -1,7 +1,7 @@
 ﻿using BlazorComponent;
 using BlazorComponent.I18n;
 using Blazored.LocalStorage;
-using GeneralCommon.Extensions;
+using XT.Common.Extensions;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;

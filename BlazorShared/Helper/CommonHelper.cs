@@ -1,6 +1,6 @@
 ﻿using BlazorShared.Enums;
 using BlazorShared.Interface;
-using GeneralCommon.Models.Server;
+using XT.Common.Models.Server;
 using Masa.Blazor;
 using Microsoft.AspNetCore.Http;
 using NodaTime;

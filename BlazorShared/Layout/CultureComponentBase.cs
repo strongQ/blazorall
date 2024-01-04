@@ -1,6 +1,6 @@
 ﻿using BlazorComponent.I18n;
 using BlazorShared.Core;
-using GeneralCommon.Extensions;
+using XT.Common.Extensions;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;

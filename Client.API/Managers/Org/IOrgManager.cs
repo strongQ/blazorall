@@ -1,5 +1,5 @@
-﻿using GeneralCommon.Dtos.Admin.Org;
-using GeneralCommon.Models.Server;
+﻿using XT.Common.Dtos.Admin.Org;
+using XT.Common.Models.Server;
 using System;
 using System.Collections.Generic;
 using System.Text;

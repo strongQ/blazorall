@@ -1,7 +1,7 @@
 ﻿using BlazorShared.Helper;
 using Client.API.Managers.UserManager;
-using GeneralCommon.Dtos.Admin.User;
-using GeneralCommon.Interfaces;
+using XT.Common.Dtos.Admin.User;
+using XT.Common.Interfaces;
 using Masa.Blazor;
 
 using System;

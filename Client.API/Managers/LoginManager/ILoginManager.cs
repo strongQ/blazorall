@@ -1,8 +1,8 @@
 ﻿using Client.API.Models;
-using GeneralCommon.Dtos.Admin.Auth;
-using GeneralCommon.Dtos.Admin.Menu;
-using GeneralCommon.Dtos.Login;
-using GeneralCommon.Models.Server;
+using XT.Common.Dtos.Admin.Auth;
+using XT.Common.Dtos.Admin.Menu;
+using XT.Common.Dtos.Login;
+using XT.Common.Models.Server;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,13 +18,6 @@ namespace Client.API.Managers.LoginManager
         /// <param name="data"></param>
         /// <returns></returns>
         Task<AdminCodeResult<LoginOutput>> Login(LoginInput data);
-        /// <summary>
-        /// 刷新token
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        Task<AdminCodeResult<string>> TokenByRefresh(TokenInput input);
-
         /// <summary>
         /// 获取登录信息
         /// </summary>
@@ -45,5 +38,11 @@ namespace Client.API.Managers.LoginManager
         /// </summary>
         /// <returns></returns>
         Task<AdminCodeResult<List<MenuOutput>>> GetMenus();
+        /// <summary>
+        /// 刷新token
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<AdminCodeResult<string>> TokenByRefresh(TokenInput input);
     }
 }

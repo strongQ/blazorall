@@ -6,9 +6,9 @@ using Shared.DependencyServices;
 using System.Diagnostics;
 using System.Globalization;
 using Microsoft.AspNetCore.Components.Web;
-using GeneralCommon.Services;
+using XT.Common.Services;
 
-using GeneralCommon;
+using XT.Common;
 
 using BlazorShared.Core;
 
@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using BlazorShared.Config;
 
 
-using GeneralCommon.Interfaces;
+using XT.Common.Interfaces;
 
 using Client.API.Managers;
 using BlazorShared.Global.Config;
@@ -26,8 +26,8 @@ using System.Net.Http.Json;
 using System.Reflection;
 using BlazorShared.Global.Nav;
 using System.Text.Json;
-using GeneralCommon.Dtos.Admin.Menu;
-using GeneralCommon.Extensions;
+using XT.Common.Dtos.Admin.Menu;
+using XT.Common.Extensions;
 using Masa.Blazor.Presets;
 using Masa.Blazor;
 using MudBlazor.Services;
@@ -113,9 +113,9 @@ namespace BlazorShared
                 config.SnackbarConfiguration.MaxDisplayedSnackbars = 1;
             });
 
-            //services.AddGlobalForServer();
+           
 
-            services.AddScoped<IIPAddressManager, IPAddressManager>();
+            //services.AddScoped<IIPAddressManager, IPAddressManager>();
           
             
             // localstorage
@@ -123,10 +123,8 @@ namespace BlazorShared
             services.AddScoped<IApiConfig, ApiConfig>();
             services.AddScoped<ILogService, LogService>();
           
-            services.AddOriginHttpClient();
-            services.AddSignalRService();
-
-            //services.AddGrpcChannelService();
+            services.AddOriginHttpClient();        
+           
             // 注入接口访问
             services.AddServiceInjects<IApiManager>();
 
@@ -148,45 +146,11 @@ namespace BlazorShared
             return services;
         }
 
-        public static IServiceCollection AddGlobalForServer(this IServiceCollection services)
-        {
-            var basePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? throw new Exception("Get the assembly root directory exception!");
-            services.AddNav(Path.Combine(basePath, $"wwwroot/nav/nav.json"));
-            services.AddScoped<GlobalConfig>();
+      
 
-            return services;
-        }
+     
 
-        public static async Task<IServiceCollection> AddGlobalForWasmAsync(this IServiceCollection services, string baseUri)
-        {
-            using var httpclient = new HttpClient();
-
-            // 获取数据
-            var navList = await httpclient.GetFromJsonAsync<List<NavModel>>(Path.Combine(baseUri, $"nav/nav.json")) ?? throw new Exception("please configure the Navigation!");
-           // services.AddNav(navList);
-            services.AddScoped<GlobalConfig>();
-
-            return services;
-        }
-
-        public static IServiceCollection AddNav(this IServiceCollection services, List<MenuOutput> navList)
-        {
-            services.AddSingleton(navList);
-            services.AddScoped<NavHelper>();
-
-            return services;
-        }
-
-        public static IServiceCollection AddNav(this IServiceCollection services, string navSettingsFile)
-        {
-            var navList = JsonSerializer.Deserialize<List<NavModel>>(File.ReadAllText(navSettingsFile));
-
-            if (navList is null) throw new Exception("Please configure the navigation first!");
-
-            services.AddNav(new List<MenuOutput>());
-
-            return services;
-        }
+     
 
     }
 

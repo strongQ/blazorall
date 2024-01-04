@@ -1,10 +1,10 @@
 ﻿using BlazorShared.Components.DataTable;
 using BlazorShared.Helper;
 using Client.API.Managers.Log;
-using GeneralCommon.Dtos.Admin;
-using GeneralCommon.Dtos.Admin.Logging;
-using GeneralCommon.Interfaces;
-using GeneralCommon.Extensions;
+using XT.Common.Dtos.Admin;
+using XT.Common.Dtos.Admin.Logging;
+using XT.Common.Interfaces;
+using XT.Common.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using System;

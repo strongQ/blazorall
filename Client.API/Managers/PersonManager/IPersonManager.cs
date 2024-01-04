@@ -1,5 +1,5 @@
 ﻿using Client.API.Models;
-using GeneralCommon.Models.Server;
+using XT.Common.Models.Server;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -1,6 +1,6 @@
 ﻿using BlazorShared.Layout;
-using GeneralCommon.Attributes;
-using GeneralCommon.Models.Nav;
+
+using XT.Common.Models.Nav;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using XT.Common.Attributes;
 
 namespace BlazorShared.Data.Base
 {

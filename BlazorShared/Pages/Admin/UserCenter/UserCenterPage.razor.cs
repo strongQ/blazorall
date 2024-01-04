@@ -2,7 +2,7 @@
 using BlazorShared.Pages.Admin.User;
 using Client.API.Managers.RoleManager;
 using Client.API.Managers.UserManager;
-using GeneralCommon.Interfaces;
+using XT.Common.Interfaces;
 using Masa.Blazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;

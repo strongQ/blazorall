@@ -1,7 +1,7 @@
-﻿using GeneralCommon.Dtos.Admin.Dict;
-using GeneralCommon.Dtos.Admin;
-using GeneralCommon.Interfaces;
-using GeneralCommon.Models.Server;
+﻿using XT.Common.Dtos.Admin.Dict;
+using XT.Common.Dtos.Admin;
+using XT.Common.Interfaces;
+using XT.Common.Models.Server;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

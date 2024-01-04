@@ -1,12 +1,12 @@
 using Masa.Blazor;
 using Masa.Blazor.Presets;
-using GeneralCommon.Dtos.Admin.Util;
-using GeneralCommon.Extensions;
+using XT.Common.Dtos.Admin.Util;
+using XT.Common.Extensions;
 
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components;
 using BlazorComponent;
-using GeneralCommon.Dtos.Admin;
+using XT.Common.Dtos.Admin;
 using BlazorShared.Data.Base;
 using Mapster;
 using System.Reflection;

@@ -1,6 +1,6 @@
 ﻿@using Client.API.Managers.RoleManager
-@using GeneralCommon.Dtos.Admin.Role
-@using GeneralCommon.Extensions
+@using XT.Common.Dtos.Admin.Role
+@using XT.Common.Extensions
 @using BlazorShared.Helper
 <MDialog @bind-Value="ShowGrant" Persistent
          MaxWidth="800">
@@ -20,13 +20,13 @@
                                  HideDetails="@("auto")"
                                  Clearable
                                  Outlined
-                                 Items="GeneralCommon.Enums.DataScopeEnum.Dept.ToItemDescriptionList()"
+                                 Items="XT.Common.Enums.DataScopeEnum.Dept.ToItemDescriptionList()"
                                  ItemText="u => u.desc"
                                  ItemValue="u => u.key"
                                  Label="数据范围">
                         </MSelect>
                     </MCol>
-                    @if (Role.DataScope == GeneralCommon.Enums.DataScopeEnum.Define)
+                    @if (Role.DataScope == XT.Common.Enums.DataScopeEnum.Define)
                     {
                         <MCol Cols="12"
                               Sm="12"
@@ -46,7 +46,7 @@
                                                Filter="Filter"
                                                ItemKey="r=>r.Id"
                                                ItemText="r=>r.Name"
-                                               TItem="GeneralCommon.Dtos.Admin.Org.AddOrgInput"
+                                               TItem="XT.Common.Dtos.Admin.Org.AddOrgInput"
                                                TKey="long"
                                                @bind-Value="SelectOrgs"
                                                ItemChildren="r=>r.Children">
@@ -104,7 +104,7 @@
     /// 组织
     /// </summary>
     [Parameter]
-    public List<GeneralCommon.Dtos.Admin.Org.AddOrgInput> Orgs { get; set; }
+    public List<XT.Common.Dtos.Admin.Org.AddOrgInput> Orgs { get; set; }
 
     private string _search = string.Empty;
 
@@ -121,7 +121,7 @@
     /// </summary>
     public List<long> SelectOrgs { get; set; } = new List<long>();
 
-    public Func<GeneralCommon.Dtos.Admin.Org.AddOrgInput, string, Func<GeneralCommon.Dtos.Admin.Org.AddOrgInput, string>, bool> Filter
+    public Func<XT.Common.Dtos.Admin.Org.AddOrgInput, string, Func<XT.Common.Dtos.Admin.Org.AddOrgInput, string>, bool> Filter
     {
         get
         {
@@ -151,7 +151,7 @@
             {
                 Id = Role.Id,
                 DataScope = (int)Role.DataScope,
-                OrgIdList = Role.DataScope == GeneralCommon.Enums.DataScopeEnum.Define? SelectOrgs : null
+                OrgIdList = Role.DataScope == XT.Common.Enums.DataScopeEnum.Define? SelectOrgs : null
             });
         if(result.ShowMessage(PopupService))
         {
@@ -168,7 +168,7 @@
         if (roleID > 0)
         {
 
-            var selects = await RoleManager.GetRoleOrgIdList(new GeneralCommon.Dtos.Admin.Role.RoleInput
+            var selects = await RoleManager.GetRoleOrgIdList(new XT.Common.Dtos.Admin.Role.RoleInput
                 {
                     Id = roleID
                 });
