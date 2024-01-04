@@ -1,6 +1,6 @@
 # BlazorAll
 
-blazorAll前端是一个用Blazor构建的.net6 Hybird系统,，包含BlazorApp(MAUI跨平台APP)、BlazorClient(WASM客户端模式，通过API调用逻辑)、BlazorSSR(服务端模式，支持.NET全部功能)、BlazorWpf(WPF客户端)，开发速度快，并同时可以编译在各个平台运行。
+blazorAll前端是一个用Blazor构建的.net6 Hybird系统,，包含BlazorApp(MAUI跨平台APP)、BlazorClient(WASM客户端模式，通过API调用逻辑)、BlazorSSR(服务端模式，支持.NET全部功能)、BlazorWpf(WPF客户端)，PhotinoBlazor(跨平台，支持linux，支持.NET全部功能）。开发速度快，并同时可以编译在各个平台运行。
 
 前端引用了MasaBlazor(和MudBlazor)双重框架，控件用法直接百度。
 
@@ -12,10 +12,11 @@ blazorAll前端是一个用Blazor构建的.net6 Hybird系统,，包含BlazorApp(
 
 
 ```csharp
-GlobalVariables.PageAssemblies = new List<string>
-{
+  var global = app.Services.GetService<GlobalVariables>();
+  global.IniPages(new List<string>
+    {
     "ECS.Pages"
-};
+    });
 // 添加页面单独的服务
 builder.Services.AddEcsPageServices();
 ```
@@ -24,13 +25,18 @@ builder.Services.AddEcsPageServices();
 
 系统分为独立平台和非独立平台（[依赖AdminCore后台API服务](https://github.com/strongQ/AdminCode)），通过各个平台配置文件(appsettings.json)中的SingleApp=true来切换。
 
+备注：
+- 个人建议 vue3的web app用tauri来承载，可以生成更小的二进制平台程序。    
+- 对于 blazor 界面，建议使用 photino 来承载，可以充分利用c#，超快开发。
+
 ## 1.1、独立平台
 
 ![Untitled](img/Untitled.png)
 
 独立平台非API调用需要考虑Maui的兼容性。
 
-独立平台目前只支持1级菜单，新建页面后只需要加上Page特性就行了，无需其他设置。
+独立平台目前只支持1级菜单，新建页面后只需要加上Page特性就行了，无需其他设置。   
+
 
 ```csharp
 @page "/ecs/floor1"
@@ -170,4 +176,12 @@ public bool SearchFilter(string search, AddDictTypeInput item)
 }
 
 #endregion
+```
+
+# 启动 Startup
+需要修改appsettings.json配置项
+```
+  "RemoteApiUrl": "http://xx:xx",  非独立模式，后台api地址
+  "GrpcUrl": "http://xx:xx",       没有使用
+  "SingleApp": false               true 独立系统，加载ECS.Pages中的页面。false 非独立系统
 ```
