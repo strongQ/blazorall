@@ -16,50 +16,54 @@ namespace BlazorShared.Extensions
     {
         public static List<NavItem> Parse(this List<MenuOutput> menus,List<NavItem> allNavs,List<RazorPageModel> pages)
         {
-            List<NavItem> items = new List<NavItem>();
-            foreach (var menu in menus)
-            {
-                var item = menu.Parse();
-                if (menu.Children!=null && menu.Children.Count > 0)
+           
+
+                List<NavItem> items = new List<NavItem>();
+                foreach (var menu in menus)
                 {
-                    item.Children = menu.Children.Parse(allNavs,pages);
-                }
-                if (menu.Type == XT.Common.Enums.MenuTypeEnum.Menu || menu.Type == XT.Common.Enums.MenuTypeEnum.Dir)
-                {
-                    if (menu.Meta.Icon.Contains("fa-") || menu.Path == "/")
+                    var item = menu.Parse();
+                    if (menu.Children != null && menu.Children.Count > 0)
                     {
-                        var data = pages.FirstOrDefault(x => x.Path == menu.Path);
-
-                        if (menu.Meta.Icon.Contains("fa-"))
-                        {
-                            item.Icon = "fa:" + item.Icon;
-                        }
-                        if (menu.Type == XT.Common.Enums.MenuTypeEnum.Menu)
+                        item.Children = menu.Children.Parse(allNavs, pages);
+                    }
+                    if (menu.Type == XT.Common.Enums.MenuTypeEnum.Menu || menu.Type == XT.Common.Enums.MenuTypeEnum.Dir)
+                    {
+                        if (menu.Meta.Icon.Contains("fa-") || menu.Path == "/")
                         {
 
-                           
-                            if (data != null)
+
+                            if (menu.Meta.Icon.Contains("fa-"))
                             {
-                                allNavs.Add(item);
+                                item.Icon = "fa:" + item.Icon;
+                            }
+                            if (menu.Type == XT.Common.Enums.MenuTypeEnum.Menu)
+                            {
 
+                                var data = pages?.FirstOrDefault(x => x.Path == menu.Path);
+                                if (data != null || pages == null)
+                                {
+                                    allNavs.Add(item);
+
+                                    items.Add(item);
+                                }
+
+                            }
+                            else
+                            {
                                 items.Add(item);
                             }
 
-                        }
-                        else
-                        {
-                            items.Add(item);
-                        }
 
 
+                        }
 
                     }
 
                 }
 
-            }
-           
-            return items;
+                return items;
+            
+          
         }
 
         public static NavItem Parse(this MenuOutput menu) => new()

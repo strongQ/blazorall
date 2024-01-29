@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using XT.Common;
 using XT.Sql.Extensions;
 
-namespace ECS.Pages.Services
+namespace ECS.Pages
 {
     public static class PageServiceExtension
     {

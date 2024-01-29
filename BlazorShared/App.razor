@@ -7,10 +7,11 @@
 @using Layout;
 @using BlazorShared.Data.Base
 @inject NavigationManager NavigationManager
-<CascadingAuthenticationState>
+
     <Router AppAssembly="@typeof(App).Assembly" AdditionalAssemblies="Global.Assemblies">
         <Found Context="routeData">
             <AuthorizeRouteView Resource="@routeData" RouteData="@routeData" DefaultLayout="typeof(BaseLayout)">
+
                 <NotAuthorized>
                   
                         
@@ -19,14 +20,17 @@
                     
                 </NotAuthorized>
             </AuthorizeRouteView>
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+           
         </Found>
         <NotFound>
             <LayoutView Layout="@typeof(BaseLayout)">
                 <BlazorShared.Components.NotFound404></BlazorShared.Components.NotFound404>
             </LayoutView>
         </NotFound>
+      
     </Router>
-</CascadingAuthenticationState>
+
 @code {
     [Inject]
     BlazorShared.Data.Base.GlobalVariables Global{ get; set; }

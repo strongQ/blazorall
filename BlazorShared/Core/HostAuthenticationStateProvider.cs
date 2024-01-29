@@ -29,12 +29,13 @@ namespace BlazorShared.Core
     {
         private ILoginManager _loginService;
         private IApiConfig _apiConfig;
-
+        private string _token = string.Empty;
         private readonly ILocalStorageService _localStorageService;
 
         private GlobalVariables _global;
 
 
+        private static bool _isFirst = true;
 
         public HostAuthenticationStateProvider(ILoginManager loginService, IApiConfig apiConfig, ILocalStorageService localStorageService,GlobalVariables globalVariables)
         {
@@ -49,13 +50,36 @@ namespace BlazorShared.Core
 
         public async override Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            if (_global.IsSingleApp)
-            {
-                var claims = new[] { new Claim(ClaimTypes.Name, "Admin") };
-                var identity = new ClaimsIdentity(claims, nameof(HostAuthenticationStateProvider));
-                return new AuthenticationState(new ClaimsPrincipal (identity));
-            }
-            string token = await _localStorageService.GetItemAsync<string>("token");
+           
+                if (_global.IsSingleApp)
+                {
+                    var claims = new[] { new Claim(ClaimTypes.Name, "Admin") };
+                    var identity = new ClaimsIdentity(claims, nameof(HostAuthenticationStateProvider));
+                    return new AuthenticationState(new ClaimsPrincipal(identity));
+                }
+
+               
+
+                   
+                    if (string.IsNullOrEmpty(_token) || TokenHelper.IsTokenExpired(_token))
+                    {
+                        var anonymous = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity() { }));
+                        return anonymous;
+                    }
+                    var userClaimPrincipal = new ClaimsPrincipal(new ClaimsIdentity(TokenHelper.ParseClaimsFromJwt(_token), "jwt"));
+
+                    var loginUser = new AuthenticationState(userClaimPrincipal);
+                    return loginUser;
+               
+            
+          
+           
+          
+        }
+
+        public async Task Notify()
+        {
+            _token = await _localStorageService.GetItemAsync<string>("token");
             var config = await _localStorageService.GetItemAsync<ApiConfig>("HiSetting");
             if (config != null)
             {
@@ -63,19 +87,6 @@ namespace BlazorShared.Core
                 _apiConfig.OtherUrl = config.OtherUrl;
                 _apiConfig.Token = config.Token;
             }
-            if (string.IsNullOrEmpty(token) || TokenHelper.IsTokenExpired(token))
-            {
-                var anonymous = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity() { }));
-                return anonymous;
-            }
-            var userClaimPrincipal = new ClaimsPrincipal(new ClaimsIdentity(TokenHelper.ParseClaimsFromJwt(token), "jwt"));
-
-            var loginUser = new AuthenticationState(userClaimPrincipal);
-            return loginUser;
-        }
-
-        public void Notify()
-        {
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
         }
 

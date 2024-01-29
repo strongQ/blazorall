@@ -56,9 +56,10 @@ namespace BlazorShared
             var cultureInfo = new CultureInfo("zh-CN");
             CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
             CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
-         
+
+            // web assamble
+            //services.AddAuthorizationCore();
             //services.AddOptions();
-            services.AddAuthorizationCore();
             // 添加本行代码
             services.AddMasaBlazor(options =>
             {
@@ -128,16 +129,15 @@ namespace BlazorShared
             // 注入接口访问
             services.AddServiceInjects<IApiManager>();
 
-            // 注入Demo服务
-            //services.AddDemoServices();
+           
 
             services.AddBlazoredLocalStorage();
 
             services.AddSingleton<GlobalVariables>();
 
             services.AddScoped<SecurityServiceClient>();
-            services.AddScoped<HostAuthenticationStateProvider>();
-            services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<HostAuthenticationStateProvider>());
+           
+            services.AddScoped<AuthenticationStateProvider, HostAuthenticationStateProvider>();
 
             services.AddScoped<NavHelper>();
             services.AddScoped<GlobalConfig>();

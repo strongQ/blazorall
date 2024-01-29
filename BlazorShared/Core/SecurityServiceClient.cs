@@ -75,7 +75,7 @@ namespace BlazorShared.Core
                     await _localStorageService.SetItemAsync("HiSetting", _apiConfig);
                     await _localStorageService.SetItemAsync("token", result.Result.AccessToken);
                     await _localStorageService.SetItemAsync("refreshToken", result.Result.RefreshToken);
-                    (_authenticationStateProvider as HostAuthenticationStateProvider).Notify();
+                   await (_authenticationStateProvider as HostAuthenticationStateProvider).Notify();
 
 
 
@@ -91,7 +91,7 @@ namespace BlazorShared.Core
         {
             await _localStorageService.RemoveItemAsync("token");
             await _localStorageService.RemoveItemAsync("refreshToken");
-            (_authenticationStateProvider as HostAuthenticationStateProvider).Notify();
+           await (_authenticationStateProvider as HostAuthenticationStateProvider).Notify();
         }
         public async Task PrepareBearerToken()
         {

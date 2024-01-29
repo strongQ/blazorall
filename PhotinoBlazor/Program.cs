@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Photino.Blazor;
 using XT.Common.Config;
-using ECS.Pages.Services;
+using ECS.Pages;
 using BlazorShared.Data.Base;
 using BlazorShared.Services;
 using BlazorShared;
@@ -19,6 +19,9 @@ internal class Program
         appBuilder.RootComponents.Add<BlazorShared.App>("app");
 
         appBuilder.Services.AddSingleton(new AppSettings(false));
+
+        appBuilder.Services.AddAuthorizationCore();
+        appBuilder.Services.AddOptions();
 
         appBuilder.Services.AddSharedExtensions();
         // 添加页面单独实现

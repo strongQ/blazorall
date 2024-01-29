@@ -1,37 +1,46 @@
+﻿
+
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>BlazorClient</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ECS调度平台</title>
     <base href="/" />
+    <!-- masa blazor css style -->
     <link href="_content/Masa.Blazor/css/masa-blazor.min.css" rel="stylesheet" />
+
+   
+
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
 
     <!--icon file,import need to use-->
     <link href="css/materialdesignicons.min.css" rel="stylesheet">
+   
+
+
     <link href="css/materialicons.css" rel="stylesheet">
     <link href="css/fontawesome.css" rel="stylesheet">
 
 
 
 
+
     <link href="css/masa-blazor-pro.css" rel="stylesheet" />
 
-    <link href="manifest.json" rel="manifest" />
-    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
+    <HeadOutlet @rendermode="InteractiveServer" />
 </head>
-
 <body>
-    <div id="app">Loading...</div>
+    <BlazorShared.App @rendermode="InteractiveServer" />
 
-    <div id="blazor-error-ui">
+ 
 
-    </div>
-    <script src="_framework/blazor.webassembly.js"></script>
-    <script>navigator.serviceWorker.register('service-worker.js');</script>
+    <script src="_framework/blazor.server.js" autostart="false" asp-append-version="true" ></script>
+    <script src="js//boot.js"></script>
+    <!--js(should lay the end of file)-->
     <script src="_content/BlazorComponent/js/blazor-component.js"></script>
-
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
     <script src="js/echarts.min.js"></script>
 
     <script>
@@ -80,7 +89,11 @@
             });
         }
 
-    </script>
-</body>
 
+       
+             
+    </script>
+
+</body>
 </html>
+
