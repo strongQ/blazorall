@@ -1,4 +1,4 @@
-﻿using BlazorShared.Services;
+﻿using BlazorXT.Services;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 #if (ANDROID)

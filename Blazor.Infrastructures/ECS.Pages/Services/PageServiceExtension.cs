@@ -20,11 +20,7 @@ namespace ECS.Pages
         public static IServiceCollection AddEcsPageServices(this IServiceCollection services)
         {
            
-            services.AddSignalRService();
-          
-            services.AddOriginHttpClient();
-            // 添加Sql
-            services.AddXTDbSetup();
+           
            
             return services;
         }

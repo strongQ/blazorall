@@ -1,5 +1,5 @@
 ﻿using BlazorComponent;
-using BlazorShared.Core;
+using BlazorXT.Core;
 using Masa.Blazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-namespace BlazorShared.Components
+namespace BlazorXT.Components
 {
     /// <summary>
     /// masa.stack

@@ -2,7 +2,7 @@
 @using Global.Config
 @using XT.Common.Interfaces
 @using XT.Common.Models.Nav
-@using BlazorShared.Data.Base
+@using BlazorXT.Data.Base
 @using Extensions
 @using Layout
 @using BlazorComponent.I18n;
@@ -32,15 +32,15 @@
                         </MIcon>
                         </MButton>
                         <MSpacer />
-                    <BlazorShared.Layout.AppBarButtons LanguageChange=@LanguageChange>
-                    </BlazorShared.Layout.AppBarButtons>
+                    <BlazorXT.Layout.AppBarButtons LanguageChange=@LanguageChange>
+                    </BlazorXT.Layout.AppBarButtons>
                         </MSystemBar>
                 }
 
             <Logo HeightInt=@(IsMobile?UserConfig.Themes.LayoutPrpo.AppBarHeight:UserConfig.Themes.LayoutPrpo.AppBarHeight+UserConfig.Themes.LayoutPrpo.PageTabsHeight) />
 
 
-            <BlazorShared.Controls.DefaultList ClassString="overflow-y-auto"
+            <BlazorXT.Controls.DefaultList ClassString="overflow-y-auto"
                                                StyleString=@($"height: calc(100vh - {UserConfig.Themes.LayoutPrpo.AppBarHeight+UserConfig.Themes.LayoutPrpo.PageTabsHeight}px);")
                                               Items="Navs" />
         </MNavigationDrawer>
@@ -51,7 +51,7 @@
                 <MButton Class="mr-0" Icon Small=IsMobile OnClick=@(() => _drawerOpen = !_drawerOpen)>
                     <MIcon>mdi:mdi-menu</MIcon>
                 </MButton>
-            <BlazorShared.Components.AppBarItems LanguageChange=@LanguageChange></BlazorShared.Components.AppBarItems>
+            <BlazorXT.Components.AppBarItems LanguageChange=@LanguageChange></BlazorXT.Components.AppBarItems>
 
                 </MAppBar>
 

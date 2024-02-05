@@ -5,7 +5,7 @@
 @using Pages
 @using Components
 @using Layout;
-@using BlazorShared.Data.Base
+@using BlazorXT.Data.Base
 @inject NavigationManager NavigationManager
 
     <Router AppAssembly="@typeof(App).Assembly" AdditionalAssemblies="Global.Assemblies">
@@ -15,7 +15,7 @@
                 <NotAuthorized>
                   
                         
-                            <BlazorShared.Pages.Login></BlazorShared.Pages.Login>
+                            <BlazorXT.Pages.Login></BlazorXT.Pages.Login>
                         
                     
                 </NotAuthorized>
@@ -25,7 +25,7 @@
         </Found>
         <NotFound>
             <LayoutView Layout="@typeof(BaseLayout)">
-                <BlazorShared.Components.NotFound404></BlazorShared.Components.NotFound404>
+                <BlazorXT.Components.NotFound404></BlazorXT.Components.NotFound404>
             </LayoutView>
         </NotFound>
       
@@ -33,7 +33,7 @@
 
 @code {
     [Inject]
-    BlazorShared.Data.Base.GlobalVariables Global{ get; set; }
+    BlazorXT.Data.Base.GlobalVariables Global{ get; set; }
     
 
 }

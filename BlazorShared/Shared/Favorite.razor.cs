@@ -1,6 +1,6 @@
 ﻿using BlazorComponent.I18n;
-using BlazorShared.Global.Nav.Model;
-using BlazorShared.Services;
+using BlazorXT.Global.Nav.Model;
+using BlazorXT.Services;
 using XT.Common.Interfaces;
 using XT.Common.Models.Nav;
 using Microsoft.AspNetCore.Components;
@@ -14,7 +14,7 @@ using BlazorComponent;
 using Blazored.LocalStorage;
 
 
-namespace BlazorShared.Shared
+namespace BlazorXT.Shared
 {
     public partial class Favorite
     {

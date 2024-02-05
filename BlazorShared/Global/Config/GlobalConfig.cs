@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorShared.Global.Config
+namespace BlazorXT.Global.Config
 {
     public class GlobalConfig
     {

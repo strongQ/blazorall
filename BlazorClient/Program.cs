@@ -1,5 +1,5 @@
-using BlazorClient;
-using BlazorShared;
+
+using BlazorXT;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using System.Reflection.PortableExecutable;

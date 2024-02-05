@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using XT.Common.Extensions;
 
-namespace BlazorShared.Services
+namespace BlazorXT.Services
 {
     public partial class HttpService
     {

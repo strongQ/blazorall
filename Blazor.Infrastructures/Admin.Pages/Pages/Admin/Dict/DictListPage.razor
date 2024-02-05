@@ -1,0 +1,105 @@
+﻿@page "/platform/dict"
+@using BlazorXT.Layout
+@using BlazorXT.Components.DataTable
+@using XT.Common.Dtos.Admin.Dict
+@using XT.Common.Extensions
+
+@using XT.Common.Attributes
+@attribute [Page("/platform/dict", "字典管理","fa fa-sliders")]
+@attribute [Authorize]
+
+@inherits CultureComponentBase
+@layout MainLayout
+@inject MasaBlazor MasaBlazor
+
+<AppDataTable @ref="_table" TItem="AddDictTypeInput" SearchItem="PageDictTypeInput"
+              AddItem="AddDictTypeInput" EditItem="AddDictTypeInput" SearchModel="@SearchInput"
+              QueryCall="QueryCall" EditCall="EditTypeCall" DeleteCall="DeleteTypeCall"
+                IsShowClearSearch
+               SearchItemFilter="SearchFilter"
+               ShowSelect="false"
+                ShowQueryButton
+                ShowDetailButton
+                ShowExportButton
+              
+               ShowAddButton=@UserConfig.IsHasButtonWithRole("sysDictType:add")
+               ShowDeleteButton=@UserConfig.IsHasButtonWithRole("sysDictType:delete")
+               ShowEditButton=@UserConfig.IsHasButtonWithRole("sysDictType:update")
+                IsShowSearchKey>
+
+
+
+<ItemColTemplate>
+        @{
+            context.Item.IsRender = true;
+            @switch (context.Header.Value)
+            {
+                case nameof(context.Item.Code):
+                    if (context.Item.Code.IsNotNullOrEmpty())
+                    {
+                       <MButton Outlined OnClick="()=>ShowDicts(context.Item)">@context.Item.Code</MButton>
+
+
+                    }
+                    break;
+             
+                default:
+                    context.Item.IsRender = false;
+                    break;
+            }
+        }
+</ItemColTemplate>
+
+
+    <SearchTemplate>
+        <MTextField Style="max-width:200px;" @bind-Value="context.Name"
+                    Label="字典名称"
+                        Clearable>
+
+        </MTextField>
+        <MTextField Style="max-width:200px;" @bind-Value="context.Code" Label="字典编码"></MTextField>
+    </SearchTemplate>
+   
+
+</AppDataTable>
+
+
+<PDrawer @bind-Value="DictShow"
+         AutoScrollToTop
+          Title="字典"
+          Width=@(MasaBlazor.Breakpoint.Mobile?"100%":"800")
+          MaxWidth="800">
+     <MContainer>
+         <AppDataTable @ref="_tableDict" TItem="AddDictDataInput" SearchItem="PageDictDataInput"
+                       AddItem="AddDictDataInput" EditItem="AddDictDataInput" SearchModel="@SearchDictInput"
+                       QueryCall="QueryDictCall" EditCall="EditDataCall" DeleteCall="DeleteDataCall"
+                        IsShowClearSearch
+                       SearchItemFilter="SearchDictFilter"
+                       ShowSelect="false"
+                        ShowQueryButton
+                        
+                        ShowExportButton
+                        ShowDetailButton
+                       ShowAddButton
+                       ShowDeleteButton
+                       ShowEditButton
+                        IsShowSearchKey>
+
+
+
+            
+
+
+            <SearchTemplate>
+                <MTextField Style="max-width:200px;" @bind-Value="context.Value"
+                            Label="值"
+                                Clearable>
+
+                </MTextField>
+                <MTextField Style="max-width:200px;" @bind-Value="context.Code" Label="编码"></MTextField>
+            </SearchTemplate>
+
+
+        </AppDataTable>
+     </MContainer>
+ </PDrawer>

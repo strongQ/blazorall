@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorShared.Services
+namespace BlazorXT.Services
 {
     /// <summary>
     /// 日志服务

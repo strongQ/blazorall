@@ -1,12 +1,12 @@
 ﻿using BlazorComponent;
 using Blazored.LocalStorage;
-using BlazorShared.Core;
-using BlazorShared.Data.Base;
-using BlazorShared.Extensions;
-using BlazorShared.Global.Nav;
-using BlazorShared.Global.Nav.Model;
-using BlazorShared.Helper;
-using BlazorShared.Models;
+using BlazorXT.Core;
+using BlazorXT.Data.Base;
+using BlazorXT.Extensions;
+using BlazorXT.Global.Nav;
+using BlazorXT.Global.Nav.Model;
+using BlazorXT.Helper;
+using BlazorXT.Models;
 using Client.API.Managers.LoginManager;
 using Client.API.Managers.UserManager;
 
@@ -34,7 +34,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorShared.Config
+namespace BlazorXT.Config
 {
     public class UserConfig:IUserConfig
     {
@@ -69,6 +69,7 @@ namespace BlazorShared.Config
         {
             if (_globalVariables.IsSingleApp)
             {
+                _apiConfig.RemoteApiUrl = GlobalVariables.Url;
                 LoginUser = new LoginUserOutput
                 {
                     Account = "SuperAdmin"
@@ -109,12 +110,15 @@ namespace BlazorShared.Config
                 {
                     if (page.Show)
                     {
-                        items.Add(new NavItem
+                       var item= new NavItem
                         {
                             Href = page.Path,
                             Title = page.Name,
                             Icon=page.Icon
-                        });
+                        };
+                      
+                        if (item.Icon.Contains("fa-")) item.Icon = "fa:" + item.Icon;
+                        items.Add(item);
                     }
                 }
                 Navs = items;

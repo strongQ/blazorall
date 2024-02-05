@@ -6,7 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorShared.Core
+namespace BlazorXT.Core
 {
     public static class TokenHelper
     {

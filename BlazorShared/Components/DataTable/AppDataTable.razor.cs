@@ -7,17 +7,17 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components;
 using BlazorComponent;
 using XT.Common.Dtos.Admin;
-using BlazorShared.Data.Base;
+using BlazorXT.Data.Base;
 using Mapster;
 using System.Reflection;
 using MiniExcelLibs;
 using Microsoft.JSInterop;
-using BlazorShared.Helper;
+using BlazorXT.Helper;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Data;
 using System.Runtime.CompilerServices;
 
-namespace BlazorShared.Components.DataTable
+namespace BlazorXT.Components.DataTable
 {
     public partial class AppDataTable<TItem, SearchItem, AddItem, EditItem> : IAppDataTable
         where TItem : BaseIdInput, new()

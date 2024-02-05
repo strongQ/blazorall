@@ -1,4 +1,4 @@
-﻿namespace BlazorShared.Components.DataTable
+﻿namespace BlazorXT.Components.DataTable
 {
     public class Filters
     {

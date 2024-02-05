@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorShared.Config
+namespace BlazorXT.Config
 {
     public class ApiConfig : IApiConfig
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.Common; 
  
-namespace BlazorShared.Services
+namespace BlazorXT.Services
 {
 	public interface ISQLite
 	{

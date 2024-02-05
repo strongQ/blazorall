@@ -1,0 +1,189 @@
+﻿@using Client.API.Managers.RoleManager
+@using XT.Common.Dtos.Admin.Role
+@using XT.Common.Extensions
+@using BlazorXT.Helper
+<MDialog @bind-Value="ShowGrant" Persistent
+         MaxWidth="800">
+    <MCard>
+        <MCardTitle>
+            <span class="text-h5">授权数据范围</span>
+        </MCardTitle>
+
+        <MCardText>
+            <MContainer>
+                <MRow>
+                    <MCol Cols="12"
+                          Sm="12"
+                          Md="12">
+                        <MSelect @bind-Value="Role.DataScope"
+                                 Color="primary"
+                                 HideDetails="@("auto")"
+                                 Clearable
+                                 Outlined
+                                 Items="XT.Common.Enums.DataScopeEnum.Dept.ToItemDescriptionList()"
+                                 ItemText="u => u.desc"
+                                 ItemValue="u => u.key"
+                                 Label="数据范围">
+                        </MSelect>
+                    </MCol>
+                    @if (Role.DataScope == XT.Common.Enums.DataScopeEnum.Define)
+                    {
+                        <MCol Cols="12"
+                              Sm="12"
+                              Md="12">
+                            <MCard Elevation="2" Class="mx-auto"
+                                   MaxWidth="800" MaxHeight="300">
+                                <MSheet Class="pa-4  lighten-2">
+                                    <MTextField @bind-Value="_search"
+                                                Label="机构名称"
+                                                HideDetails=@("auto")
+                                                Clearable
+                                                ClearIcon="mdi-close-circle-outline"></MTextField>
+                                </MSheet>
+                                <MCardText>
+                                    <MTreeview OpenAll Style="@($"overflow-y:auto;height:200px")" Selectable Items="Orgs"
+                                               Search="@_search"
+                                               Filter="Filter"
+                                               ItemKey="r=>r.Id"
+                                               ItemText="r=>r.Name"
+                                               TItem="XT.Common.Dtos.Admin.Org.AddOrgInput"
+                                               TKey="long"
+                                               @bind-Value="SelectOrgs"
+                                               ItemChildren="r=>r.Children">
+                                        <PrependContent>
+                                            @if (context.Item.Children != null && context.Item.Children.Count > 0)
+                                            {
+                                                <MIcon>
+                                                    @($"mdi:mdi-{(context.Item.Code == "1" ? "home-variant" : "folder-network")}")
+                                                </MIcon>
+                                            }
+                                        </PrependContent>
+                                    </MTreeview>
+                                </MCardText>
+                            </MCard>
+                        </MCol>
+                    }
+                   
+
+                </MRow>
+
+              
+            </MContainer>
+        </MCardText>
+
+        <MCardActions>
+            <MSpacer></MSpacer>
+            <MButton Color="blue darken-1"
+                     Text
+                     OnClick="GrantClose">
+                关闭
+            </MButton>
+            <MButton Color="blue darken-1"
+                     Text
+                     OnClick="GrantSave">
+                保存
+            </MButton>
+        </MCardActions>
+    </MCard>
+</MDialog>
+
+            @code {
+    [Parameter]
+    public bool ShowGrant { get; set; }
+    [Parameter]
+    public SysRole Role { get; set; }
+
+    [Parameter]
+    public Func<bool,Task> CloseAfter { get; set; }
+
+
+    [Inject]
+    public IPopupService PopupService { get; set; }
+
+    /// <summary>
+    /// 组织
+    /// </summary>
+    [Parameter]
+    public List<XT.Common.Dtos.Admin.Org.AddOrgInput> Orgs { get; set; }
+
+    private string _search = string.Empty;
+
+    /// <summary>
+    /// 角色服务
+    /// </summary>
+    [Inject]
+    public IRoleManager RoleManager { get; set; }
+
+
+
+    /// <summary>
+    /// 选中的部门
+    /// </summary>
+    public List<long> SelectOrgs { get; set; } = new List<long>();
+
+    public Func<XT.Common.Dtos.Admin.Org.AddOrgInput, string, Func<XT.Common.Dtos.Admin.Org.AddOrgInput, string>, bool> Filter
+    {
+        get
+        {
+
+            return (item, search, textKey) => textKey(item).IndexOf(search) > -1;
+
+
+            return null;
+        }
+    }
+
+    protected async  override Task OnParametersSetAsync()
+    {
+        if(Role!=null)
+            await InitData(Role.Id);
+    } 
+
+    public async Task GrantClose()
+    {
+        ShowGrant = false;
+        await  CloseAfter?.Invoke(false);
+    }
+
+    public async Task GrantSave()
+    {
+        var result= await RoleManager.GrantDataScope(new RoleOrgInput
+            {
+                Id = Role.Id,
+                DataScope = (int)Role.DataScope,
+                OrgIdList = Role.DataScope == XT.Common.Enums.DataScopeEnum.Define? SelectOrgs : null
+            });
+        if(result.ShowMessage(PopupService))
+        {
+            ShowGrant = false;
+            await  CloseAfter?.Invoke(true);
+        }      
+    }
+
+    
+
+    public async Task InitData(long roleID)
+    {
+        SelectOrgs = new List<long>();
+        if (roleID > 0)
+        {
+
+            var selects = await RoleManager.GetRoleOrgIdList(new XT.Common.Dtos.Admin.Role.RoleInput
+                {
+                    Id = roleID
+                });
+
+            if (selects.Code == 200)
+            {
+
+                SelectOrgs = selects.Result;
+            }
+        }
+
+       
+
+
+        return;
+    }
+
+}

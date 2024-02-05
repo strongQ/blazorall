@@ -1,0 +1,20 @@
+﻿@page "/develop/api"
+
+@using BlazorXT.Layout
+@using BlazorXT.Data.Base
+@using XT.Common.Extensions
+
+@using XT.Common.Attributes
+@attribute [Page("/develop/api", "后台接口","fa fa-tripadvisor",true)]
+@attribute [Authorize]
+
+@inherits CultureComponentBase
+@layout MainLayout
+@inject MasaBlazor MasaBlazor
+
+<iframe width="560" height="315" src="@(Global.RemoteApiUrl+"/kapi")" frameborder="0" allowfullscreen></iframe>
+@code {
+    [Inject]
+    BlazorXT.Data.Base.GlobalVariables Global{ get; set; }
+
+}

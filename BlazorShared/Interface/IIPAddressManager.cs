@@ -1,4 +1,4 @@
-﻿namespace BlazorShared.Services
+﻿namespace BlazorXT.Services
 {
     public interface IIPAddressManager
     {

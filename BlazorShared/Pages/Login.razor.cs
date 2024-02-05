@@ -1,7 +1,7 @@
 ﻿
-using BlazorShared.Core;
-using BlazorShared.Global.Nav;
-using BlazorShared.Models;
+using BlazorXT.Core;
+using BlazorXT.Global.Nav;
+using BlazorXT.Models;
 using Client.API.Managers.LoginManager;
 
 using XT.Common.Interfaces;
@@ -20,14 +20,16 @@ using Timer = System.Timers.Timer;
 using System.Timers;
 using Microsoft.Extensions.DependencyInjection;
 using XT.Common.Dtos.Admin.Menu;
-using BlazorShared.Data.Base;
-using BlazorShared.Shared;
+using BlazorXT.Data.Base;
+using BlazorXT.Shared;
 using Microsoft.AspNetCore.Components.Web;
-using BlazorShared.Config;
+using BlazorXT.Config;
 using BlazorComponent;
 using Blazored.LocalStorage;
+using Masa.Blazor.Presets.Cron;
+using Microsoft.AspNetCore.Components.Authorization;
 
-namespace BlazorShared.Pages
+namespace BlazorXT.Pages
 {
     public partial class Login
     {
@@ -95,8 +97,7 @@ namespace BlazorShared.Pages
         [Inject]
         public NavHelper NavHelper { get; set; }
 
-        [Inject]
-        ILocalStorageService localStorage { get; set; }
+        
 
         /// <summary>
         /// 登录服务
@@ -109,12 +110,12 @@ namespace BlazorShared.Pages
         public IUserConfig UserConfig { get; set; }
         [Inject]
         public IApiConfig ApiConfig { get; set; }
-        
-       
+        [Inject]
+        public AuthenticationStateProvider Authentication { get; set; }
 
         public LoginShared ShareLogin { get; set; }
         [Inject]
-        BlazorShared.Data.Base.GlobalVariables Global { get; set; }
+        BlazorXT.Data.Base.GlobalVariables Global { get; set; }
 
         private async Task Enter(KeyboardEventArgs e)
         {
@@ -123,6 +124,8 @@ namespace BlazorShared.Pages
                 await OnLogin();
             }
         }
+
+        
 
 
         /// <summary>
@@ -155,7 +158,11 @@ namespace BlazorShared.Pages
             }
             else
             {
-            
+
+                //if (Authentication is HostAuthenticationStateProvider provider)
+                //{
+                //    await provider.Notify();                 
+                //}
                 NavHelper.NavigateTo(GlobalVariables.DefaultRoute);
 
             }
@@ -170,10 +177,20 @@ namespace BlazorShared.Pages
         {
 
         }
-    
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (Authentication is HostAuthenticationStateProvider provider)
+            {
+                var result = await provider.Notify(true);
+
+                if (result) return;
+            }
+        }
 
         protected override async Task OnInitializedAsync()
         {
+          
 
             if (ApiConfig.RemoteApiUrl.IsNullOrEmpty())
             {

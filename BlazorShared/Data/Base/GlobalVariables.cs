@@ -1,4 +1,4 @@
-﻿using BlazorShared.Layout;
+﻿using BlazorXT.Layout;
 
 using XT.Common.Models.Nav;
 using Microsoft.AspNetCore.Authorization;
@@ -11,13 +11,17 @@ using System.Text;
 using System.Threading.Tasks;
 using XT.Common.Attributes;
 
-namespace BlazorShared.Data.Base
+namespace BlazorXT.Data.Base
 {
     public  class GlobalVariables
     {
+        public static string Url = string.Empty;
       
         public const string DefaultRoute = "/";
-     
+        /// <summary>
+        /// 存储配置
+        /// </summary>
+        public const string StoreKey = "HiSetting";
 
         /// <summary>
         /// 主题cookie
@@ -118,32 +122,39 @@ namespace BlazorShared.Data.Base
            
             foreach (var assembly in assemblies)
             {
-                var assemble = Assembly.Load(assembly);
-                others.Add(assemble);
-                var pages = assemble.ExportedTypes.Where(t =>
-                                   t.IsSubclassOf(typeof(CultureComponentBase)));
-                foreach (var page in pages)
+                try
                 {
-
-
-                    // Now check if this component contains the Authorize attribute
-                    var allAttributes = page.GetCustomAttributes(inherit: true);
-
-                    var authorizeDataAttributes =
-                                    allAttributes.OfType<PageAttribute>().ToArray();
-
-                    // If it does, show this to us... 
-                    foreach (var authorizeData in authorizeDataAttributes)
+                    var assemble = Assembly.Load(assembly);
+                    others.Add(assemble);
+                    var pages = assemble.ExportedTypes.Where(t =>
+                                       t.IsSubclassOf(typeof(CultureComponentBase)));
+                    foreach (var page in pages)
                     {
 
-                        datas.Add(new RazorPageModel
+
+                        // Now check if this component contains the Authorize attribute
+                        var allAttributes = page.GetCustomAttributes(inherit: true);
+
+                        var authorizeDataAttributes =
+                                        allAttributes.OfType<PageAttribute>().ToArray();
+
+                        // If it does, show this to us... 
+                        foreach (var authorizeData in authorizeDataAttributes)
                         {
-                            Path = authorizeData.Path,
-                            Name = authorizeData.Name,
-                            Show = authorizeData.Show,
-                            Icon = authorizeData.Icon
-                        });
+
+                            datas.Add(new RazorPageModel
+                            {
+                                Path = authorizeData.Path,
+                                Name = authorizeData.Name,
+                                Show = authorizeData.Show,
+                                Icon = authorizeData.Icon
+                            });
+                        }
                     }
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
                 }
             }
 

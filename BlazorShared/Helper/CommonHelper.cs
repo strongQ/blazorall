@@ -1,5 +1,5 @@
-﻿using BlazorShared.Enums;
-using BlazorShared.Interface;
+﻿using BlazorXT.Enums;
+using BlazorXT.Interface;
 using XT.Common.Models.Server;
 using Masa.Blazor;
 using Microsoft.AspNetCore.Http;
@@ -15,7 +15,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace BlazorShared.Helper
+namespace BlazorXT.Helper
 {
     public static partial class CommonHelper
     {

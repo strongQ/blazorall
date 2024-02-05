@@ -1,6 +1,6 @@
-﻿using BlazorShared.Config;
-using BlazorShared.Models;
-using BlazorShared.Services;
+﻿using BlazorXT.Config;
+using BlazorXT.Models;
+using BlazorXT.Services;
 using Client.API.Managers.LoginManager;
 using XT.Common.Dtos.Admin.Auth;
 using XT.Common.Dtos.Login;
@@ -14,35 +14,36 @@ using System.Security.Claims;
 using XT.Common.Extensions;
 using System.Text;
 using System.Threading.Tasks;
-using BlazorShared.Data.Base;
+using BlazorXT.Data.Base;
 using BlazorComponent.I18n;
-using BlazorShared.Pages;
-using BlazorShared.Shared;
+using BlazorXT.Pages;
+using BlazorXT.Shared;
 using BlazorComponent;
 using Blazored.LocalStorage;
 using System.Security.Principal;
 
 
-namespace BlazorShared.Core
+namespace BlazorXT.Core
 {
     public class HostAuthenticationStateProvider : AuthenticationStateProvider
     {
         private ILoginManager _loginService;
         private IApiConfig _apiConfig;
-        private string _token = string.Empty;
-        private readonly ILocalStorageService _localStorageService;
+        
+       
 
         private GlobalVariables _global;
 
 
-        private static bool _isFirst = true;
+        private SecurityServiceClient _client;
 
-        public HostAuthenticationStateProvider(ILoginManager loginService, IApiConfig apiConfig, ILocalStorageService localStorageService,GlobalVariables globalVariables)
+        public HostAuthenticationStateProvider(ILoginManager loginService, IApiConfig apiConfig,GlobalVariables globalVariables,SecurityServiceClient securityService)
         {
             _loginService = loginService;
             _apiConfig = apiConfig;
-            _localStorageService = localStorageService;
+           
             _global=globalVariables;
+            _client = securityService;
 
         }
 
@@ -61,12 +62,12 @@ namespace BlazorShared.Core
                
 
                    
-                    if (string.IsNullOrEmpty(_token) || TokenHelper.IsTokenExpired(_token))
+                    if ( string.IsNullOrEmpty(_apiConfig.Token) || TokenHelper.IsTokenExpired(_apiConfig.Token))
                     {
                         var anonymous = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity() { }));
                         return anonymous;
                     }
-                    var userClaimPrincipal = new ClaimsPrincipal(new ClaimsIdentity(TokenHelper.ParseClaimsFromJwt(_token), "jwt"));
+                    var userClaimPrincipal = new ClaimsPrincipal(new ClaimsIdentity(TokenHelper.ParseClaimsFromJwt(_apiConfig.Token), "jwt"));
 
                     var loginUser = new AuthenticationState(userClaimPrincipal);
                     return loginUser;
@@ -77,18 +78,28 @@ namespace BlazorShared.Core
           
         }
 
-        public async Task Notify()
+        public async Task<bool> Notify(bool isLogin=false)
         {
-            _token = await _localStorageService.GetItemAsync<string>("token");
-            var config = await _localStorageService.GetItemAsync<ApiConfig>("HiSetting");
-            if (config != null)
-            {
-                _apiConfig.RemoteApiUrl = config.RemoteApiUrl;
-                _apiConfig.OtherUrl = config.OtherUrl;
-                _apiConfig.Token = config.Token;
+
+            var token = await _client.PrepareBearerToken();
+            if (token.IsNotNullOrEmpty())
+            {             
+                NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+                return true;
             }
-            NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+            else
+            {
+                if (!isLogin)
+                {
+                    NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+                }
+                return false;
+            }
+
+           
         }
+
+      
 
 
 

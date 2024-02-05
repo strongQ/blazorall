@@ -1,6 +1,6 @@
-﻿using BlazorShared.Data.Base;
-using BlazorShared.Global.Config;
-using BlazorShared.Global.Nav;
+﻿using BlazorXT.Data.Base;
+using BlazorXT.Global.Config;
+using BlazorXT.Global.Nav;
 using XT.Common.Attributes;
 using XT.Common.Dtos.Admin.Menu;
 using XT.Common.Models.Nav;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorShared.Extensions
+namespace BlazorXT.Extensions
 {
     public static class MenuExtensions
     {

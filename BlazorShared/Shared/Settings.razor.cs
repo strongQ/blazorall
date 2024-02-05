@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-namespace BlazorShared.Shared
+namespace BlazorXT.Shared
 {
     public partial class Settings
     {

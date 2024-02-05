@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorShared.Interface
+namespace BlazorXT.Interface
 {
     public interface ITree<T>
     {

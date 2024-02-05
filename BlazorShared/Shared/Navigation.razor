@@ -29,7 +29,7 @@
     </div>
     
  
-     <BlazorShared.Controls.DefaultList ClassString="overflow-y-auto"
+     <BlazorXT.Controls.DefaultList ClassString="overflow-y-auto"
                              StyleString=@($"height: calc(100vh - {UserConfig.Themes.LayoutPrpo.AppBarHeight+UserConfig.Themes.LayoutPrpo.PageTabsHeight}px);")
                              Items="Navs" />
 </MNavigationDrawer>
@@ -47,7 +47,7 @@
     [Inject]
     private IUserConfig UserConfig { get; set; }
     [Inject]
-    private BlazorShared.Data.Base.GlobalVariables Global{ get; set; }
+    private BlazorXT.Data.Base.GlobalVariables Global{ get; set; }
 
     private List<NavItem> Navs { get; set; } = new();
     [Inject]

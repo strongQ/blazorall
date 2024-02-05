@@ -1,5 +1,5 @@
 ﻿using BlazorComponent;
-using BlazorShared.Models;
+using BlazorXT.Models;
 using Client.API.Managers.LoginManager;
 using XT.Common.Interfaces;
 using XT.Common.Models.SignalR;
@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using XT.Common.Extensions;
 
-namespace BlazorShared.Shared
+namespace BlazorXT.Shared
 {
     public partial class LoginShared
     {

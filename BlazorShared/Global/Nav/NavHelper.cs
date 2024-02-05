@@ -1,5 +1,5 @@
 ﻿using BlazorComponent;
-using BlazorShared.Global.Nav.Model;
+using BlazorXT.Global.Nav.Model;
 using XT.Common.Dtos.Admin.Menu;
 using XT.Common.Extensions;
 using XT.Common.Interfaces;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorShared.Global.Nav
+namespace BlazorXT.Global.Nav
 {
     public class NavHelper
     {

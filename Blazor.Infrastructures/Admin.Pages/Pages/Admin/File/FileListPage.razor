@@ -1,0 +1,84 @@
+﻿@page "/platform/file"
+
+@using BlazorXT.Layout
+@using BlazorXT.Components.DataTable
+@using XT.Common.Dtos.Admin.File
+@using XT.Common.Extensions
+
+@using XT.Common.Attributes
+@attribute [Page("/platform/file", "文件管理","fa fa-shower",true)]
+@attribute [Authorize]
+
+@inherits CultureComponentBase
+@layout MainLayout
+@inject MasaBlazor MasaBlazor
+
+
+<AppDataTable @ref="_table" TItem="AddFileInput" SearchItem="PageFileInput"
+              AddItem="AddFileInput" EditItem="AddFileInput" SearchModel="@SearchInput"
+              QueryCall="QueryCall" DeleteCall="DeleteCall"
+                IsShowClearSearch
+               SearchItemFilter="SearchFilter"
+               ShowSelect="true"
+                ShowQueryButton
+                ShowDetailButton
+              ShowDeleteButton
+                IsShowSearchKey>
+
+
+
+
+
+
+    <SearchTemplate>
+        <MTextField Label="文件名称" @bind-Value="context.FileName"></MTextField>
+        <BlazorXT.Components.DateTime.MDateTimeControl Label="开始时间"  @bind-Time="context.StartTime"></BlazorXT.Components.DateTime.MDateTimeControl>
+        <BlazorXT.Components.DateTime.MDateTimeControl Label="结束时间" @bind-Time="context.EndTime"></BlazorXT.Components.DateTime.MDateTimeControl>
+        <MFileInput  TValue="List<IBrowserFile>"
+                        Multiple
+                     OnChange="UploadFiles"
+                     Label="上传"></MFileInput>
+    </SearchTemplate>
+
+    <ItemColOperTemplate>
+        <MButton Color="blue darken-1"
+                  Text
+                  OnClick="()=>Download(context.Item)">
+             下载
+         </MButton>
+    </ItemColOperTemplate>
+
+   
+
+
+    <ItemColTemplate>
+        @{
+            context.Item.IsRender = true;
+            @switch (context.Header.Value)
+            {
+                case nameof(context.Item.Url):
+                    if (context.Item.Url.IsNotNullOrEmpty())
+                    {
+                       <BlazorXT.Components.Image.MImageControl  
+            Width=50 Height=30
+            Src="@context.Item.Url"></BlazorXT.Components.Image.MImageControl>
+
+
+
+                    }
+                    break;
+                
+                default:
+                    context.Item.IsRender = false;
+                    break;
+            }
+        }
+
+    </ItemColTemplate>
+
+</AppDataTable>
+
+<MOverlay Value="loading">
+    <MProgressCircular Indeterminate
+                       Size="64">上传中</MProgressCircular>
+</MOverlay>

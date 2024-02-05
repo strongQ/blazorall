@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorShared.Layout
+namespace BlazorXT.Layout
 {
     public class MobileComponentBase : CultureComponentBase
     {

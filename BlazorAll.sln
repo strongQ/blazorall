@@ -5,9 +5,7 @@ VisualStudioVersion = 17.2.32422.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorSSR", "BlazorSSR\BlazorSSR.csproj", "{06FA270E-0EE2-4BE7-A7EC-7295EE57FD9D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp", "BlazorApp\BlazorApp.csproj", "{65D97BC1-1AD6-498E-AE6B-59E192671EBE}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorShared", "BlazorShared\BlazorShared.csproj", "{F4D55BD1-71CF-4F6B-BFB0-0D5718B738F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorXT", "BlazorShared\BlazorXT.csproj", "{F4D55BD1-71CF-4F6B-BFB0-0D5718B738F1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.APITest", "Client.APITest\Client.APITest.csproj", "{63162DE3-0630-4534-893B-3ED8E005E2D6}"
 EndProject
@@ -21,6 +19,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client.API", "Client.API\Cl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotinoBlazor", "PhotinoBlazor\PhotinoBlazor.csproj", "{287CB40B-1469-493B-92AE-3617499F0FEF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorFun", "BlazorFun\BlazorFun.csproj", "{B6C157C5-67A6-4044-96F3-8CBD8F139CE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Admin.Pages", "Blazor.Infrastructures\Admin.Pages\Admin.Pages.csproj", "{5032ADCC-6A5B-405C-BEF9-985042467134}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,12 +33,6 @@ Global
 		{06FA270E-0EE2-4BE7-A7EC-7295EE57FD9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06FA270E-0EE2-4BE7-A7EC-7295EE57FD9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06FA270E-0EE2-4BE7-A7EC-7295EE57FD9D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{65D97BC1-1AD6-498E-AE6B-59E192671EBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{65D97BC1-1AD6-498E-AE6B-59E192671EBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{65D97BC1-1AD6-498E-AE6B-59E192671EBE}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{65D97BC1-1AD6-498E-AE6B-59E192671EBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{65D97BC1-1AD6-498E-AE6B-59E192671EBE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{65D97BC1-1AD6-498E-AE6B-59E192671EBE}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{F4D55BD1-71CF-4F6B-BFB0-0D5718B738F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F4D55BD1-71CF-4F6B-BFB0-0D5718B738F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4D55BD1-71CF-4F6B-BFB0-0D5718B738F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -61,12 +57,23 @@ Global
 		{287CB40B-1469-493B-92AE-3617499F0FEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{287CB40B-1469-493B-92AE-3617499F0FEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{287CB40B-1469-493B-92AE-3617499F0FEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6C157C5-67A6-4044-96F3-8CBD8F139CE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6C157C5-67A6-4044-96F3-8CBD8F139CE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6C157C5-67A6-4044-96F3-8CBD8F139CE6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B6C157C5-67A6-4044-96F3-8CBD8F139CE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6C157C5-67A6-4044-96F3-8CBD8F139CE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6C157C5-67A6-4044-96F3-8CBD8F139CE6}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{5032ADCC-6A5B-405C-BEF9-985042467134}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5032ADCC-6A5B-405C-BEF9-985042467134}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5032ADCC-6A5B-405C-BEF9-985042467134}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5032ADCC-6A5B-405C-BEF9-985042467134}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0462908A-2045-4698-ACD1-77C0CEBBB16E} = {C26C68FC-D318-4CD4-AC54-CE0C3D098275}
+		{5032ADCC-6A5B-405C-BEF9-985042467134} = {C26C68FC-D318-4CD4-AC54-CE0C3D098275}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9E33A17F-37E0-449E-9966-FB4AEF00AA92}

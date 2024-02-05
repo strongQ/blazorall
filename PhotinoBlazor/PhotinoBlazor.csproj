@@ -19,8 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Blazor.Infrastructures\Admin.Pages\Admin.Pages.csproj" />
     <ProjectReference Include="..\Blazor.Infrastructures\ECS.Pages\ECS.Pages.csproj" />
-    <ProjectReference Include="..\BlazorShared\BlazorShared.csproj" />
+    <ProjectReference Include="..\BlazorShared\BlazorXT.csproj" />
   </ItemGroup>
 
   <ItemGroup>

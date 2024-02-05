@@ -1,5 +1,5 @@
 ﻿using BlazorComponent.I18n;
-using BlazorShared.Core;
+using BlazorXT.Core;
 using XT.Common.Extensions;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorShared.Layout
+namespace BlazorXT.Layout
 {
     public class CultureComponentBase : BaseComponentBase
     {

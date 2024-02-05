@@ -1,0 +1,20 @@
+﻿@page "/platform/job"
+
+@using BlazorXT.Layout
+@using BlazorXT.Data.Base
+@using XT.Common.Extensions
+
+@using XT.Common.Attributes
+@attribute [Page("/platform/job", "任务调度","fa fa-resistance",true)]
+@attribute [Authorize]
+
+@inherits CultureComponentBase
+@layout MainLayout
+@inject MasaBlazor MasaBlazor
+
+<iframe width="560" height="315" src="@(Global.RemoteApiUrl+"/schedule")" frameborder="0" allowfullscreen></iframe>
+@code {
+    [Inject]
+    BlazorXT.Data.Base.GlobalVariables Global{ get; set; }
+
+}

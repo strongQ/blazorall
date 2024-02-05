@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorShared.Models
+namespace BlazorXT.Models
 {
     public class SettingModel
     {

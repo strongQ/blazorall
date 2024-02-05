@@ -2,9 +2,9 @@
 using Photino.Blazor;
 using XT.Common.Config;
 using ECS.Pages;
-using BlazorShared.Data.Base;
-using BlazorShared.Services;
-using BlazorShared;
+using BlazorXT;
+using BlazorXT.Services;
+using BlazorXT.Data.Base;
 
 internal class Program
 {
@@ -16,7 +16,7 @@ internal class Program
      
 
         // register root component and selector
-        appBuilder.RootComponents.Add<BlazorShared.App>("app");
+        appBuilder.RootComponents.Add<BlazorXT.App>("app");
 
         appBuilder.Services.AddSingleton(new AppSettings(false));
 
@@ -43,8 +43,10 @@ internal class Program
         var global = app.Services.GetService<GlobalVariables>();
         global.IniPages(new List<string>
 {
-    "ECS.Pages"
+    "ECS.Pages",
+    "Admin.Pages"
 });
+        GlobalVariables.Url = "http://localhost";
 
         global.RemoteApiUrl = api;
         global.IsSingleApp = singleApp;

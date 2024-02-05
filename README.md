@@ -1,10 +1,10 @@
 # BlazorAll
 
-blazorAll前端是一个用Blazor构建的.net6 Hybird系统,，包含BlazorApp(MAUI跨平台APP)、BlazorClient(WASM客户端模式，通过API调用逻辑)、BlazorSSR(服务端模式，支持.NET全部功能)、BlazorWpf(WPF客户端)，PhotinoBlazor(跨平台，支持linux，支持.NET全部功能）。开发速度快，并同时可以编译在各个平台运行。
+blazorAll前端是一个用Blazor构建的.net6 Hybird系统,，包含BlazorApp(MAUI跨平台APP)、BlazorClient(WASM客户端模式，通过API调用逻辑)、BlazorSSR(服务端模式，支持.NET全部功能)、PhotinoBlazor(跨平台，支持linux，支持.NET全部功能）。开发速度快，并同时可以编译在各个平台运行。
 
 前端引用了MasaBlazor(和MudBlazor)双重框架，控件用法直接百度。
 
-所有系统界面和控件在BlazorShared中，编写业务界面需要新建程序集来开发，可以参考ECS.Pages项目。
+所有系统界面和控件在BlazorShared中，编写业务界面需要新建程序集来开发，可以参考ECS.Pages和Admin.Pages项目。
 
 1. 新建界面程序集 Project Sdk="Microsoft.NET.Sdk.Razor"，需要引用BlazorShared项目，程序集中写界面和逻辑。
 2. 启动项目(BlazorSSR等)需要引用该项目，并且在服务注册代码中指定程序集名称和加入服务
@@ -17,6 +17,8 @@ blazorAll前端是一个用Blazor构建的.net6 Hybird系统,，包含BlazorApp(
     {
     "ECS.Pages"
     });
+// 添加BlazorXT中的服务
+builder.Services.AddSharedExtensions();
 // 添加页面单独的服务
 builder.Services.AddEcsPageServices();
 ```

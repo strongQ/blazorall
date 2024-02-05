@@ -1,8 +1,8 @@
 ﻿using BlazorComponent;
 using Blazored.LocalStorage;
-using BlazorShared.Config;
-using BlazorShared.Data.Base;
-using BlazorShared.Pages;
+using BlazorXT.Config;
+using BlazorXT.Data.Base;
+using BlazorXT.Pages;
 using Client.API.Managers.LoginManager;
 using Client.API.Models;
 using XT.Common.Dtos.Admin.Auth;
@@ -20,7 +20,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorShared.Core
+namespace BlazorXT.Core
 {
     public class SecurityServiceClient
     {
@@ -28,18 +28,18 @@ namespace BlazorShared.Core
         private readonly ILoginManager _http;
         private readonly IUserConfig _userConfig;
         private readonly IApiConfig _apiConfig;
-        private readonly AuthenticationStateProvider _authenticationStateProvider;
+       
         private readonly GlobalVariables _global;
 
         public SecurityServiceClient(ILocalStorageService localStorageService, IUserConfig userConfig, IApiConfig apiConfig,
-            ILoginManager loginService,
-            AuthenticationStateProvider authenticationStateProvider,GlobalVariables globalVariables)
+            ILoginManager loginService
+           ,GlobalVariables globalVariables)
         {
             _localStorageService = localStorageService;
             _http = loginService;
             _apiConfig = apiConfig;
             _userConfig = userConfig;
-            _authenticationStateProvider = authenticationStateProvider;
+           
             _global = globalVariables;
         }
         /// <summary>
@@ -70,12 +70,16 @@ namespace BlazorShared.Core
                 if (info.Code == 200)
                 {
                     _userConfig.LoginUser = info.Result;
+
+
                     await _userConfig.InitAllAsync();
 
-                    await _localStorageService.SetItemAsync("HiSetting", _apiConfig);
-                    await _localStorageService.SetItemAsync("token", result.Result.AccessToken);
+                    _apiConfig.Token = result.Result.AccessToken;
+
+                    await _localStorageService.SetItemAsync(GlobalVariables.StoreKey, _apiConfig);
+                   
                     await _localStorageService.SetItemAsync("refreshToken", result.Result.RefreshToken);
-                   await (_authenticationStateProvider as HostAuthenticationStateProvider).Notify();
+                  
 
 
 
@@ -89,32 +93,46 @@ namespace BlazorShared.Core
         }
         public async Task Logout()
         {
-            await _localStorageService.RemoveItemAsync("token");
+            _apiConfig.Token = "";
+            await _localStorageService.SetItemAsync(GlobalVariables.StoreKey,_apiConfig);
             await _localStorageService.RemoveItemAsync("refreshToken");
-           await (_authenticationStateProvider as HostAuthenticationStateProvider).Notify();
+         
         }
-        public async Task PrepareBearerToken()
+        public async Task<string> PrepareBearerToken()
         {
           
             var token = await GetTokenAsync();
            
             _apiConfig.Token = token;
+
+            return token;
             
         }
         public async Task<string> GetTokenAsync()
         {
-            string token = await _localStorageService.GetItemAsync<string>("token");
-            if (string.IsNullOrEmpty(token))
+          
+
+            var config = await _localStorageService.GetItemAsync<ApiConfig>(GlobalVariables.StoreKey);
+            if (config != null)
+            {
+                _apiConfig.RemoteApiUrl = config.RemoteApiUrl;
+                _apiConfig.OtherUrl = config.OtherUrl;
+                _apiConfig.Token = config.Token;
+                
+            }
+
+
+            if (string.IsNullOrEmpty(_apiConfig.Token))
                 return string.Empty;
 
-            if (TokenHelper.IsTokenExpired(token))
-                token = await TryRefreshToken();
+            if (TokenHelper.IsTokenExpired(_apiConfig.Token))
+                _apiConfig.Token = await TryRefreshToken(_apiConfig.Token);
 
-            return token;
+            return _apiConfig.Token;
         }
-        private async Task<string> TryRefreshToken()
+        private async Task<string> TryRefreshToken(string token)
         {
-            string token = await _localStorageService.GetItemAsync<string>("token");
+            
             string refreshToken = await _localStorageService.GetItemAsync<string>("refreshToken");
             if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(refreshToken))
             {
@@ -129,8 +147,8 @@ namespace BlazorShared.Core
                 return string.Empty;
             }
 
+            await _localStorageService.SetItemAsync(GlobalVariables.StoreKey, _apiConfig);
 
-            await _localStorageService.SetItemAsync("token", response.Result);
             return response.Result;
 
         }

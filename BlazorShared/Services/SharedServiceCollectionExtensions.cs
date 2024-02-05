@@ -1,5 +1,5 @@
 ﻿
-using BlazorShared.Services;
+using BlazorXT.Services;
 
 using Shared.DependencyServices;
 //using System.Data.SQLite;
@@ -10,21 +10,21 @@ using XT.Common.Services;
 
 using XT.Common;
 
-using BlazorShared.Core;
+using BlazorXT.Core;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Components.Authorization;
-using BlazorShared.Config;
+using BlazorXT.Config;
 
 
 using XT.Common.Interfaces;
 
 using Client.API.Managers;
-using BlazorShared.Global.Config;
-using BlazorShared.Global.Nav.Model;
+using BlazorXT.Global.Config;
+using BlazorXT.Global.Nav.Model;
 using System.Net.Http.Json;
 using System.Reflection;
-using BlazorShared.Global.Nav;
+using BlazorXT.Global.Nav;
 using System.Text.Json;
 using XT.Common.Dtos.Admin.Menu;
 using XT.Common.Extensions;
@@ -33,9 +33,9 @@ using Masa.Blazor;
 using MudBlazor.Services;
 using MudBlazor;
 using Blazored.LocalStorage;
-using BlazorShared.Data.Base;
+using BlazorXT.Data.Base;
 
-namespace BlazorShared
+namespace BlazorXT
 {
     /// <summary>
     /// 服务扩展类

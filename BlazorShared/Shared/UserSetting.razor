@@ -1,8 +1,8 @@
 ﻿
-@using BlazorShared.Core
+@using BlazorXT.Core
 @using Layout
 @using XT.Common.Interfaces
-@using BlazorShared.Data.Base
+@using BlazorXT.Data.Base
 @inject IUserConfig UserConfig
  @inject NavigationManager _navigationManager
 
@@ -25,7 +25,7 @@
 
             Link Href="/system/userCenter">
                      <MListItemIcon>
-                         <MIcon>fa fa-id-badge</MIcon>
+                         <MIcon>fa:fa-id-badge</MIcon>
                      </MListItemIcon>
                      <MListItemContent>
                          <MListItemTitle>
@@ -58,7 +58,10 @@
     [Inject]
     public IPopupService? PopupService { get; set; }
     [Inject]
-    public SecurityServiceClient Provider { get; set; }
+    public SecurityServiceClient Client { get; set; }
+
+    [Inject]
+    public AuthenticationStateProvider Provider { get; set; }
     [Inject]
     public GlobalVariables Global{ get; set; }
 
@@ -68,7 +71,9 @@
         var result = await PopupService.ConfirmAsync("提示", "是否退出系统？");
         if (result)
         {
-            await Provider.Logout();
+            await Client.Logout();
+
+
             _navigationManager.NavigateTo("/login");
 
         }
