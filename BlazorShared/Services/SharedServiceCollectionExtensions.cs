@@ -53,9 +53,7 @@ namespace BlazorXT
         /// <returns></returns>
         public static IServiceCollection AddSharedExtensions(this IServiceCollection services)
         {
-            var cultureInfo = new CultureInfo("zh-CN");
-            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
-            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+           
 
             // web assamble
             //services.AddAuthorizationCore();
@@ -95,7 +93,8 @@ namespace BlazorXT
 
 
                 });
-               
+                options.Locale = new BlazorComponent.Locale("zh-CN", "en-US");
+
             })
 
                 .AddI18nForServer("wwwroot/i18n");
@@ -139,7 +138,7 @@ namespace BlazorXT
            
             services.AddScoped<AuthenticationStateProvider, HostAuthenticationStateProvider>();
 
-            services.AddScoped<NavHelper>();
+           
             services.AddScoped<GlobalConfig>();
             
              

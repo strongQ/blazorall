@@ -21,13 +21,13 @@ namespace BlazorXT.Shared
         [Inject]
         public IUserConfig UserConfig { get; set; }
         [Inject]
-        private ILocalStorageService Cookie{ get; set; }
+        private ILocalStorageService Cookie { get; set; }
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
-      
 
-        List<long> FavoriteMenus { get; set; }=new List<long>();
+
+        List<string> FavoriteMenus { get; set; } = new List<string>();
 
         protected async override Task OnInitializedAsync()
         {
@@ -35,13 +35,13 @@ namespace BlazorXT.Shared
 
             if (ids.IsNotNullOrEmpty())
             {
-               FavoriteMenus= ids.Split('|').Select(v => Convert.ToInt64(v)).ToList();
+                FavoriteMenus = ids.Split('|').Select(v => v).ToList();
             }
-                  
+
             await base.OnInitializedAsync();
         }
-        
-           
+
+
 
         bool _open;
         string? _search;
@@ -59,10 +59,10 @@ namespace BlazorXT.Shared
         {
             List<NavItem>? output = new List<NavItem>();
 
-            if (search is null || search == "") output.AddRange(UserConfig.Navs.Where(n => FavoriteMenus.Contains(n.ID)));
+            if (search is null || search == "") output.AddRange(UserConfig.Navs.Where(n => FavoriteMenus.Contains(n.Title)));
             else
             {
-                output.AddRange(UserConfig.Navs.Where(n => n.Href is not null &&  n.Title.Contains(search, StringComparison.OrdinalIgnoreCase)));
+                output.AddRange(UserConfig.Navs.Where(n => n.Href is not null && n.Title.Contains(search, StringComparison.OrdinalIgnoreCase)));
             }
 
             return output;
@@ -70,10 +70,10 @@ namespace BlazorXT.Shared
 
         List<NavItem> GetFavoriteMenus() => GetNavs(null);
 
-        void AddOrRemoveFavoriteMenu(long id)
+        void AddOrRemoveFavoriteMenu(string title)
         {
-            if (FavoriteMenus.Contains(id)) FavoriteMenus.Remove(id);
-            else FavoriteMenus.Add(id);
+            if (FavoriteMenus.Contains(title)) FavoriteMenus.Remove(title);
+            else FavoriteMenus.Add(title);
             Cookie.SetItemAsync("HiFavorite", string.Join("|", FavoriteMenus));
         }
 
@@ -82,6 +82,6 @@ namespace BlazorXT.Shared
             NavigationManager.NavigateTo(url);
         }
 
-      
+
     }
 }

@@ -36,5 +36,8 @@
   "Breadcrumb": "Breadcrumb",
   "PageTab": "PageTab",
   "Mode": "Mode",
-  "$Exist": "Exist System"
+  "$Exist": "Exist System",
+  "Search": "Search",
+  "Home": "Home",
+  "1Floor": "1Floor"
 }

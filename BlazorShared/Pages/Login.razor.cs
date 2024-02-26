@@ -67,8 +67,7 @@ namespace BlazorXT.Pages
 
      
 
-        [Inject]
-        public NavHelper NavService { get; set; } 
+       
 
         private SecurityServiceClient _provider;
         [Inject]
@@ -94,8 +93,7 @@ namespace BlazorXT.Pages
         [Inject]
         public ILogService LogService { get; set; }
 
-        [Inject]
-        public NavHelper NavHelper { get; set; }
+      
 
         
 
@@ -104,7 +102,9 @@ namespace BlazorXT.Pages
         /// </summary>
         [Inject]
         public ILoginManager  LoginManager { get; set; }
-      
+
+        [Inject]
+        NavigationManager NavigationManager { get; set; }
 
         [Inject]
         public IUserConfig UserConfig { get; set; }
@@ -163,7 +163,7 @@ namespace BlazorXT.Pages
                 //{
                 //    await provider.Notify();                 
                 //}
-                NavHelper.NavigateTo(GlobalVariables.DefaultRoute);
+                NavigationManager.NavigateTo(GlobalVariables.DefaultRoute);
 
             }
 

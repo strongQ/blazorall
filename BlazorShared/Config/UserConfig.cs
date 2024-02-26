@@ -33,25 +33,35 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using BlazorComponent.I18n;
 
 namespace BlazorXT.Config
 {
     public class UserConfig:IUserConfig
     {
-
+        I18n _i18N;
         #region 新增代码
-       public event EventHandler<bool> ChangeThemeEvent;
+        public event EventHandler<bool> ChangeThemeEvent;
 
-        public UserConfig(ILocalStorageService cookieStorage,IApiConfig apiConfig, MasaBlazor masaBlazor,ILoginManager loginManager,GlobalVariables globalVariables)
+        public UserConfig(ILocalStorageService cookieStorage,IApiConfig apiConfig, MasaBlazor masaBlazor,ILoginManager loginManager,GlobalVariables globalVariables, I18n i18)
         {
             _masaBlazor = masaBlazor;
             _cookieStorage = cookieStorage;
             _apiConfig = apiConfig;
             _loginManager = loginManager;
             _globalVariables = globalVariables;
-           
+            _i18N = i18;
+            _i18N.CultureChanged -= _i18N_CultureChanged;
+            _i18N.CultureChanged += _i18N_CultureChanged;
         }
-       private ILoginManager _loginManager;
+        private void _i18N_CultureChanged(object? sender, EventArgs e)
+        {
+            Navs.ForEach(x =>
+            {
+                x.Title = _i18N.T(x.State);
+            });
+        }
+        private ILoginManager _loginManager;
         private GlobalVariables _globalVariables;
         private MasaBlazor _masaBlazor { get; set; }
         private ILocalStorageService _cookieStorage;
@@ -59,7 +69,7 @@ namespace BlazorXT.Config
         public List<NavItem> SameLevelMenus { get; private set; } = new();
         public List<NavItem> Navs { get;  set; } = new();
 
-        public List<PageTabItem> PageTabItems = new();
+       
 
         public AppTheme Themes { get; set; } = new AppTheme();
 
@@ -113,8 +123,9 @@ namespace BlazorXT.Config
                        var item= new NavItem
                         {
                             Href = page.Path,
-                            Title = page.Name,
-                            Icon=page.Icon
+                            Title = _i18N.T(page.Name, true),
+                            State=page.Name,
+                           Icon =page.Icon
                         };
                       
                         if (item.Icon.Contains("fa-")) item.Icon = "fa:" + item.Icon;
